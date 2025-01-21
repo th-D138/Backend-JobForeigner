@@ -1,11 +1,14 @@
 package kr.ac.kumoh.d138.JobForeigner.resume.domain;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Education {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +29,6 @@ public class Education {
     @Column(name = "graduation_status")
     private GraduationStatus graduation_status;
 
-    @Lob
-    @Column(name = "etc")
+    @Column(name = "etc", columnDefinition = "TEXT")
     private String etc;
 }
