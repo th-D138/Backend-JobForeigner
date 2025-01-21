@@ -48,4 +48,12 @@ public class Comment {
     @Column(name = "published", nullable = false)
     private Boolean published;
 
+    public Comment(String content, Member member, Post post, LocalDateTime createdAt, LocalDateTime updatedAt, Boolean published) {
+        this.content = content;
+        this.member = member;
+        this.post = post;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.published = published;
+    }
 }

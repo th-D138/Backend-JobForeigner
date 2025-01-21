@@ -16,8 +16,6 @@ import jakarta.persistence.Table;
 import kr.ac.kumoh.d138.JobForeigner.board.domain.Comment;
 import kr.ac.kumoh.d138.JobForeigner.board.domain.Post;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
@@ -26,8 +24,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "member")
-@Builder
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member {
 
@@ -72,6 +68,19 @@ public class Member {
             @AttributeOverride(name = "zipcode", column = @Column(name = "zipcode", nullable = false))
     })
     private Address address;
+
+    public Member(String name, String username, String password, MemberType type, String countryCode, String phoneNumber, String email, Gender gender, LocalDate birthDate, Address address) {
+        this.name = name;
+        this.username = username;
+        this.password = password;
+        this.type = type;
+        this.countryCode = countryCode;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.gender = gender;
+        this.birthDate = birthDate;
+        this.address = address;
+    }
 
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     private List<Post> posts = new ArrayList<>();

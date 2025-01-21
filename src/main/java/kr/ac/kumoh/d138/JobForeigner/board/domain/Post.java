@@ -23,8 +23,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "board_post")
-@Builder
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Post {
 
@@ -55,6 +53,16 @@ public class Post {
 
     @Column(name = "published", nullable = false)
     private Boolean published;
+
+    public Post(String title, String content, Member member, Category category, LocalDateTime createdAt, LocalDateTime updatedAt, Boolean published) {
+        this.title = title;
+        this.content = content;
+        this.member = member;
+        this.category = category;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.published = published;
+    }
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Comment> comments = new ArrayList<>();

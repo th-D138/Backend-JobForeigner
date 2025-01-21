@@ -34,6 +34,11 @@ public class Board {
     @Column(name = "description")
     private String description;
 
+    public Board(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
+
     @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<Category> categories = new ArrayList<>();
 

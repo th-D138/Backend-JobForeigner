@@ -9,8 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Embeddable
-@Builder
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @EqualsAndHashCode

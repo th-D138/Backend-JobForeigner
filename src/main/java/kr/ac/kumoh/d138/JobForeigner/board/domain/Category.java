@@ -39,6 +39,12 @@ public class Category {
     @JoinColumn(name = "board_id", nullable = false)
     private Board board;
 
+    public Category(String name, String description, Board board) {
+        this.name = name;
+        this.description = description;
+        this.board = board;
+    }
+
     @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
     private List<Post> posts = new ArrayList<>();
 
