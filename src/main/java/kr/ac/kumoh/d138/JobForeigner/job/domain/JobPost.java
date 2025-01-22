@@ -32,14 +32,14 @@ public class JobPost {
     @Column(nullable = false)
     private String career;
 
-    @Column(nullable = false)
-    private LocalDateTime createTime;
+    @Column(name="created_at",nullable = false)
+    private LocalDateTime createAt;
 
-    @Column(nullable = false)
-    private LocalDateTime updateTime;
+    @Column(name="updated_at",nullable = false)
+    private LocalDateTime updateAt;
 
-    @Column(nullable = false)
-    private LocalDateTime expiryDate;
+    @Column(name="expiry_at",nullable = false)
+    private LocalDateTime expiryAt;
 
     @Column(nullable = false)
     private boolean Published;
@@ -48,7 +48,7 @@ public class JobPost {
     private String grade;
 
     @ManyToOne
-    @JoinColumn(name="company_id")
+    @JoinColumn(name = "company_id")
     private Company company;
 
 }
