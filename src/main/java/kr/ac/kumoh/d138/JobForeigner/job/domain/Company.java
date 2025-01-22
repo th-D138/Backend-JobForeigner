@@ -13,13 +13,13 @@ import java.util.List;
 public class Company {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="company_id",nullable = false)
+    @Column(name = "company_id",nullable = false)
     private Long id;
 
     @Column(name = "company_name",nullable = false)
     private String companyName;
 
-    @Column(name="business_number",nullable = false)
+    @Column(name = "business_number",nullable = false)
     private String businessNumber;
 
     @Column(nullable = false)
@@ -28,7 +28,7 @@ public class Company {
     @Column(nullable = false)
     private String email;
 
-    @Column(nullable = false)
+    @Column(name="phone_number",nullable = false)
     private String phoneNumber;
 
     @Column(nullable = false)
