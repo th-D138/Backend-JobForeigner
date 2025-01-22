@@ -9,29 +9,29 @@ public class Rating {
     private Long id;
 
     @Column(name="salary_satisfaction",nullable = false)
-    private float salarySatisfaction;
+    private Float salarySatisfaction;
 
-    @Column(name="work_difficulty",nullable = false)
-    private float workDifficulty;
+    @Column(name = "work_difficulty",nullable = false)
+    private Float workDifficulty;
 
-    @Column(name="work_atmosphere",nullable = false)
-    private float workAtmosphere;
+    @Column(name = "work_atmosphere",nullable = false)
+    private Float workAtmosphere;
 
-    @Column(name="accessibility",nullable = false)
-    private float accessibility;
+    @Column(name = "accessibility",nullable = false)
+    private Float accessibility;
 
-    @Column(name="culture_support",nullable = false)
-    private float cultureSupport;
+    @Column(name = "culture_support",nullable = false)
+    private Float cultureSupport;
 
-    @Column(name="comment",nullable = false)
+    @Column(name = "comment",nullable = false)
     private String comment;
 
-    @Column(name="created_at",nullable = false)
+    @Column(name = "created_at",nullable = false)
     private LocalDateTime createdAt;
 
-    @Column(name="updated_at")
+    @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @Column(name="approve",nullable = false)
+    @Column(name = "approve",nullable = false)
     private boolean approve=false;
 }
