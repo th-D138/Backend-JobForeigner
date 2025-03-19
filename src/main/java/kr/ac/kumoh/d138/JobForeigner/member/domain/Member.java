@@ -16,6 +16,7 @@ import jakarta.persistence.Table;
 import kr.ac.kumoh.d138.JobForeigner.board.domain.Comment;
 import kr.ac.kumoh.d138.JobForeigner.board.domain.Post;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -74,6 +75,7 @@ public class Member {
     })
     private Address address;
 
+    @Builder
     public Member(String name, String username, String password, MemberType type, String countryCode, String phoneNumber, String email, Gender gender, LocalDate birthDate, String profile_image_url,Address address) {
         this.name = name;
         this.username = username;
