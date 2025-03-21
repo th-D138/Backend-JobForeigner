@@ -1,0 +1,27 @@
+spring:
+  config:
+    activate:
+      on-profile: local
+    import:
+      - properties/application-database.yml
+      - properties/application-security.yml
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: ${job-foreigner.local.postgres.url}
+    username: ${job-foreigner.local.postgres.username}
+    password: ${job-foreigner.local.postgres.password}
+  jpa:
+    hibernate:
+      ddl-auto: update
+  data:
+    redis:
+      host: ${job-foreigner.local.redis.host}
+      port: ${job-foreigner.local.redis.port}
+
+logging:
+  level:
+    org.springframework.web.servlet: debug
+    org.hibernate.SQL: debug
+    org.hibernate.orm.jdbc.bind: trace
+    org.hibernate.orm.jdb.extract: trace
+    org.hibernate.type.descriptor.sql: trace
