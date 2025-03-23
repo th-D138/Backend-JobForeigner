@@ -1,1 +1,14 @@
-spring.application.name=JobForeigner
+spring:
+  application:
+    name: JobForeigner
+  profiles:
+    group:
+      prod: prod
+      dev: dev
+      local: local
+
+---
+
+spring:
+  profiles:
+    active: local
