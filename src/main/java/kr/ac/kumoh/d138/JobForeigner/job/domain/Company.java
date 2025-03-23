@@ -1,6 +1,7 @@
 package kr.ac.kumoh.d138.JobForeigner.job.domain;
 
 import jakarta.persistence.*;
+import kr.ac.kumoh.d138.JobForeigner.rating.Rating;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -37,8 +38,33 @@ public class Company {
     @Column(nullable = false)
     private String description;
 
+    @Column(name="employee_count")
+    private int employeeCount;
+
+    @Column(nullable=false)
+    private String category;
+
+    @Column(name="ceo")
+    private String ceoName;
+
+    @Column(name = "average_salary") // 평균 연봉 (단위: 만원)
+    private Integer averageSalary;
+
+    @Column(name = "monthly_take_home") // 월 실수령액 (단위: 원)
+    private Integer monthlyTakeHome;
+
+    @OneToOne(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
+    private CompanyRating companyRating;
+
+    // 전체 평균 평점 (Radar Chart 등을 표시할 때, 5개 항목의 평균으로 활용 가능)
+    @Column(name="average_rating")
+    private float averageRating;
+
     @OneToMany(mappedBy = "company")
     private List<JobPost> jobPostList=new ArrayList<>();
+
+    @OneToMany(mappedBy="company")
+    private List<Rating> ratings=new ArrayList<>();
 
     public void addJobPost(JobPost jobPost) {
         this.jobPostList.add(jobPost);  // Company의 jobPostList에 추가
