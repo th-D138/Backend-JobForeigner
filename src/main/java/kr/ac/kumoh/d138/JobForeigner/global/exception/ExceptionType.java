@@ -16,7 +16,7 @@ public enum ExceptionType {
     ESSENTIAL_FIELD_MISSING_ERROR(NO_CONTENT , "C003","필수적인 필드 부재"),
 
     //member
-    MEMBER_NOT_FOUND(NOT_FOUND, "M001","해당 사용자는 존재하지 않는 사용장집니다.");
+    MEMBER_NOT_FOUND(NOT_FOUND, "M001","해당 사용자는 존재하지 않는 사용자입니다.");
 
     private final HttpStatus status;
     private final String code;
