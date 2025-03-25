@@ -16,7 +16,10 @@ import jakarta.persistence.Table;
 import kr.ac.kumoh.d138.JobForeigner.board.domain.Comment;
 import kr.ac.kumoh.d138.JobForeigner.board.domain.Post;
 import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -24,6 +27,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "member")
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member {
 
@@ -35,7 +39,7 @@ public class Member {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "username", nullable = false)
+    @Column(name = "username", nullable = false, unique = true)
     private String username;
 
     @Column(name = "password", nullable = false)
@@ -51,7 +55,7 @@ public class Member {
     @Column(name = "phone_number", nullable = false)
     private String phoneNumber;
 
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
     @Enumerated(value = EnumType.STRING)
@@ -69,7 +73,19 @@ public class Member {
     })
     private Address address;
 
-    public Member(String name, String username, String password, MemberType type, String countryCode, String phoneNumber, String email, Gender gender, LocalDate birthDate, Address address) {
+    @Builder
+    public Member(
+            @NonNull String name,
+            @NonNull String username,
+            @NonNull String password,
+            @NonNull MemberType type,
+            String countryCode,
+            @NonNull String phoneNumber,
+            @NonNull String email,
+            @NonNull Gender gender,
+            @NonNull LocalDate birthDate,
+            @NonNull Address address
+    ) {
         this.name = name;
         this.username = username;
         this.password = password;
