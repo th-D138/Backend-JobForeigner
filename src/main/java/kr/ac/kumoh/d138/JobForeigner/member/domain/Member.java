@@ -15,6 +15,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import kr.ac.kumoh.d138.JobForeigner.board.domain.Comment;
 import kr.ac.kumoh.d138.JobForeigner.board.domain.Post;
+import kr.ac.kumoh.d138.JobForeigner.rating.Rating;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -96,5 +97,6 @@ public class Member {
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     private List<Comment> comments = new ArrayList<>();
 
-
+    @OneToMany(mappedBy="member", fetch=FetchType.LAZY)
+    private List<Rating> ratings = new ArrayList<>();
 }
