@@ -2,7 +2,6 @@ package kr.ac.kumoh.d138.JobForeigner.job.domain.service;
 
 import kr.ac.kumoh.d138.JobForeigner.global.exception.BusinessException;
 import kr.ac.kumoh.d138.JobForeigner.global.exception.ExceptionType;
-import kr.ac.kumoh.d138.JobForeigner.global.mapper.CompanyMapper;
 import kr.ac.kumoh.d138.JobForeigner.job.domain.Company;
 import kr.ac.kumoh.d138.JobForeigner.job.domain.CompanyRating;
 import kr.ac.kumoh.d138.JobForeigner.job.domain.JobPost;
@@ -15,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.function.Function;
@@ -23,15 +23,13 @@ import java.util.function.Function;
 @RequiredArgsConstructor
 public class CompanyService {
 
-    private final CompanyMapper companyMapper;
     private final CompanyRepository companyRepository;
     private final RatingRepository ratingRepository;
     private final JobPostRepository jobPostRepository;
 
     public Page<CompanyResponseDto> getAllCompany(Pageable pageable) {
         Page<Company> companies = companyRepository.findAll(pageable);
-        return companies.map(companyMapper::toDto);
-
+        return companies.map(CompanyResponseDto::fromEntity);
     }
 
     public CompanyDetailResponseDto getCompanyDetail(Long id) {
@@ -60,6 +58,7 @@ public class CompanyService {
                 .reviewDto(reviewDtoList)
                 .build();
     }
+    @Transactional
     public void updateCompanyRating(Company company){
         List<Rating> ratings=company.getRatings();
 
@@ -88,6 +87,7 @@ public class CompanyService {
         float overallAverage = (avgSalary + avgWorkLife + avgCulture + avgWelfare + avgStability) / 5;
         company.setAverageRating(overallAverage);
     }
+    @Transactional
     public void resetCompanyRating(Company company){
         CompanyRating cr=company.getCompanyRating();
         cr.setAverageSalarySatisfaction(0f);

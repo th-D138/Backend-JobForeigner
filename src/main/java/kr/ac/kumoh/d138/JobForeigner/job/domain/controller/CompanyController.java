@@ -1,5 +1,6 @@
 package kr.ac.kumoh.d138.JobForeigner.job.domain.controller;
 
+import kr.ac.kumoh.d138.JobForeigner.global.response.GlobalPageResponse;
 import kr.ac.kumoh.d138.JobForeigner.global.response.ResponseBody;
 import kr.ac.kumoh.d138.JobForeigner.global.response.ResponseUtil;
 import kr.ac.kumoh.d138.JobForeigner.job.domain.dto.CompanyDetailResponseDto;
@@ -23,9 +24,9 @@ public class CompanyController {
     기업 리스트 전체조회
      */
     @GetMapping("/company")
-    public ResponseEntity<ResponseBody<Page<CompanyResponseDto>>> getAllCompany(@PageableDefault(size=12, sort="companyName")  Pageable pageable){
+    public ResponseEntity<ResponseBody<GlobalPageResponse<CompanyResponseDto>>> getAllCompany(@PageableDefault(size=12, sort="companyName") Pageable pageable){
         Page<CompanyResponseDto> allCompany = companyService.getAllCompany(pageable);
-        return ResponseEntity.ok(ResponseUtil.createSuccessResponse(allCompany));
+        return ResponseEntity.ok(ResponseUtil.createSuccessResponse(GlobalPageResponse.create(allCompany)));
     }
 
     /*
@@ -38,3 +39,5 @@ public class CompanyController {
     }
 
 }
+
+

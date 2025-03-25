@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Entity
 @Getter
@@ -70,5 +71,7 @@ public class Company {
         this.jobPostList.add(jobPost);  // Company의 jobPostList에 추가
         jobPost.setCompany(this);      // JobPost의 company 필드 설정
     }
-
+    public Optional<CompanyRating> findCompanyRating() {
+        return Optional.ofNullable(this.companyRating);
+    }
 }
