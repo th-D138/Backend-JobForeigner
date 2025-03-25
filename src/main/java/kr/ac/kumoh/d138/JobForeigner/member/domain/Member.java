@@ -16,12 +16,15 @@ import jakarta.persistence.Table;
 import kr.ac.kumoh.d138.JobForeigner.board.domain.Comment;
 import kr.ac.kumoh.d138.JobForeigner.board.domain.Post;
 import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 @Entity
 @Table(name = "member")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -61,6 +64,9 @@ public class Member {
     @Column(name = "birth_date", nullable = false)
     private LocalDate birthDate;
 
+    @Column(name = "profile_url", nullable = false)
+    private String profile_image_url;
+
     @Embedded
     @AttributeOverrides({
             @AttributeOverride(name = "address", column = @Column(name = "address", nullable = false)),
@@ -69,7 +75,8 @@ public class Member {
     })
     private Address address;
 
-    public Member(String name, String username, String password, MemberType type, String countryCode, String phoneNumber, String email, Gender gender, LocalDate birthDate, Address address) {
+    @Builder
+    public Member(String name, String username, String password, MemberType type, String countryCode, String phoneNumber, String email, Gender gender, LocalDate birthDate, String profile_image_url,Address address) {
         this.name = name;
         this.username = username;
         this.password = password;
@@ -79,6 +86,7 @@ public class Member {
         this.email = email;
         this.gender = gender;
         this.birthDate = birthDate;
+        this.profile_image_url = profile_image_url;
         this.address = address;
     }
 
@@ -87,4 +95,6 @@ public class Member {
 
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     private List<Comment> comments = new ArrayList<>();
+
+
 }
