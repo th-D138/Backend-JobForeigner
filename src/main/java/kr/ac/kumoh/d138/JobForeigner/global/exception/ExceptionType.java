@@ -15,8 +15,9 @@ public enum ExceptionType {
     BINDING_ERROR(BAD_REQUEST,"C002","바인딩시 에러 발생"),
     ESSENTIAL_FIELD_MISSING_ERROR(NO_CONTENT , "C003","필수적인 필드 부재"),
 
-    //User
-    NOT_FOUND_USER(NOT_FOUND,"U001","해당하는 유저를 찾을 수 없습니다.");
+    //member
+    MEMBER_NOT_FOUND(NOT_FOUND, "M001","해당 사용자는 존재하지 않는 사용자입니다.");
+
     private final HttpStatus status;
     private final String code;
     private final String message;

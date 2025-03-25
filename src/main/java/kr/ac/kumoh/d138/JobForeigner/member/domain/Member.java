@@ -1,16 +1,31 @@
 package kr.ac.kumoh.d138.JobForeigner.member.domain;
 
-import jakarta.persistence.*;
+import jakarta.persistence.AttributeOverride;
+import jakarta.persistence.AttributeOverrides;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import kr.ac.kumoh.d138.JobForeigner.board.domain.Comment;
 import kr.ac.kumoh.d138.JobForeigner.board.domain.Post;
 import kr.ac.kumoh.d138.JobForeigner.rating.Rating;
 import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 @Entity
 @Table(name = "member")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -50,6 +65,9 @@ public class Member {
     @Column(name = "birth_date", nullable = false)
     private LocalDate birthDate;
 
+    @Column(name = "profile_url", nullable = false)
+    private String profile_image_url;
+
     @Embedded
     @AttributeOverrides({
             @AttributeOverride(name = "address", column = @Column(name = "address", nullable = false)),
@@ -58,7 +76,8 @@ public class Member {
     })
     private Address address;
 
-    public Member(String name, String username, String password, MemberType type, String countryCode, String phoneNumber, String email, Gender gender, LocalDate birthDate, Address address) {
+    @Builder
+    public Member(String name, String username, String password, MemberType type, String countryCode, String phoneNumber, String email, Gender gender, LocalDate birthDate, String profile_image_url,Address address) {
         this.name = name;
         this.username = username;
         this.password = password;
@@ -68,6 +87,7 @@ public class Member {
         this.email = email;
         this.gender = gender;
         this.birthDate = birthDate;
+        this.profile_image_url = profile_image_url;
         this.address = address;
     }
 
