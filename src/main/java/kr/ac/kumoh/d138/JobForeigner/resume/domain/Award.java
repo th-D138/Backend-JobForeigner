@@ -1,6 +1,5 @@
 package kr.ac.kumoh.d138.JobForeigner.resume.domain;
 
-import jakarta.annotation.Generated;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

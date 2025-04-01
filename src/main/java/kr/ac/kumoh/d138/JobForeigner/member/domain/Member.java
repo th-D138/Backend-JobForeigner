@@ -15,6 +15,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import kr.ac.kumoh.d138.JobForeigner.board.domain.Comment;
 import kr.ac.kumoh.d138.JobForeigner.board.domain.Post;
+import kr.ac.kumoh.d138.JobForeigner.rating.Rating;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -65,6 +66,9 @@ public class Member {
     @Column(name = "birth_date", nullable = false)
     private LocalDate birthDate;
 
+    @Column(name = "profile_url", nullable = false)
+    private String profileImageUrl;
+
     @Embedded
     @AttributeOverrides({
             @AttributeOverride(name = "address", column = @Column(name = "address", nullable = false)),
@@ -84,6 +88,7 @@ public class Member {
             @NonNull String email,
             @NonNull Gender gender,
             @NonNull LocalDate birthDate,
+            @NonNull String profileImageUrl,
             @NonNull Address address
     ) {
         this.name = name;
@@ -95,6 +100,7 @@ public class Member {
         this.email = email;
         this.gender = gender;
         this.birthDate = birthDate;
+        this.profileImageUrl = profileImageUrl;
         this.address = address;
     }
 
@@ -103,4 +109,7 @@ public class Member {
 
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     private List<Comment> comments = new ArrayList<>();
+
+    @OneToMany(mappedBy="member", fetch=FetchType.LAZY)
+    private List<Rating> ratings = new ArrayList<>();
 }

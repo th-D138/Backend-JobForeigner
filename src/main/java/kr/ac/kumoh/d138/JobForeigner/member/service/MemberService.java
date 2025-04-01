@@ -12,6 +12,7 @@ import kr.ac.kumoh.d138.JobForeigner.member.domain.Gender;
 import kr.ac.kumoh.d138.JobForeigner.member.domain.Member;
 import kr.ac.kumoh.d138.JobForeigner.member.domain.MemberType;
 import kr.ac.kumoh.d138.JobForeigner.member.dto.request.SignUpRequest;
+import kr.ac.kumoh.d138.JobForeigner.member.dto.response.MemberProfileResponse;
 import kr.ac.kumoh.d138.JobForeigner.member.repository.MemberRepository;
 import kr.ac.kumoh.d138.JobForeigner.token.domain.RefreshToken;
 import kr.ac.kumoh.d138.JobForeigner.token.domain.RefreshTokenRepository;
@@ -64,11 +65,11 @@ public class MemberService {
 
     public JwtPair signIn (String username, String password) {
         Member member = memberRepository.findByUsername(username)
-                .orElseThrow(() -> new BusinessException(ExceptionType.NOT_FOUND_USER));
+                .orElseThrow(() -> new BusinessException(ExceptionType.MEMBER_NOT_FOUND));
 
         // 비밀번호 검증
         if (!passwordEncoder.matches(password, member.getPassword())) {
-            throw new BusinessException(ExceptionType.INVALID_USER_INFO);
+            throw new BusinessException(ExceptionType.MEMBER_INFO_INVALID);
         }
 
         // 토큰 발급
@@ -85,4 +86,9 @@ public class MemberService {
         refreshTokenRepository.deleteById(memberId);
     }
 
+    public MemberProfileResponse getMemberProfile(Long memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(()->new BusinessException(ExceptionType.MEMBER_NOT_FOUND));
+        return MemberProfileResponse.toMemberProfileResponse(member);
+    }
 }

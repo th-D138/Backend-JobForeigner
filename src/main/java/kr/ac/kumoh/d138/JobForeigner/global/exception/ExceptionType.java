@@ -15,9 +15,9 @@ public enum ExceptionType {
     BINDING_ERROR(BAD_REQUEST,"C002","바인딩시 에러 발생"),
     ESSENTIAL_FIELD_MISSING_ERROR(NO_CONTENT , "C003","필수적인 필드 부재"),
 
-    // User
-    NOT_FOUND_USER(NOT_FOUND, "U001", "사용자를 찾을 수 없습니다."),
-    INVALID_USER_INFO(UNAUTHORIZED, "U002", "아이디 또는 비밀번호가 일치하지 않습니다."),
+    // Member
+    MEMBER_NOT_FOUND(NOT_FOUND, "U001", "사용자를 찾을 수 없습니다."),
+    MEMBER_INFO_INVALID(UNAUTHORIZED, "U002", "아이디 또는 비밀번호가 일치하지 않습니다."),
 
     // Security
     NEED_AUTHORIZED(UNAUTHORIZED, "S001", "인증이 필요합니다."),
