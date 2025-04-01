@@ -68,7 +68,7 @@ public class MemberService {
 
         // 비밀번호 검증
         if (!passwordEncoder.matches(password, member.getPassword())) {
-            throw new BusinessException(ExceptionType.INVALID_PASSWORD);
+            throw new BusinessException(ExceptionType.INVALID_USER_INFO);
         }
 
         // 토큰 발급
