@@ -34,7 +34,7 @@ public class CompanyService {
 
     public CompanyDetailResponseDto getCompanyDetail(Long id) {
         Company company = companyRepository.findById(id)
-                .orElseThrow(()->new BusinessException(ExceptionType.NOT_FOUND_USER));
+                .orElseThrow(()->new BusinessException(ExceptionType.MEMBER_NOT_FOUND));
         JobPost jobpost=jobPostRepository.findByCompanyId(company.getId());
         // 기업 정보 매핑
         CompanyInfoDto companyInfoDto=CompanyInfoDto.fromEntity(company);

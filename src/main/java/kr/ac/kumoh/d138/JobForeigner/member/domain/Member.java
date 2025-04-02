@@ -20,14 +20,15 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
 @Entity
 @Table(name = "member")
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member {
 
@@ -39,7 +40,7 @@ public class Member {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "username", nullable = false)
+    @Column(name = "username", nullable = false, unique = true)
     private String username;
 
     @Column(name = "password", nullable = false)
@@ -55,7 +56,7 @@ public class Member {
     @Column(name = "phone_number", nullable = false)
     private String phoneNumber;
 
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
     @Enumerated(value = EnumType.STRING)
@@ -66,7 +67,7 @@ public class Member {
     private LocalDate birthDate;
 
     @Column(name = "profile_url", nullable = false)
-    private String profile_image_url;
+    private String profileImageUrl;
 
     @Embedded
     @AttributeOverrides({
@@ -77,7 +78,19 @@ public class Member {
     private Address address;
 
     @Builder
-    public Member(String name, String username, String password, MemberType type, String countryCode, String phoneNumber, String email, Gender gender, LocalDate birthDate, String profile_image_url,Address address) {
+    public Member(
+            @NonNull String name,
+            @NonNull String username,
+            @NonNull String password,
+            @NonNull MemberType type,
+            String countryCode,
+            @NonNull String phoneNumber,
+            @NonNull String email,
+            @NonNull Gender gender,
+            @NonNull LocalDate birthDate,
+            @NonNull String profileImageUrl,
+            @NonNull Address address
+    ) {
         this.name = name;
         this.username = username;
         this.password = password;
@@ -87,7 +100,7 @@ public class Member {
         this.email = email;
         this.gender = gender;
         this.birthDate = birthDate;
-        this.profile_image_url = profile_image_url;
+        this.profileImageUrl = profileImageUrl;
         this.address = address;
     }
 
