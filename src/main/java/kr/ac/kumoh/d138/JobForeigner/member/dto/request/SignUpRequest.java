@@ -14,6 +14,7 @@ public record SignUpRequest(
         String email,
         String gender,
         LocalDate birthDate,
+        String profileImageUrl,
         String address,
         String detailAddress,
         String zipcode
