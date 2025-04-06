@@ -11,6 +11,8 @@ import kr.ac.kumoh.d138.JobForeigner.member.domain.Address;
 import kr.ac.kumoh.d138.JobForeigner.member.domain.Gender;
 import kr.ac.kumoh.d138.JobForeigner.member.domain.Member;
 import kr.ac.kumoh.d138.JobForeigner.member.domain.MemberType;
+import kr.ac.kumoh.d138.JobForeigner.member.dto.request.MemberProfileRequest;
+import kr.ac.kumoh.d138.JobForeigner.member.dto.request.ProfileImageRequest;
 import kr.ac.kumoh.d138.JobForeigner.member.dto.request.SignUpRequest;
 import kr.ac.kumoh.d138.JobForeigner.member.dto.response.MemberProfileResponse;
 import kr.ac.kumoh.d138.JobForeigner.member.repository.MemberRepository;
@@ -48,6 +50,7 @@ public class MemberService {
                 .email(req.email())
                 .gender(Gender.valueOf(req.gender()))
                 .birthDate(req.birthDate())
+                .profileImageUrl(req.profileImageUrl())
                 .address(new Address(req.address(), req.detailAddress(), req.zipcode()))
                 .build();
 
@@ -91,4 +94,17 @@ public class MemberService {
                 .orElseThrow(()->new BusinessException(ExceptionType.MEMBER_NOT_FOUND));
         return MemberProfileResponse.toMemberProfileResponse(member);
     }
+
+    @Transactional
+    public void updateMemberProfile(Long memberId, MemberProfileRequest request) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(()->new BusinessException(ExceptionType.MEMBER_NOT_FOUND));
+        member.updateMemberProfile(request);
+    }
+
+    @Transactional
+    public void updateProfileImage(ProfileImageRequest request, Long memberId) {
+
+    }
+
 }
