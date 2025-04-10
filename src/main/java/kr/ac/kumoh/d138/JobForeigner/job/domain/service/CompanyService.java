@@ -1,7 +1,6 @@
 package kr.ac.kumoh.d138.JobForeigner.job.domain.service;
 
 import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.QueryResults;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import kr.ac.kumoh.d138.JobForeigner.global.exception.BusinessException;
 import kr.ac.kumoh.d138.JobForeigner.global.exception.ExceptionType;
@@ -51,17 +50,28 @@ public class CompanyService {
         if (jobType != null && !jobType.isEmpty()){
             builder.and(company.category.eq(jobType));
         }
-        QueryResults<Company> results = queryFactory
+        // Content 쿼리: 검색 조건에 맞는 페이지 범위의 결과를 가져옴
+        List<Company> content = queryFactory
                 .selectFrom(company)
                 .where(builder)
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
-                .fetchResults();
-        List<CompanyResponseDto> dtos = results.getResults().stream()
+                .fetch();
+
+        // Count 쿼리: 전체 검색 조건에 맞는 총 개수를 가져옴
+        Long total = queryFactory
+                .select(company.count())
+                .from(company)
+                .where(builder)
+                .fetchOne();
+
+        // 엔티티 -> DTO 변환
+        List<CompanyResponseDto> dtos = content.stream()
                 .map(CompanyResponseDto::fromEntity)
                 .collect(Collectors.toList());
 
-        return new PageImpl<>(dtos, pageable, results.getTotal());
+        // total이 null일 가능성을 고려하여 0 처리
+        return new PageImpl<>(dtos, pageable, total != null ? total : 0);
     }
 
     public CompanyDetailResponseDto getCompanyDetail(Long id) {
