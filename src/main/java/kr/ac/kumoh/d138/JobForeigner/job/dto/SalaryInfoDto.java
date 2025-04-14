@@ -1,4 +1,4 @@
-package kr.ac.kumoh.d138.JobForeigner.job.domain.dto;
+package kr.ac.kumoh.d138.JobForeigner.job.dto;
 
 import kr.ac.kumoh.d138.JobForeigner.job.domain.Company;
 import lombok.Builder;
