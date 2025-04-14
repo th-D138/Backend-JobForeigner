@@ -19,6 +19,9 @@ public enum ExceptionType {
     MEMBER_NOT_FOUND(NOT_FOUND, "U001", "사용자를 찾을 수 없습니다."),
     MEMBER_INFO_INVALID(UNAUTHORIZED, "U002", "아이디 또는 비밀번호가 일치하지 않습니다."),
 
+    // Company
+    COMPANY_NOT_FOUND(NOT_FOUND,"COM001", "회사를 찾을 수 없습니다."),
+
     // Security
     NEED_AUTHORIZED(UNAUTHORIZED, "S001", "인증이 필요합니다."),
     ACCESS_DENIED(FORBIDDEN, "S002", "접근 권한이 없습니다."),
