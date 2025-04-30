@@ -1,4 +1,4 @@
-package kr.ac.kumoh.d138.JobForeigner.job.domain.repository;
+package kr.ac.kumoh.d138.JobForeigner.job.repository;
 
 import kr.ac.kumoh.d138.JobForeigner.job.domain.Company;
 import org.springframework.data.domain.Page;
