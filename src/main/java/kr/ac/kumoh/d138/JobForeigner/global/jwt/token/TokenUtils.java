@@ -42,6 +42,7 @@ public class TokenUtils {
     public static void deleteRefreshToken(HttpServletResponse response) {
         Cookie cookie = new Cookie(COOKIE_NAME_REFRESH_TOKEN, null);
         cookie.setMaxAge(0);
+        cookie.setPath("/tokens/refresh");
         response.addCookie(cookie);
     }
 }
