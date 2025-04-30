@@ -14,11 +14,18 @@ import lombok.NoArgsConstructor;
 @Getter
 @EqualsAndHashCode
 public class Address {
-
     private String address;
 
     private String detailAddress;
 
     private String zipcode;
 
+    @Override
+    public String toString() {
+        return "Address{" +
+                "address='" + address + '\'' +
+                ", detailAddress='" + detailAddress + '\'' +
+                ", zipcode='" + zipcode + '\'' +
+                '}';
+    }
 }
