@@ -142,8 +142,6 @@ public class JobPostService {
 
     @Transactional
     public void deleteJobPost(Long jobPostId) {
-        JobPost jobPost = jobPostRepository.findById(jobPostId)
-                .orElseThrow(() -> new BusinessException(ExceptionType.JOBPOST_NOT_FOUND));
-        jobPostRepository.delete(jobPost);
+        jobPostRepository.deleteById(jobPostId);
     }
 }
