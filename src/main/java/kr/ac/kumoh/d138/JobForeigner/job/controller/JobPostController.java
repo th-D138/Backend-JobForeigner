@@ -1,9 +1,11 @@
 package kr.ac.kumoh.d138.JobForeigner.job.controller;
 
+import jakarta.validation.Valid;
 import kr.ac.kumoh.d138.JobForeigner.global.response.GlobalPageResponse;
 import kr.ac.kumoh.d138.JobForeigner.global.response.ResponseBody;
 import kr.ac.kumoh.d138.JobForeigner.global.response.ResponseUtil;
 import kr.ac.kumoh.d138.JobForeigner.job.dto.company.request.JobPostRequestDto;
+import kr.ac.kumoh.d138.JobForeigner.job.dto.company.request.JobTempPostRequestDto;
 import kr.ac.kumoh.d138.JobForeigner.job.dto.company.response.JobPostResponseDto;
 import kr.ac.kumoh.d138.JobForeigner.job.service.JobPostService;
 import lombok.RequiredArgsConstructor;
@@ -24,8 +26,8 @@ public class JobPostController {
     채용공고 임시저장
      */
     @PostMapping("/api/v1/jobPost/temp")
-    public ResponseEntity<ResponseBody<String>>  saveTemporaryJobPost(@RequestBody JobPostRequestDto jobPostRequestDto){
-        jobPostService.saveTemporaryJobPost(jobPostRequestDto);
+    public ResponseEntity<ResponseBody<String>>  saveTemporaryJobPost(@Valid @RequestBody JobTempPostRequestDto jobTempPostRequestDto){
+        jobPostService.saveTemporaryJobPost(jobTempPostRequestDto);
         return ResponseEntity.ok(ResponseUtil.createSuccessResponse("임시 저장 완료"));
     }
 
@@ -33,7 +35,7 @@ public class JobPostController {
     채용공고 작성
      */
     @PostMapping("/api/v1/jobPost")
-    public ResponseEntity<ResponseBody<String>>  createJobPost(@RequestBody JobPostRequestDto jobPostRequestDto){
+    public ResponseEntity<ResponseBody<String>>  createJobPost(@Valid @RequestBody JobPostRequestDto jobPostRequestDto){
         jobPostService.createJobPost(jobPostRequestDto);
         return ResponseEntity.ok(ResponseUtil.createSuccessResponse("채용공고 작성 완료"));
     }
@@ -64,7 +66,7 @@ public class JobPostController {
     /*
     채용공고 수정
      */
-    @PatchMapping("/api/v1/JobPost/{id}")
+    @PatchMapping("/api/v1/jobPost/{id}")
     public ResponseEntity<ResponseBody<JobPostResponseDto>> updateJobPost(@PathVariable Long id,@RequestBody JobPostRequestDto jobPostRequestDto){
         JobPostResponseDto jobPostResponseDto = jobPostService.updateJobPost(id, jobPostRequestDto);
         return ResponseEntity.ok(ResponseUtil.createSuccessResponse(jobPostResponseDto));
@@ -73,12 +75,9 @@ public class JobPostController {
     /*
     채용공고 삭제
      */
-
-    @DeleteMapping("/api/v1/JobPost/{id}")
+    @DeleteMapping("/api/v1/jobPost/{id}")
     public ResponseEntity<ResponseBody<String>> deleteJobPost(@PathVariable Long id){
         jobPostService.deleteJobPost(id);
         return ResponseEntity.ok(ResponseUtil.createSuccessResponse("채용공고 삭제 완료"));
     }
-
-
 }
