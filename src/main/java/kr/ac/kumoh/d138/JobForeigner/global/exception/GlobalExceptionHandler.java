@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RequiredArgsConstructor
 @Slf4j
-@RestControllerAdvice(annotations = {RestController.class}, basePackages = {"kr.ac.kumoh.d138.JobForeginer"})
+@RestControllerAdvice(annotations = {RestController.class}, basePackages = {"kr.ac.kumoh.d138.JobForeigner"})
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(BusinessException.class)

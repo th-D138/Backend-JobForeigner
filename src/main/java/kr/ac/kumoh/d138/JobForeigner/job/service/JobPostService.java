@@ -10,6 +10,7 @@ import kr.ac.kumoh.d138.JobForeigner.job.domain.JobPost;
 import kr.ac.kumoh.d138.JobForeigner.job.domain.JobPostStatus;
 import kr.ac.kumoh.d138.JobForeigner.job.domain.QCompany;
 import kr.ac.kumoh.d138.JobForeigner.job.dto.company.request.JobPostRequestDto;
+import kr.ac.kumoh.d138.JobForeigner.job.dto.company.request.JobTempPostRequestDto;
 import kr.ac.kumoh.d138.JobForeigner.job.dto.company.response.JobPostResponseDto;
 import kr.ac.kumoh.d138.JobForeigner.job.repository.CompanyRepository;
 import kr.ac.kumoh.d138.JobForeigner.job.repository.JobPostRepository;
@@ -40,7 +41,7 @@ public class JobPostService {
                 .title(jobPostRequestDto.getTitle())
                 .description(jobPostRequestDto.getDescription())
                 .location(jobPostRequestDto.getLocation())
-                .employmentType(jobPostRequestDto.getEmployment_type())
+                .employmentType(jobPostRequestDto.getEmploymentType())
                 .salary(jobPostRequestDto.getSalary())
                 .career(jobPostRequestDto.getCareer())
                 .grade(jobPostRequestDto.getGrade())
@@ -53,19 +54,19 @@ public class JobPostService {
     }
 
     @Transactional
-    public void saveTemporaryJobPost(JobPostRequestDto jobPostRequestDto){
-        Company company = companyRepository.findById(jobPostRequestDto.getCompanyId())
+    public void saveTemporaryJobPost(JobTempPostRequestDto jobTempPostRequestDto){
+        Company company = companyRepository.findById(jobTempPostRequestDto.getCompanyId())
                 .orElseThrow(()->new BusinessException(ExceptionType.COMPANY_NOT_FOUND));
         JobPost newJobPost = JobPost.builder()
-                .title(jobPostRequestDto.getTitle())
-                .description(jobPostRequestDto.getDescription())
-                .location(jobPostRequestDto.getLocation())
-                .employmentType(jobPostRequestDto.getEmployment_type())
-                .salary(jobPostRequestDto.getSalary())
-                .career(jobPostRequestDto.getCareer())
-                .grade(jobPostRequestDto.getGrade())
+                .title(jobTempPostRequestDto.getTitle())
+                .description(jobTempPostRequestDto.getDescription())
+                .location(jobTempPostRequestDto.getLocation())
+                .employmentType(jobTempPostRequestDto.getEmploymentType())
+                .salary(jobTempPostRequestDto.getSalary())
+                .career(jobTempPostRequestDto.getCareer())
+                .grade(jobTempPostRequestDto.getGrade())
                 .published(JobPostStatus.TEMP)
-                .expiryAt(jobPostRequestDto.getExpiryAt())
+                .expiryAt(jobTempPostRequestDto.getExpiryAt())
                 .company(company)
                 .build();
         company.addJobPost(newJobPost);
@@ -73,7 +74,6 @@ public class JobPostService {
     }
 
     public Page<JobPostResponseDto> getAllJobPost(String companyName, String region, String jobType, Pageable pageable){
-        QCompany qCompany = company;
         BooleanBuilder builder = new BooleanBuilder();
 
         builder.and(jobPost.published.eq(JobPostStatus.SUBMITTED));

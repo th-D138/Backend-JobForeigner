@@ -17,7 +17,7 @@ public class JobPostRequestDto {
     @NotNull
     private String location;
     @NotNull
-    private String employment_type;
+    private String employmentType;
     @NotNull
     private String salary;
     @NotNull

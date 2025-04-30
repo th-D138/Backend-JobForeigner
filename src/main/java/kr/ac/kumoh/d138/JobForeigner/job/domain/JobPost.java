@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-public class JobPost {
+public class JobPost{
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -76,7 +76,7 @@ public JobPost(String title, String description, String location, String employm
         this.title = dto.getTitle();
         this.description = dto.getDescription();
         this.location = dto.getLocation();
-        this.employmentType = dto.getEmployment_type();
+        this.employmentType = dto.getEmploymentType();
         this.salary = dto.getSalary();
         this.career = dto.getCareer();
         this.grade = dto.getGrade();
