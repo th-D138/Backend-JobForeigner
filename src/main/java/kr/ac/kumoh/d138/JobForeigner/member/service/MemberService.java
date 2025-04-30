@@ -16,6 +16,7 @@ import kr.ac.kumoh.d138.JobForeigner.member.dto.request.ProfileImageRequest;
 import kr.ac.kumoh.d138.JobForeigner.member.dto.request.SignUpRequest;
 import kr.ac.kumoh.d138.JobForeigner.member.dto.response.MemberProfileResponse;
 import kr.ac.kumoh.d138.JobForeigner.member.repository.MemberRepository;
+import kr.ac.kumoh.d138.JobForeigner.resume.service.ResumeService;
 import kr.ac.kumoh.d138.JobForeigner.token.domain.RefreshToken;
 import kr.ac.kumoh.d138.JobForeigner.token.domain.RefreshTokenRepository;
 import kr.ac.kumoh.d138.JobForeigner.token.dto.JwtPair;
@@ -30,6 +31,8 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Service
 public class MemberService {
+
+    private final ResumeService resumeService;
 
     private final MemberRepository memberRepository;
     private final RefreshTokenRepository refreshTokenRepository;
@@ -104,6 +107,10 @@ public class MemberService {
 
     @Transactional
     public void updateProfileImage(ProfileImageRequest request, Long memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(()->new BusinessException(ExceptionType.MEMBER_NOT_FOUND));
+        String imageUrl = resumeService.storeImage(request.image());
+        member.updateProfileImage(imageUrl);
 
     }
 
