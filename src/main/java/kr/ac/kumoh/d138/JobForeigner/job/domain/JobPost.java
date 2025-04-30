@@ -1,13 +1,12 @@
 package kr.ac.kumoh.d138.JobForeigner.job.domain;
 
 import jakarta.persistence.*;
+import kr.ac.kumoh.d138.JobForeigner.global.base.BaseEntity;
 import kr.ac.kumoh.d138.JobForeigner.job.dto.company.request.JobPostRequestDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
@@ -17,7 +16,7 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-public class JobPost{
+public class JobPost extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -34,14 +33,6 @@ public class JobPost{
     private String salary;
 
     private String career;
-
-    @CreatedDate
-    @Column(name="created_at")
-    private LocalDateTime createAt;
-
-    @LastModifiedDate
-    @Column(name="updated_at")
-    private LocalDateTime updateAt;
 
     @Column(name="expiry_at")
     private LocalDateTime expiryAt;
