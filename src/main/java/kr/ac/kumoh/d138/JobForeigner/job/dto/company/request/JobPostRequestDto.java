@@ -3,10 +3,12 @@ package kr.ac.kumoh.d138.JobForeigner.job.dto.company.request;
 import jakarta.validation.constraints.NotNull;
 import kr.ac.kumoh.d138.JobForeigner.job.domain.JobPostStatus;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Getter
+@NoArgsConstructor 
 public class JobPostRequestDto {
     @NotNull
     private Long id;
