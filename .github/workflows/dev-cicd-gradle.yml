@@ -70,7 +70,7 @@ jobs:
 
     # 빌드 진행
     - name: Build with Gradle
-      run: ./gradlew clean build -Pprofile=github
+      run: ./gradlew clean build
 
     # 빌드 완료 후 아티펙트 업로드 (Actions 탭에서 내려 받기 가능)
     - name: Upload Build Artifacts
