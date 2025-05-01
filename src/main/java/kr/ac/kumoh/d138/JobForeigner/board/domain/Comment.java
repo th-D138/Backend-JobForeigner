@@ -19,11 +19,9 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "board_comment")
-@Builder
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Comment {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -48,6 +46,7 @@ public class Comment {
     @Column(name = "published", nullable = false)
     private Boolean published;
 
+    @Builder
     public Comment(String content, Member member, Post post, LocalDateTime createdAt, LocalDateTime updatedAt, Boolean published) {
         this.content = content;
         this.member = member;

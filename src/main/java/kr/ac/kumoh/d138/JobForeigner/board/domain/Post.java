@@ -3,6 +3,7 @@ package kr.ac.kumoh.d138.JobForeigner.board.domain;
 import jakarta.persistence.*;
 import kr.ac.kumoh.d138.JobForeigner.member.domain.Member;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
@@ -13,7 +14,6 @@ import java.util.List;
 @Table(name = "board_post")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Post {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "post_id", nullable = false)
@@ -46,7 +46,7 @@ public class Post {
     @JoinColumn(name = "board_id")  // 외래 키 컬럼명
     private Board board;
 
-
+    @Builder
     public Post(String title, String content, Member member, Category category, LocalDateTime createdAt, LocalDateTime updatedAt, Boolean published) {
         this.title = title;
         this.content = content;
@@ -59,5 +59,4 @@ public class Post {
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Comment> comments = new ArrayList<>();
-
 }

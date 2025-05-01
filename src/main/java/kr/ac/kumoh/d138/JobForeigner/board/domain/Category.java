@@ -20,11 +20,9 @@ import java.util.List;
 
 @Entity
 @Table(name = "board_category")
-@Builder
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Category {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -39,6 +37,7 @@ public class Category {
     @JoinColumn(name = "board_id", nullable = false)
     private Board board;
 
+    @Builder
     public Category(String name, String description, Board board) {
         this.name = name;
         this.description = description;
@@ -47,5 +46,4 @@ public class Category {
 
     @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
     private List<Post> posts = new ArrayList<>();
-
 }
