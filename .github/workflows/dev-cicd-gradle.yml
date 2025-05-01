@@ -22,6 +22,24 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      redis:
+        image: redis:alpine
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     steps:
     # 현재 저장소의 소스 코드와 서브 모듈 내려 받기
     - name: Checkout
@@ -29,6 +47,9 @@ jobs:
       with:
         submodules: true
         token: ${{ secrets.ACTION_TOKEN }} # 조직이 아닌 개인 사용자 토큰이므로 유의할 것!
+
+    # GitHub Actions용 환경 설정
+    - run: touch ./src/main/resources/application-github.yml; echo "${{ secrets.APPLICATION_YML }}" > ./src/main/resources/application-github.yml
 
     # JDK 21 (Eclipse Temurin) 환경 구성
     - name: Set up JDK 21
@@ -58,7 +79,7 @@ jobs:
 
     # 빌드 진행
     - name: Build with Gradle
-      run: ./gradlew clean build
+      run: ./gradlew clean build -Pprofile=github
 
     # 빌드 완료 후 아티펙트 업로드 (Actions 탭에서 내려 받기 가능)
     - name: Upload Build Artifacts
