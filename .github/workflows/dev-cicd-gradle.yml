@@ -39,9 +39,6 @@ jobs:
         submodules: true
         token: ${{ secrets.ACTION_TOKEN }} # 조직이 아닌 개인 사용자 토큰이므로 유의할 것!
 
-    # GitHub Actions용 환경 설정
-    - run: touch ./src/main/resources/application-github.yml; echo "${{ secrets.APPLICATION_YML }}" > ./src/main/resources/application-github.yml
-
     # JDK 21 (Eclipse Temurin) 환경 구성
     - name: Set up JDK 21
       uses: actions/setup-java@v4
