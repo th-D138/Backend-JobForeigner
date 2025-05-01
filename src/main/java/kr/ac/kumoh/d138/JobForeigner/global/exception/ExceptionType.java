@@ -22,6 +22,9 @@ public enum ExceptionType {
     // Company
     COMPANY_NOT_FOUND(NOT_FOUND,"COM001", "회사를 찾을 수 없습니다."),
 
+    // JobPost
+    JOBPOST_NOT_FOUND(NOT_FOUND,"J001","채용 공고를 찾을 수 없습니다."),
+
     // Security
     NEED_AUTHORIZED(UNAUTHORIZED, "S001", "인증이 필요합니다."),
     ACCESS_DENIED(FORBIDDEN, "S002", "접근 권한이 없습니다."),

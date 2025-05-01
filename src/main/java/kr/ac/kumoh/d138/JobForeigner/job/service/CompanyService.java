@@ -1,4 +1,4 @@
-package kr.ac.kumoh.d138.JobForeigner.job.domain.service;
+package kr.ac.kumoh.d138.JobForeigner.job.service;
 
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -8,9 +8,9 @@ import kr.ac.kumoh.d138.JobForeigner.job.domain.Company;
 import kr.ac.kumoh.d138.JobForeigner.job.domain.CompanyRating;
 import kr.ac.kumoh.d138.JobForeigner.job.domain.JobPost;
 import kr.ac.kumoh.d138.JobForeigner.job.domain.QCompany;
-import kr.ac.kumoh.d138.JobForeigner.job.domain.dto.*;
-import kr.ac.kumoh.d138.JobForeigner.job.domain.repository.CompanyRepository;
-import kr.ac.kumoh.d138.JobForeigner.job.domain.repository.JobPostRepository;
+import kr.ac.kumoh.d138.JobForeigner.job.dto.*;
+import kr.ac.kumoh.d138.JobForeigner.job.repository.CompanyRepository;
+import kr.ac.kumoh.d138.JobForeigner.job.repository.JobPostRepository;
 import kr.ac.kumoh.d138.JobForeigner.rating.Rating;
 import kr.ac.kumoh.d138.JobForeigner.rating.repository.RatingRepository;
 import lombok.RequiredArgsConstructor;
@@ -76,12 +76,15 @@ public class CompanyService {
 
     public CompanyDetailResponseDto getCompanyDetail(Long id) {
         Company company = companyRepository.findById(id)
-                .orElseThrow(()->new BusinessException(ExceptionType.MEMBER_NOT_FOUND));
-        JobPost jobpost=jobPostRepository.findByCompanyId(company.getId());
+                .orElseThrow(()->new BusinessException(ExceptionType.COMPANY_NOT_FOUND));
+        JobPost jobpost=jobPostRepository.findByCompanyId(company.getId()).orElse(null);
         // 기업 정보 매핑
         CompanyInfoDto companyInfoDto=CompanyInfoDto.fromEntity(company);
         // 채용정보 매핑
-        JobPostDto jobPostDto=JobPostDto.fromEntity(jobpost);
+        JobPostDto jobPostDto = null;
+        if (jobpost != null) {
+            jobPostDto = JobPostDto.fromEntity(jobpost);
+        }
         // 연봉 매핑
         SalaryInfoDto salaryInfoDto=SalaryInfoDto.fromEntity(company);
         // 기업 평점 매핑
