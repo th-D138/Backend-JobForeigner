@@ -7,7 +7,7 @@ import kr.ac.kumoh.d138.JobForeigner.global.jwt.token.access.AccessTokenData;
 import kr.ac.kumoh.d138.JobForeigner.global.jwt.token.access.AccessTokenProvider;
 import kr.ac.kumoh.d138.JobForeigner.global.jwt.token.refresh.RefreshTokenData;
 import kr.ac.kumoh.d138.JobForeigner.global.jwt.token.refresh.RefreshTokenProvider;
-import kr.ac.kumoh.d138.JobForeigner.job.domain.repository.CompanyRepository;
+import kr.ac.kumoh.d138.JobForeigner.job.repository.CompanyRepository;
 import kr.ac.kumoh.d138.JobForeigner.member.domain.Address;
 import kr.ac.kumoh.d138.JobForeigner.member.domain.Gender;
 import kr.ac.kumoh.d138.JobForeigner.member.domain.Member;

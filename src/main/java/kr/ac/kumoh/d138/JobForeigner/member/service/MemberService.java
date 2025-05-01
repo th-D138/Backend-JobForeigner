@@ -1,5 +1,8 @@
 package kr.ac.kumoh.d138.JobForeigner.member.service;
 
+import kr.ac.kumoh.d138.JobForeigner.global.exception.BusinessException;
+import kr.ac.kumoh.d138.JobForeigner.global.exception.ExceptionType;
+import kr.ac.kumoh.d138.JobForeigner.member.domain.Member;
 import kr.ac.kumoh.d138.JobForeigner.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

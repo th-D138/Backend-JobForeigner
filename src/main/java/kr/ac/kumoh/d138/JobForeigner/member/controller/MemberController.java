@@ -18,16 +18,16 @@ import static kr.ac.kumoh.d138.JobForeigner.global.response.ResponseUtil.createS
 public class MemberController {
     private final MemberService memberService;
 
-    // 사용자의 프로필 정보 반환
-    @GetMapping("/{memberId}")
-    public ResponseEntity<ResponseBody<MemberProfileResponse>> getUserProfile(@PathVariable Long memberId) {
-        return ResponseEntity.ok(createSuccessResponse(memberService.getMemberProfile(memberId)));
-    }
-
-    // 자신의 프로필 정보 반환
-    // TODO: 멤버의 아이디를 토큰에서 받아와야함
-    @GetMapping("/me")
-    public ResponseEntity<ResponseBody<MemberProfileResponse>> getMyProfile(Long memberId) {
-        return ResponseEntity.ok(createSuccessResponse(memberService.getMemberProfile(memberId)));
-    }
+//    // 사용자의 프로필 정보 반환
+//    @GetMapping("/{memberId}")
+//    public ResponseEntity<ResponseBody<MemberProfileResponse>> getUserProfile(@PathVariable Long memberId) {
+//        return ResponseEntity.ok(createSuccessResponse(memberService.getMemberProfile(memberId)));
+//    }
+//
+//    // 자신의 프로필 정보 반환
+//    // TODO: 멤버의 아이디를 토큰에서 받아와야함
+//    @GetMapping("/me")
+//    public ResponseEntity<ResponseBody<MemberProfileResponse>> getMyProfile(Long memberId) {
+//        return ResponseEntity.ok(createSuccessResponse(memberService.getMemberProfile(memberId)));
+//    }
 }
