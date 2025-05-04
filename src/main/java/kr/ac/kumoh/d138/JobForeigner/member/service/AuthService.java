@@ -40,21 +40,21 @@ public class AuthService {
             throw new BusinessException(ExceptionType.MEMBER_INFO_INVALID);
         }
 
-        log.info("로그인이 완료되었습니다. {}", member);
-
         // 토큰 발급
+        return generateJwtPair(member);
+    }
+
+    public void signOut(Long memberId) {
+        refreshTokenRepository.deleteById(memberId);
+    }
+
+    public JwtPair generateJwtPair(Member member) {
         JwtClaims claims = JwtClaims.create(member);
         AccessTokenData accessToken = accessTokenProvider.createToken(claims);
         RefreshTokenData refreshToken = refreshTokenProvider.createToken(claims);
 
         refreshTokenRepository.save(RefreshToken.from(refreshToken));
 
-        log.debug("로그인 후 토큰이 발행되었습니다. {}, {}", accessToken, refreshToken);
-
         return JwtPair.of(accessToken.token(), accessToken.expiredIn(), refreshToken.token(), refreshToken.expiredIn());
-    }
-
-    public void signOut(Long memberId) {
-        refreshTokenRepository.deleteById(memberId);
     }
 }
