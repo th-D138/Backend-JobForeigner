@@ -55,7 +55,7 @@ public class Member extends BaseEntity {
     @Column(name = "type", nullable = false)
     private MemberType type;
 
-    @Column(name = "comany_id")
+    @Column(name = "company_id")
     private Long companyId;
 
     @Column(name = "country_code")
@@ -68,7 +68,7 @@ public class Member extends BaseEntity {
     private String email;
 
     @Convert(converter = GenderConverter.class)
-    @Column(name = "gender", columnDefinition = "smallint", nullable = false)
+    @Column(name = "gender", columnDefinition = "char(1)", nullable = false)
     private Gender gender;
 
     @Column(name = "birth_date", nullable = false)
@@ -80,7 +80,7 @@ public class Member extends BaseEntity {
     @Embedded
     @AttributeOverrides({
             @AttributeOverride(name = "address", column = @Column(name = "address", nullable = false)),
-            @AttributeOverride(name = "detailAddress", column = @Column(name = "detail_address", nullable = false)),
+            @AttributeOverride(name = "detailAddress", column = @Column(name = "detail_address")),
             @AttributeOverride(name = "zipcode", column = @Column(name = "zipcode", nullable = false))
     })
     private Address address;
@@ -122,22 +122,4 @@ public class Member extends BaseEntity {
 
     @OneToMany(mappedBy="member", fetch=FetchType.LAZY)
     private List<Rating> ratings = new ArrayList<>();
-
-    @Override
-    public String toString() {
-        return "Member{" +
-                "address=" + address +
-                ", profileImageUrl='" + profileImageUrl + '\'' +
-                ", birthDate=" + birthDate +
-                ", gender=" + gender +
-                ", email='" + email + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", countryCode='" + countryCode + '\'' +
-                ", type=" + type +
-                ", password='" + password + '\'' +
-                ", username='" + username + '\'' +
-                ", name='" + name + '\'' +
-                ", id=" + id +
-                '}';
-    }
 }
