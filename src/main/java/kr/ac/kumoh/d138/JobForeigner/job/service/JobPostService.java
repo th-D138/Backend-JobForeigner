@@ -11,9 +11,12 @@ import kr.ac.kumoh.d138.JobForeigner.job.domain.JobPostStatus;
 import kr.ac.kumoh.d138.JobForeigner.job.domain.QCompany;
 import kr.ac.kumoh.d138.JobForeigner.job.dto.company.request.JobPostRequestDto;
 import kr.ac.kumoh.d138.JobForeigner.job.dto.company.request.JobTempPostRequestDto;
+import kr.ac.kumoh.d138.JobForeigner.job.dto.company.response.JobPostDetailResponseDto;
 import kr.ac.kumoh.d138.JobForeigner.job.dto.company.response.JobPostResponseDto;
+import kr.ac.kumoh.d138.JobForeigner.job.dto.company.response.UpdateJobPostResponseDto;
 import kr.ac.kumoh.d138.JobForeigner.job.repository.CompanyRepository;
 import kr.ac.kumoh.d138.JobForeigner.job.repository.JobPostRepository;
+import kr.ac.kumoh.d138.JobForeigner.scrap.reposiitory.ScrapRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -32,6 +35,7 @@ public class JobPostService {
     private final JobPostRepository jobPostRepository;
     private final CompanyRepository companyRepository;
     private final JPAQueryFactory queryFactory;
+    private final ScrapRepository scrapRepository;
 
     @Transactional
     public void createJobPost(JobPostRequestDto jobPostRequestDto) {
@@ -116,7 +120,7 @@ public class JobPostService {
     }
 
 
-    public JobPostResponseDto getJobPostDetail(Long jobPostId){
+    public JobPostDetailResponseDto getJobPostDetail(Long jobPostId, Long memberId){
         JobPost jp = queryFactory
                 .selectFrom(jobPost)
                 .join(jobPost.company, QCompany.company)
@@ -128,16 +132,17 @@ public class JobPostService {
         if (jp == null) {
             throw new BusinessException(ExceptionType.JOBPOST_NOT_FOUND);
         }
-        return JobPostResponseDto.fromEntity(jp);
+        boolean isScrapped = scrapRepository.existsByMemberIdAndJobPostId(memberId, jobPostId);
+        return JobPostDetailResponseDto.fromEntity(jp, isScrapped);
     }
 
     @Transactional
-    public JobPostResponseDto updateJobPost(Long jobPostId, JobPostRequestDto jobPostRequestDto){
+    public UpdateJobPostResponseDto updateJobPost(Long jobPostId, JobPostRequestDto jobPostRequestDto){
         JobPost jobPost = jobPostRepository.findById(jobPostId)
                 .orElseThrow(()->new BusinessException(ExceptionType.JOBPOST_NOT_FOUND));
         jobPost.updatePost(jobPostRequestDto);
 
-        return JobPostResponseDto.fromEntity(jobPost);
+        return UpdateJobPostResponseDto.fromEntity(jobPost);
     }
 
     @Transactional

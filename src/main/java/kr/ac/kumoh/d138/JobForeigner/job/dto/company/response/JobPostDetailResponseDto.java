@@ -8,7 +8,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class JobPostResponseDto {
+public class JobPostDetailResponseDto {
     private Long id;
     private String title;
     private String description;
@@ -18,11 +18,12 @@ public class JobPostResponseDto {
     private String career;
     private JobPostStatus published;
     private String grade;
+    private Boolean isScrapped;
 
     @Builder
-    public JobPostResponseDto(Long id, String title, String description, String location,
-                              String employment_type, String salary, String career,
-                              JobPostStatus published, String grade) {
+    public JobPostDetailResponseDto(Long id, String title, String description, String location,
+                                    String employment_type, String salary, String career,
+                                    JobPostStatus published, String grade, Boolean isScrapped) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -32,10 +33,11 @@ public class JobPostResponseDto {
         this.career = career;
         this.published = published;
         this.grade = grade;
+        this.isScrapped = isScrapped;
     }
 
-    public static JobPostResponseDto fromEntity(JobPost jobPost) {
-        return JobPostResponseDto.builder()
+    public static JobPostDetailResponseDto fromEntity(JobPost jobPost, boolean isScrapped) {
+        return JobPostDetailResponseDto.builder()
                 .id(jobPost.getId())
                 .title(jobPost.getTitle())
                 .description(jobPost.getDescription())
@@ -45,6 +47,7 @@ public class JobPostResponseDto {
                 .career(jobPost.getCareer())
                 .published(jobPost.getPublished())
                 .grade(jobPost.getGrade())
+                .isScrapped(isScrapped)
                 .build();
     }
 }
