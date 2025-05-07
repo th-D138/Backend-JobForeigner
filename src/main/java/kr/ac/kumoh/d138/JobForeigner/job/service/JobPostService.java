@@ -16,7 +16,7 @@ import kr.ac.kumoh.d138.JobForeigner.job.dto.company.response.JobPostResponseDto
 import kr.ac.kumoh.d138.JobForeigner.job.dto.company.response.UpdateJobPostResponseDto;
 import kr.ac.kumoh.d138.JobForeigner.job.repository.CompanyRepository;
 import kr.ac.kumoh.d138.JobForeigner.job.repository.JobPostRepository;
-import kr.ac.kumoh.d138.JobForeigner.scrap.reposiitory.ScrapRepository;
+import kr.ac.kumoh.d138.JobForeigner.scrap.repository.ScrapRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;

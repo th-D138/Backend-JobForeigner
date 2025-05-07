@@ -1,4 +1,4 @@
-package kr.ac.kumoh.d138.JobForeigner.scrap.reposiitory;
+package kr.ac.kumoh.d138.JobForeigner.scrap.repository;
 
 import kr.ac.kumoh.d138.JobForeigner.scrap.domain.Scrap;
 import org.springframework.data.jpa.repository.JpaRepository;

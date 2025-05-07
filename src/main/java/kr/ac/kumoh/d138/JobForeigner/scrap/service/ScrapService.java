@@ -8,7 +8,7 @@ import kr.ac.kumoh.d138.JobForeigner.member.domain.Member;
 import kr.ac.kumoh.d138.JobForeigner.member.repository.MemberRepository;
 import kr.ac.kumoh.d138.JobForeigner.scrap.domain.Scrap;
 import kr.ac.kumoh.d138.JobForeigner.scrap.dto.ScrapResponse;
-import kr.ac.kumoh.d138.JobForeigner.scrap.reposiitory.ScrapRepository;
+import kr.ac.kumoh.d138.JobForeigner.scrap.repository.ScrapRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
