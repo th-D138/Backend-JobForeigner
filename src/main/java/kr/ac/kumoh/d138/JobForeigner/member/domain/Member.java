@@ -3,6 +3,7 @@ package kr.ac.kumoh.d138.JobForeigner.member.domain;
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.AttributeOverrides;
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -15,12 +16,15 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import kr.ac.kumoh.d138.JobForeigner.board.domain.Comment;
 import kr.ac.kumoh.d138.JobForeigner.board.domain.Post;
+import kr.ac.kumoh.d138.JobForeigner.global.base.BaseEntity;
 import kr.ac.kumoh.d138.JobForeigner.rating.Rating;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -30,8 +34,9 @@ import java.util.List;
 @Table(name = "member")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Member {
-
+@SQLDelete(sql = "UPDATE member SET deleted_at = NOW() where id = ?")
+@SQLRestriction(value = "deleted_at is NULL") // TODO: 7일 후 논리적 삭제된 사용자를 물리적으로 삭제하는 cron 작업이 필요
+public class Member extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id", nullable = false)
@@ -50,6 +55,9 @@ public class Member {
     @Column(name = "type", nullable = false)
     private MemberType type;
 
+    @Column(name = "company_id")
+    private Long companyId;
+
     @Column(name = "country_code")
     private String countryCode;
 
@@ -59,8 +67,8 @@ public class Member {
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Enumerated(value = EnumType.STRING)
-    @Column(name = "gender", nullable = false)
+    @Convert(converter = GenderConverter.class)
+    @Column(name = "gender", columnDefinition = "char(1)", nullable = false)
     private Gender gender;
 
     @Column(name = "birth_date", nullable = false)
@@ -72,7 +80,7 @@ public class Member {
     @Embedded
     @AttributeOverrides({
             @AttributeOverride(name = "address", column = @Column(name = "address", nullable = false)),
-            @AttributeOverride(name = "detailAddress", column = @Column(name = "detail_address", nullable = false)),
+            @AttributeOverride(name = "detailAddress", column = @Column(name = "detail_address")),
             @AttributeOverride(name = "zipcode", column = @Column(name = "zipcode", nullable = false))
     })
     private Address address;
@@ -83,6 +91,7 @@ public class Member {
             @NonNull String username,
             @NonNull String password,
             @NonNull MemberType type,
+            Long companyId,
             String countryCode,
             @NonNull String phoneNumber,
             @NonNull String email,
@@ -95,6 +104,7 @@ public class Member {
         this.username = username;
         this.password = password;
         this.type = type;
+        this.companyId = companyId;
         this.countryCode = countryCode;
         this.phoneNumber = phoneNumber;
         this.email = email;
