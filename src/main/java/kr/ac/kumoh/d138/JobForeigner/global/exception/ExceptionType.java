@@ -18,6 +18,9 @@ public enum ExceptionType {
     // Member
     MEMBER_NOT_FOUND(NOT_FOUND, "U001", "사용자를 찾을 수 없습니다."),
     MEMBER_INFO_INVALID(UNAUTHORIZED, "U002", "아이디 또는 비밀번호가 일치하지 않습니다."),
+    USERNAME_ALREADY_EXISTS(CONFLICT, "U003", "이미 등록되어 있거나 사용할 수 없는 아이디입니다."),
+    EMAIL_ALREADY_EXISTS(CONFLICT, "U004", "이미 등록되어 있거나 사용할 수 없는 이메일 주소입니다."),
+    COMPANY_ALREADY_EXISTS(CONFLICT, "U005", "이미 담당자 정보가 등록된 회사입니다."),
 
     // Company
     COMPANY_NOT_FOUND(NOT_FOUND,"COM001", "회사를 찾을 수 없습니다."),

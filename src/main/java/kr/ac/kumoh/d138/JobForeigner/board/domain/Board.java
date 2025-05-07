@@ -19,11 +19,9 @@ import java.util.List;
 
 @Entity
 @Table(name = "board")
-@Builder
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Board {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -34,6 +32,7 @@ public class Board {
     @Column(name = "description")
     private String description;
 
+    @Builder
     public Board(String name, String description) {
         this.name = name;
         this.description = description;
@@ -44,5 +43,4 @@ public class Board {
 
     @OneToMany(mappedBy = "board", fetch = FetchType.LAZY)
     private List<Post> posts = new ArrayList<>();
-
 }
