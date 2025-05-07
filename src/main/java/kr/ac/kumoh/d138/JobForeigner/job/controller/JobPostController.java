@@ -1,7 +1,6 @@
 package kr.ac.kumoh.d138.JobForeigner.job.controller;
 
 import jakarta.validation.Valid;
-import kr.ac.kumoh.d138.JobForeigner.global.jwt.authentication.JwtAuthentication;
 import kr.ac.kumoh.d138.JobForeigner.global.response.GlobalPageResponse;
 import kr.ac.kumoh.d138.JobForeigner.global.response.ResponseBody;
 import kr.ac.kumoh.d138.JobForeigner.global.response.ResponseUtil;
@@ -53,7 +52,6 @@ public class JobPostController {
             @RequestParam(required = false) String jobType,
             @PageableDefault(size=12, sort= "companyName") Pageable pageable
             ){
-
             Page<JobPostResponseDto> allJobPost = jobPostService.getAllJobPost(companyName, region, jobType, pageable);
             return ResponseEntity.ok(ResponseUtil.createSuccessResponse(GlobalPageResponse.create(allJobPost)));
     }
@@ -62,8 +60,7 @@ public class JobPostController {
     채용공고 상세 페이지
      */
     @GetMapping("/jobPost/{id}")
-    public ResponseEntity<ResponseBody<JobPostDetailResponseDto>> showJobPostDetail(@PathVariable Long id, @AuthenticationPrincipal JwtAuthentication jwtAuthentication){
-        Long memberId = jwtAuthentication.memberId();
+    public ResponseEntity<ResponseBody<JobPostDetailResponseDto>> showJobPostDetail(@PathVariable Long id, @AuthenticationPrincipal Long memberId){
         JobPostDetailResponseDto jobPostDetail = jobPostService.getJobPostDetail(id, memberId);
         return ResponseEntity.ok(ResponseUtil.createSuccessResponse(jobPostDetail));
     }
@@ -85,8 +82,4 @@ public class JobPostController {
         jobPostService.deleteJobPost(id);
         return ResponseEntity.ok(ResponseUtil.createSuccessResponse("채용공고 삭제 완료"));
     }
-    /*
-    채용공고 스크랩
-     */
-
 }
