@@ -6,15 +6,17 @@ import kr.ac.kumoh.d138.JobForeigner.global.response.ResponseBody;
 import kr.ac.kumoh.d138.JobForeigner.global.response.ResponseUtil;
 import kr.ac.kumoh.d138.JobForeigner.job.dto.company.request.JobPostRequestDto;
 import kr.ac.kumoh.d138.JobForeigner.job.dto.company.request.JobTempPostRequestDto;
+import kr.ac.kumoh.d138.JobForeigner.job.dto.company.response.JobPostDetailResponseDto;
 import kr.ac.kumoh.d138.JobForeigner.job.dto.company.response.JobPostResponseDto;
+import kr.ac.kumoh.d138.JobForeigner.job.dto.company.response.UpdateJobPostResponseDto;
 import kr.ac.kumoh.d138.JobForeigner.job.service.JobPostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-
 
 
 @RestController
@@ -58,8 +60,8 @@ public class JobPostController {
     채용공고 상세 페이지
      */
     @GetMapping("/jobPost/{id}")
-    public ResponseEntity<ResponseBody<JobPostResponseDto>> showJobPostDetail(@PathVariable Long id){
-        JobPostResponseDto jobPostDetail = jobPostService.getJobPostDetail(id);
+    public ResponseEntity<ResponseBody<JobPostDetailResponseDto>> showJobPostDetail(@PathVariable Long id, @AuthenticationPrincipal Long memberId){
+        JobPostDetailResponseDto jobPostDetail = jobPostService.getJobPostDetail(id, memberId);
         return ResponseEntity.ok(ResponseUtil.createSuccessResponse(jobPostDetail));
     }
 
@@ -67,8 +69,8 @@ public class JobPostController {
     채용공고 수정
      */
     @PatchMapping("/jobPost/{id}")
-    public ResponseEntity<ResponseBody<JobPostResponseDto>> updateJobPost(@PathVariable Long id,@RequestBody JobPostRequestDto jobPostRequestDto){
-        JobPostResponseDto jobPostResponseDto = jobPostService.updateJobPost(id, jobPostRequestDto);
+    public ResponseEntity<ResponseBody<UpdateJobPostResponseDto>> updateJobPost(@PathVariable Long id,@RequestBody JobPostRequestDto jobPostRequestDto){
+        UpdateJobPostResponseDto jobPostResponseDto = jobPostService.updateJobPost(id, jobPostRequestDto);
         return ResponseEntity.ok(ResponseUtil.createSuccessResponse(jobPostResponseDto));
     }
 
@@ -80,8 +82,4 @@ public class JobPostController {
         jobPostService.deleteJobPost(id);
         return ResponseEntity.ok(ResponseUtil.createSuccessResponse("채용공고 삭제 완료"));
     }
-    /*
-    채용공고 스크랩
-     */
-
 }
