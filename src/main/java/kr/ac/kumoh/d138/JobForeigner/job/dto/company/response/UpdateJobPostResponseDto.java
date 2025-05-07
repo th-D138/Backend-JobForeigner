@@ -13,19 +13,19 @@ public class UpdateJobPostResponseDto {
     private String title;
     private String description;
     private String location;
-    private String employment_type;
+    private String employmentType;
     private String salary;
     private String career;
     private JobPostStatus published;
     private String grade;
 
     @Builder
-    public UpdateJobPostResponseDto(Long id, String title, String description, String location, String employment_type, String salary, String career, JobPostStatus published, String grade) {
+    public UpdateJobPostResponseDto(Long id, String title, String description, String location, String employmentType, String salary, String career, JobPostStatus published, String grade) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.location = location;
-        this.employment_type = employment_type;
+        this.employmentType = employmentType;
         this.salary = salary;
         this.career = career;
         this.published = published;
@@ -38,7 +38,7 @@ public class UpdateJobPostResponseDto {
                 .title(jobPost.getTitle())
                 .description(jobPost.getDescription())
                 .location(jobPost.getLocation())
-                .employment_type(jobPost.getEmploymentType())
+                .employmentType(jobPost.getEmploymentType())
                 .salary(jobPost.getSalary())
                 .career(jobPost.getCareer())
                 .published(jobPost.getPublished())
