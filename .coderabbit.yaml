@@ -1,16 +1,17 @@
-language: ko-KR # 언어 설정
+language: ko-KR
 
-early_access: true # 미리보기 기능 활성화
-enable_free_tier: true # 프리 티어 활성화
-auto_resolve_threads: false # 자동 해결 비활성화
+early_access: true
+enable_free_tier: true
 
 reviews:
   profile: chill
   request_changes_workflow: true
   high_level_summary: true
-  high_level_summary_placeholder: '@coderabbitai 요약'
+  high_level_summary_placeholder: '@coderabbitai summary'
   auto_title_placeholder: '@coderabbitai'
-  poem: true
+  sequence_diagrams: true
+  suggested_reviewers: false
+  poem: false
   review_status: true
   collapse_walkthrough: false
 
@@ -94,8 +95,7 @@ reviews:
       essential_rules: true
 
 chat:
-  enabled: true
-  max_token_length: 4096
+  auto_reply: true
 
 knowledge_base:
   web_search:
