@@ -1,5 +1,6 @@
 package kr.ac.kumoh.d138.JobForeigner.member.service;
 
+import kr.ac.kumoh.d138.JobForeigner.email.service.AuthEmailService;
 import kr.ac.kumoh.d138.JobForeigner.global.exception.BusinessException;
 import kr.ac.kumoh.d138.JobForeigner.global.exception.ExceptionType;
 import kr.ac.kumoh.d138.JobForeigner.job.repository.CompanyRepository;
@@ -21,11 +22,11 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Service
 public class CompanyMemberService {
-
     private final MemberRepository memberRepository;
     private final CompanyRepository companyRepository;
 
     private final AuthService authService;
+    private final AuthEmailService authEmailService;
 
     private final PasswordEncoder passwordEncoder;
 
@@ -60,9 +61,10 @@ public class CompanyMemberService {
                 .build();
 
         memberRepository.save(member);
+        
+        // 이메일 주소 인증 메일 전송
+        authEmailService.sendMail(member.getId());
 
-        // 토큰 발급
         return authService.generateJwtPair(member);
     }
-
 }
