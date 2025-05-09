@@ -1,23 +1,12 @@
 package kr.ac.kumoh.d138.JobForeigner.member.domain;
 
-import jakarta.persistence.AttributeOverride;
-import jakarta.persistence.AttributeOverrides;
-import jakarta.persistence.Column;
-import jakarta.persistence.Convert;
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import kr.ac.kumoh.d138.JobForeigner.board.domain.Comment;
 import kr.ac.kumoh.d138.JobForeigner.board.domain.Post;
 import kr.ac.kumoh.d138.JobForeigner.global.base.BaseEntity;
+import kr.ac.kumoh.d138.JobForeigner.member.dto.request.MemberProfileRequest;
 import kr.ac.kumoh.d138.JobForeigner.rating.Rating;
+import kr.ac.kumoh.d138.JobForeigner.resume.domain.Resume;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -122,4 +111,25 @@ public class Member extends BaseEntity {
 
     @OneToMany(mappedBy="member", fetch=FetchType.LAZY)
     private List<Rating> ratings = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<Resume> resumes = new ArrayList<>();
+
+    public void updateMemberProfile(MemberProfileRequest request) {
+        this.phoneNumber = request.phoneNumber();
+        this.email = request.email();
+        this.address = new Address(
+                request.address(),
+                request.detailAddress(),
+                request.zipcode()
+        );
+    }
+
+    public void updateProfileImage(String profileImageUrl) {
+        this.profileImageUrl = profileImageUrl;
+    }
+
+    public int getResumeCount() {
+        return resumes.size();
+    }
 }
