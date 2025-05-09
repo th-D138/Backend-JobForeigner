@@ -1,5 +1,6 @@
 package kr.ac.kumoh.d138.JobForeigner.member.service;
 
+import kr.ac.kumoh.d138.JobForeigner.email.service.AuthEmailService;
 import kr.ac.kumoh.d138.JobForeigner.global.exception.BusinessException;
 import kr.ac.kumoh.d138.JobForeigner.global.exception.ExceptionType;
 import kr.ac.kumoh.d138.JobForeigner.global.jwt.JwtClaims;
@@ -25,6 +26,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class AuthService {
     private final MemberRepository memberRepository;
     private final RefreshTokenRepository refreshTokenRepository;
+
+    private final AuthEmailService authEmailService;
 
     private final AccessTokenProvider accessTokenProvider;
     private final RefreshTokenProvider refreshTokenProvider;
@@ -56,5 +59,19 @@ public class AuthService {
         refreshTokenRepository.save(RefreshToken.from(refreshToken));
 
         return JwtPair.of(accessToken.token(), accessToken.expiredIn(), refreshToken.token(), refreshToken.expiredIn());
+    }
+
+    public void changeEmail(Long memberId, String email) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new BusinessException(ExceptionType.MEMBER_NOT_FOUND));
+
+        // 이미 등록된 이메일인지 확인
+        if (memberRepository.existsByEmail(email)) {
+            throw new BusinessException(ExceptionType.EMAIL_ALREADY_EXISTS);
+        }
+
+        // 이메일 변경 및 이메일 주소 인증 메일 발송
+        member.changeEmail(email);
+        authEmailService.sendMail(memberId);
     }
 }

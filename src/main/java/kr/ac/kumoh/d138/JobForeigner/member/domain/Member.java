@@ -77,6 +77,9 @@ public class Member extends BaseEntity {
     @Column(name = "profile_url", nullable = false)
     private String profileImageUrl;
 
+    @Column(name = "verified", nullable = false)
+    private Boolean isVerified = false;
+
     @Embedded
     @AttributeOverrides({
             @AttributeOverride(name = "address", column = @Column(name = "address", nullable = false)),
@@ -122,4 +125,17 @@ public class Member extends BaseEntity {
 
     @OneToMany(mappedBy="member", fetch=FetchType.LAZY)
     private List<Rating> ratings = new ArrayList<>();
+
+    public void changeEmail(String email) {
+        this.email = email;
+        this.isVerified = false;
+    }
+
+    public void setVerified() {
+        this.isVerified = true;
+    }
+
+    public boolean isVerified() {
+        return isVerified;
+    }
 }

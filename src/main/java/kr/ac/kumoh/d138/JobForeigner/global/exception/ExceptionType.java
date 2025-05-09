@@ -21,6 +21,9 @@ public enum ExceptionType {
     USERNAME_ALREADY_EXISTS(CONFLICT, "U003", "이미 등록되어 있거나 사용할 수 없는 아이디입니다."),
     EMAIL_ALREADY_EXISTS(CONFLICT, "U004", "이미 등록되어 있거나 사용할 수 없는 이메일 주소입니다."),
     COMPANY_ALREADY_EXISTS(CONFLICT, "U005", "이미 담당자 정보가 등록된 회사입니다."),
+    EMAIL_VERIFICATION_REQUIRED(UNAUTHORIZED, "U006", "이메일 주소 인증이 필요합니다."),
+    EMAIL_ALREADY_VERIFIED(CONFLICT, "U007", "이미 인증된 이메일 주소입니다."),
+    AUTH_CODE_INVALID(CONFLICT, "U008", "만료되거나 잘못된 인증 코드입니다."),
 
     // Company
     COMPANY_NOT_FOUND(NOT_FOUND,"COM001", "회사를 찾을 수 없습니다."),
