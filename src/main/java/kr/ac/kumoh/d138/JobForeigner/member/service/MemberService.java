@@ -40,8 +40,17 @@ public class MemberService {
     @Transactional
     public void updateMemberProfile(Long memberId, MemberProfileRequest request) {
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(()->new BusinessException(ExceptionType.MEMBER_NOT_FOUND));
-        member.updateMemberProfile(request);
+                 .orElseThrow(()->new BusinessException(ExceptionType.MEMBER_NOT_FOUND));
+
+        member.updateMemberProfile(
+                new MemberProfileRequest(
+                request.phoneNumber() != null ? request.phoneNumber() : member.getPhoneNumber(),
+                request.email() != null ? request.email() : member.getEmail(),
+                request.address() != null ? request.address() : member.getAddress().getAddress(),
+                request.detailAddress() != null ? request.detailAddress() : member.getAddress().getDetailAddress(),
+                request.zipcode() != null ? request.zipcode() : member.getAddress().getZipcode()
+                )
+        );
     }
 
     @Transactional
