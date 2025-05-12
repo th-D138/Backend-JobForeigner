@@ -43,6 +43,11 @@ public class AuthService {
             throw new BusinessException(ExceptionType.MEMBER_INFO_INVALID);
         }
 
+        // 이메일 인증 검증
+        if (!member.isVerified()) {
+            throw new BusinessException(ExceptionType.EMAIL_VERIFICATION_REQUIRED);
+        }
+
         // 토큰 발급
         return generateJwtPair(member);
     }
@@ -72,6 +77,6 @@ public class AuthService {
 
         // 이메일 변경 및 이메일 주소 인증 메일 발송
         member.changeEmail(email);
-        authEmailService.sendMail(memberId);
+        authEmailService.sendMail(email);
     }
 }

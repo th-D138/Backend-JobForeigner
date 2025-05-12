@@ -9,7 +9,6 @@ import kr.ac.kumoh.d138.JobForeigner.member.domain.Member;
 import kr.ac.kumoh.d138.JobForeigner.member.domain.MemberType;
 import kr.ac.kumoh.d138.JobForeigner.member.dto.request.SignUpForForeignerRequest;
 import kr.ac.kumoh.d138.JobForeigner.member.repository.MemberRepository;
-import kr.ac.kumoh.d138.JobForeigner.token.dto.JwtPair;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -29,7 +28,7 @@ public class ForeignerMemberService {
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public JwtPair signUp(SignUpForForeignerRequest req) {
+    public void signUp(SignUpForForeignerRequest req) {
         if (memberRepository.existsByUsername(req.username())) {
             throw new BusinessException(ExceptionType.USERNAME_ALREADY_EXISTS);
         }
@@ -53,9 +52,6 @@ public class ForeignerMemberService {
         memberRepository.save(member);
 
         // 이메일 주소 인증 메일 전송
-        authEmailService.sendMail(member.getId());
-
-        // 토큰 발급
-        return authService.generateJwtPair(member);
+        authEmailService.sendMail(member.getEmail());
     }
 }
