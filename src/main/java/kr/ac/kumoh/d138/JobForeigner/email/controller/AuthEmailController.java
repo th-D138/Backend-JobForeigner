@@ -1,5 +1,6 @@
 package kr.ac.kumoh.d138.JobForeigner.email.controller;
 
+import kr.ac.kumoh.d138.JobForeigner.email.dto.request.ResendAuthMailRequest;
 import kr.ac.kumoh.d138.JobForeigner.email.service.AuthEmailService;
 import kr.ac.kumoh.d138.JobForeigner.global.response.ResponseBody;
 import kr.ac.kumoh.d138.JobForeigner.global.response.ResponseUtil;
@@ -8,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,9 +21,8 @@ public class AuthEmailController {
     private final AuthEmailService authEmailService;
 
     @PostMapping("/auth/resend")
-    @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<ResponseBody<Void>> resendAuthMail(@AuthenticationPrincipal Long memberId) {
-        authEmailService.sendMail(memberId);
+    public ResponseEntity<ResponseBody<Void>> resendAuthMail(@RequestBody ResendAuthMailRequest resendAuthMailRequest) {
+        authEmailService.sendMail(resendAuthMailRequest.email());
         return ResponseEntity.ok(ResponseUtil.createSuccessResponse());
     }
 

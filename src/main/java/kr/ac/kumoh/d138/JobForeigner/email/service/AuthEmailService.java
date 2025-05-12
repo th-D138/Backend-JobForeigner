@@ -40,8 +40,8 @@ public class AuthEmailService {
     private String verifyPath;
 
     @Transactional
-    public void sendMail(Long memberId) {
-        Member member = memberRepository.findById(memberId)
+    public void sendMail(String email) {
+        Member member = memberRepository.findByEmail(email)
                 .orElseThrow(() -> new BusinessException(ExceptionType.MEMBER_NOT_FOUND));
 
         // 이미 이메일 인증을 받았다면 새로운 인증 코드를 받을 수 없도록 함
@@ -69,16 +69,14 @@ public class AuthEmailService {
                 "verifyUrl", baseUrl + verifyPath + code
         );
 
-        Reader reader = null;
-        try {
-            reader = new MustacheResourceTemplateLoader("templates/", ".html").getTemplate("email/auth/auth-mail");
+        try (Reader reader = new MustacheResourceTemplateLoader("templates/", ".html")
+                .getTemplate("email/auth/auth-mail")) {
+            Template template = Mustache.compiler().compile(reader);
+            return template.execute(model);
         } catch (Exception e) {
-            log.error("error message: {}", e.getMessage());
+            log.error("템플릿 읽기에 실패하여 {}님께 인증 메일이 발송되지 않습니다: {}", name, e.getMessage());
+            throw new BusinessException(ExceptionType.UNEXPECTED_SERVER_ERROR);
         }
-        Template template = Mustache.compiler().compile(reader);
-        String htmlContent = template.execute(model);
-
-        return htmlContent;
     }
 
     @Transactional
