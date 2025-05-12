@@ -55,12 +55,12 @@ public class EmailConfig {
 
     private Properties getMailProperties() {
         Properties properties = new Properties();
-        properties.put("mail.smtp.auth", auth);
-        properties.put("mail.smtp.starttls.enable", starttlsEnable);
-        properties.put("mail.smtp.starttls.required", starttlsRequired);
-        properties.put("mail.smtp.connectiontimeout", connectionTimeout);
-        properties.put("mail.smtp.timeout", timeout);
-        properties.put("mail.smtp.writetimeout", writeTimeout);
+        properties.setProperty("mail.smtp.auth", String.valueOf(auth));
+        properties.setProperty("mail.smtp.starttls.enable", String.valueOf(starttlsEnable));
+        properties.setProperty("mail.smtp.starttls.required", String.valueOf(starttlsRequired));
+        properties.setProperty("mail.smtp.connectiontimeout", String.valueOf(connectionTimeout));
+        properties.setProperty("mail.smtp.timeout", String.valueOf(timeout));
+        properties.setProperty("mail.smtp.writetimeout", String.valueOf(writeTimeout));
 
         return properties;
     }
