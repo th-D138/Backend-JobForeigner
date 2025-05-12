@@ -1,5 +1,6 @@
 package kr.ac.kumoh.d138.JobForeigner.email.controller;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import kr.ac.kumoh.d138.JobForeigner.email.dto.request.ResendAuthMailRequest;
 import kr.ac.kumoh.d138.JobForeigner.email.service.AuthEmailService;
@@ -20,7 +21,7 @@ public class AuthEmailController {
     private final AuthEmailService authEmailService;
 
     @PostMapping("/auth/resend")
-    public ResponseEntity<ResponseBody<Void>> resendAuthMail(@RequestBody ResendAuthMailRequest resendAuthMailRequest) {
+    public ResponseEntity<ResponseBody<Void>> resendAuthMail(@RequestBody @Valid ResendAuthMailRequest resendAuthMailRequest) {
         authEmailService.sendMail(resendAuthMailRequest.email());
         return ResponseEntity.ok(ResponseUtil.createSuccessResponse());
     }
