@@ -93,6 +93,13 @@ public class TestMemberService {
 
     @Transactional
     public JwtPair signUpForCompany() {
+        if (memberRepository.existsByUsername(MEMBER_USERNAME)) {
+            throw new BusinessException(ExceptionType.USERNAME_ALREADY_EXISTS);
+        }
+        if (memberRepository.existsByEmail(MEMBER_EMAIL)) {
+            throw new BusinessException(ExceptionType.EMAIL_ALREADY_EXISTS);
+        }
+
         Company company = new Company();
         company.setCompanyName(COMPANY_NAME);
         company.setBusinessNumber(COMPANY_BUSINESS_NUMBER);
@@ -107,16 +114,6 @@ public class TestMemberService {
         company.setAverageSalary(COMPANY_AVERAGE_SALARY);
         company.setMonthlyTakeHome(COMPANY_MONTHLY_TAKE_HOME);
         companyRepository.save(company);
-
-        if (memberRepository.existsByUsername(MEMBER_USERNAME)) {
-            throw new BusinessException(ExceptionType.USERNAME_ALREADY_EXISTS);
-        }
-        if (memberRepository.existsByEmail(MEMBER_EMAIL)) {
-            throw new BusinessException(ExceptionType.EMAIL_ALREADY_EXISTS);
-        }
-        if (memberRepository.existsByCompanyId(company.getId())) {
-            throw new BusinessException(ExceptionType.COMPANY_ALREADY_EXISTS);
-        }
 
         Member member = Member.builder()
                 .name(MEMBER_NAME)
