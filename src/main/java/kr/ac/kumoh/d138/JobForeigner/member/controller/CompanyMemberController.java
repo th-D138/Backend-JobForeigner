@@ -3,6 +3,8 @@ package kr.ac.kumoh.d138.JobForeigner.member.controller;
 import jakarta.validation.Valid;
 import kr.ac.kumoh.d138.JobForeigner.global.response.ResponseBody;
 import kr.ac.kumoh.d138.JobForeigner.global.response.ResponseUtil;
+import kr.ac.kumoh.d138.JobForeigner.member.client.BusinessNumberValidationClient;
+import kr.ac.kumoh.d138.JobForeigner.member.dto.request.BusinessNumberValidationRequest;
 import kr.ac.kumoh.d138.JobForeigner.member.dto.request.CompanySignUpRequest;
 import kr.ac.kumoh.d138.JobForeigner.member.service.CompanyMemberService;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +19,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class CompanyMemberController {
     private final CompanyMemberService companyMemberService;
+
+    private final BusinessNumberValidationClient businessNumberValidationClient;
+
+    /**
+     * 사업자등록번호 검증 API
+     */
+    @PostMapping("/sign-up/company/validate")
+    public ResponseEntity<ResponseBody<Void>> validateBusinessNumber(@RequestBody @Valid BusinessNumberValidationRequest businessNumberValidationRequest) {
+        // TODO: 사업자등록번호 검증 성공 시 인증 토큰을 발급하여 회원가입 API를 호출하게 할지, 회원가입 API에 사업자등록번호 검증을 함께 수행하게 할지 협의 필요
+        businessNumberValidationClient.validateBusinessNumber(businessNumberValidationRequest);
+        return ResponseEntity.ok(ResponseUtil.createSuccessResponse());
+    }
 
     /**
      * 기업 사용자 회원가입 API
