@@ -8,7 +8,7 @@ import kr.ac.kumoh.d138.JobForeigner.member.domain.Address;
 import kr.ac.kumoh.d138.JobForeigner.member.domain.Gender;
 import kr.ac.kumoh.d138.JobForeigner.member.domain.Member;
 import kr.ac.kumoh.d138.JobForeigner.member.domain.MemberType;
-import kr.ac.kumoh.d138.JobForeigner.member.dto.request.SignUpForCompanyRequest;
+import kr.ac.kumoh.d138.JobForeigner.member.dto.request.CompanySignUpRequest;
 import kr.ac.kumoh.d138.JobForeigner.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,13 +24,12 @@ public class CompanyMemberService {
     private final MemberRepository memberRepository;
     private final CompanyRepository companyRepository;
 
-    private final AuthService authService;
     private final AuthEmailService authEmailService;
 
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public void signUp(SignUpForCompanyRequest req) {
+    public void signUp(CompanySignUpRequest req) {
         if (!companyRepository.existsById(req.companyId())) {
             throw new BusinessException(ExceptionType.COMPANY_NOT_FOUND);
         }
