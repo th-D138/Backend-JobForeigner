@@ -1,5 +1,6 @@
 package kr.ac.kumoh.d138.JobForeigner.member.service;
 
+import kr.ac.kumoh.d138.JobForeigner.email.service.AuthEmailService;
 import kr.ac.kumoh.d138.JobForeigner.global.exception.BusinessException;
 import kr.ac.kumoh.d138.JobForeigner.global.exception.ExceptionType;
 import kr.ac.kumoh.d138.JobForeigner.global.jwt.JwtClaims;
@@ -26,6 +27,8 @@ public class AuthService {
     private final MemberRepository memberRepository;
     private final RefreshTokenRepository refreshTokenRepository;
 
+    private final AuthEmailService authEmailService;
+
     private final AccessTokenProvider accessTokenProvider;
     private final RefreshTokenProvider refreshTokenProvider;
 
@@ -38,6 +41,11 @@ public class AuthService {
         // 비밀번호 검증
         if (!passwordEncoder.matches(password, member.getPassword())) {
             throw new BusinessException(ExceptionType.MEMBER_INFO_INVALID);
+        }
+
+        // 이메일 인증 검증
+        if (!member.isVerified()) {
+            throw new BusinessException(ExceptionType.EMAIL_VERIFICATION_REQUIRED);
         }
 
         // 토큰 발급
@@ -56,5 +64,19 @@ public class AuthService {
         refreshTokenRepository.save(RefreshToken.from(refreshToken));
 
         return JwtPair.of(accessToken.token(), accessToken.expiredIn(), refreshToken.token(), refreshToken.expiredIn());
+    }
+
+    public void changeEmail(Long memberId, String email) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new BusinessException(ExceptionType.MEMBER_NOT_FOUND));
+
+        // 이미 등록된 이메일인지 확인
+        if (memberRepository.existsByEmail(email)) {
+            throw new BusinessException(ExceptionType.EMAIL_ALREADY_EXISTS);
+        }
+
+        // 이메일 변경 및 이메일 주소 인증 메일 발송
+        member.changeEmail(email);
+        authEmailService.sendMail(email);
     }
 }

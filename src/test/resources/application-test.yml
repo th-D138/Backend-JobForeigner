@@ -14,6 +14,23 @@ spring:
     redis:
       host: localhost
       port: 52976
+  mail:
+    host: smtp.example.com
+    port: 587
+    username: test@example.com
+    password: example_password
+    default-encoding: UTF-8
+    properties:
+      mail:
+        debug: true
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
 
 logging:
   level:
@@ -33,3 +50,11 @@ jwt:
   audience: "JobForeigner"
   accessTokenExpiredIn: 1800
   refreshTokenExpiredIn: 1209600
+
+job-foreigner:
+  local:
+    mail:
+      auth:
+        subject: "[JobForeigner] Please verify your email address."
+        base-url: "https://example.com"
+        verify-path: "/api/v1/email/auth/verify?code="
