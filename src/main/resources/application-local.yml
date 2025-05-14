@@ -5,6 +5,7 @@ spring:
     import:
       - properties/application-database.yml
       - properties/application-security.yml
+      - properties/application-mail.yml
   datasource:
     driver-class-name: org.postgresql.Driver
     url: ${job-foreigner.local.postgres.url}
@@ -17,6 +18,23 @@ spring:
     redis:
       host: ${job-foreigner.local.redis.host}
       port: ${job-foreigner.local.redis.port}
+  mail:
+    host: ${job-foreigner.local.mail.host}
+    port: ${job-foreigner.local.mail.port}
+    username: ${job-foreigner.local.mail.username}
+    password: ${job-foreigner.local.mail.password}
+    default-encoding: UTF-8
+    properties:
+      mail:
+        debug: true
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          connectiontimeout: 5000
+          timeout: 15000
+          writetimeout: 5000
 
 logging:
   level:

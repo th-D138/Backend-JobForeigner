@@ -66,6 +66,9 @@ public class Member extends BaseEntity {
     @Column(name = "profile_url", nullable = false)
     private String profileImageUrl;
 
+    @Column(name = "verified", nullable = false)
+    private Boolean isVerified = false;
+
     @Embedded
     @AttributeOverrides({
             @AttributeOverride(name = "address", column = @Column(name = "address", nullable = false)),
@@ -110,10 +113,22 @@ public class Member extends BaseEntity {
     private List<Comment> comments = new ArrayList<>();
 
     @OneToMany(mappedBy="member", fetch=FetchType.LAZY)
-    private List<Rating> ratings = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
     private List<Resume> resumes = new ArrayList<>();
+  
+    public void changeEmail(String email) {
+        this.email = email;
+        this.isVerified = false;
+    }
+
+    public void setVerified() {
+        this.isVerified = true;
+    }
+
+    public boolean isVerified() {
+        return isVerified;
+    }
 
     public void updateMemberProfile(MemberProfileRequest request) {
         this.phoneNumber = request.phoneNumber();
@@ -128,5 +143,4 @@ public class Member extends BaseEntity {
     public void updateProfileImage(String profileImageUrl) {
         this.profileImageUrl = profileImageUrl;
     }
-
 }
