@@ -41,16 +41,18 @@ public class BusinessNumberValidationClient {
         DefaultUriBuilderFactory factory = new DefaultUriBuilderFactory();
         factory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.NONE); // URI 인코딩 방지
 
+        String apiUri = UriComponentsBuilder.newInstance()
+                .scheme(HttpScheme.HTTPS.toString())
+                .host(apiHost)
+                .path(apiPath)
+                .queryParam(SERVICE_KEY, apiKey)
+                .queryParam(RETURN_TYPE, RETURN_TYPE_JSON)
+                .build(true) // URI 인코딩 방지
+                .toString();
+
         try {
             BusinessNumberValidationResponse apiResponse = webClientBuilder.uriBuilderFactory(factory).build().post()
-                    .uri(UriComponentsBuilder.newInstance()
-                            .scheme(HttpScheme.HTTPS.toString())
-                            .host(apiHost)
-                            .path(apiPath)
-                            .queryParam(SERVICE_KEY, apiKey)
-                            .queryParam(RETURN_TYPE, RETURN_TYPE_JSON)
-                            .build(true) // URI 인코딩 방지
-                            .toString())
+                    .uri(apiUri)
                     .contentType(MediaType.APPLICATION_JSON)
                     .accept(MediaType.APPLICATION_JSON)
                     .bodyValue(request)

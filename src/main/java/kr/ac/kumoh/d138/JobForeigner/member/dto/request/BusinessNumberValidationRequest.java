@@ -24,7 +24,7 @@ public class BusinessNumberValidationRequest {
     @Getter
     public static class BusinessInfo {
         @NotBlank(message = "사업자등록번호는 필수 항목입니다.")
-        @Size(min = 10, max = 10, message = "사업자등록번호는 숫자로만 이루어진 10자리여야 합니다.")
+        @Pattern(regexp = "^[0-9]{10}$", message = "사업자등록번호는 숫자로만 이루어진 10자리여야 합니다.")
         private String b_no;
         @NotBlank(message = "개업일자는 필수 항목입니다.")
         @Pattern(regexp = "^[0-9]{8}$", message = "날짜 형식은 숫자로만 이루어진 8자리여야 합니다.")
