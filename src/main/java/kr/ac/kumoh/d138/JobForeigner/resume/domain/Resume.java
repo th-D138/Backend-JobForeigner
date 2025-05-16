@@ -9,7 +9,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,5 +79,35 @@ public class Resume extends BaseEntity {
         this.portfolios = portfolios != null ? portfolios : new ArrayList<>();
         this.jobPreference = jobPreference;
         this.expat = expat != null ? expat : new ArrayList<>();
+    }
+
+    public void updateResume(String resumeImageUrl, List<Education> educations, List<Employment> employments,
+                             List<Certificate> certificates, List<Award> awards, List<Skill> skills,
+                             List<Language> languages, List<Portfolio> portfolios, JobPreference jobPreference, List<Expat> expats
+    ) {
+        this.resumeImageUrl = resumeImageUrl;
+        this.educations = educations;
+        this.employments = employments;
+        this.certificates = certificates;
+        this.awards = awards;
+        this.skills = skills;
+        this.languages = languages;
+        this.portfolios = portfolios;
+        this.jobPreference = jobPreference;
+        this.expat = expats;
+    }
+
+    // 양방향 연관관계 설정을 위한 편의 메서드
+    public void createResume(Resume resume
+    ){
+        resume.getEducations().forEach(education -> education.setResume(this));
+        resume.getEmployments().forEach(employment -> employment.setResume(this));
+        resume.getCertificates().forEach(certificate -> certificate.setResume(this));
+        resume.getAwards().forEach(award -> award.setResume(this));
+        resume.getSkills().forEach(skill -> skill.setResume(this));
+        resume.getLanguages().forEach(language -> language.setResume(this));
+        resume.getPortfolios().forEach(portfolio -> portfolio.setResume(this));
+        resume.getJobPreference().setResume(this);
+        resume.getExpat().forEach(expat -> expat.setResume(this));
     }
 }

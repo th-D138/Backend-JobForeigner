@@ -2,11 +2,14 @@ package kr.ac.kumoh.d138.JobForeigner.resume.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Entity
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Certificate {
     @Id
@@ -14,7 +17,7 @@ public class Certificate {
     private Long id;
 
     @Column(name = "certificate_name")
-    private String certificate_name;
+    private String certificateName;
 
     @Column(name = "organization")
     private String organization;
@@ -22,4 +25,18 @@ public class Certificate {
     @Column(name = "date")
     private LocalDateTime date;
 
+    @ManyToOne
+    @JoinColumn(name = "resume_id")
+    private Resume resume;
+
+    @Builder
+    public Certificate(String certificateName, String organization, LocalDateTime date){
+        this.certificateName = certificateName;
+        this.organization = organization;
+        this.date = date;
+    }
+
+    public void setResume(Resume resume){
+        this.resume = resume;
+    }
 }
