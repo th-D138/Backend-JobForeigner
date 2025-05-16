@@ -3,7 +3,7 @@ package kr.ac.kumoh.d138.JobForeigner.member.controller;
 import jakarta.validation.Valid;
 import kr.ac.kumoh.d138.JobForeigner.global.response.ResponseBody;
 import kr.ac.kumoh.d138.JobForeigner.global.response.ResponseUtil;
-import kr.ac.kumoh.d138.JobForeigner.member.dto.request.SignUpForForeignerRequest;
+import kr.ac.kumoh.d138.JobForeigner.member.dto.request.ForeignerSignUpRequest;
 import kr.ac.kumoh.d138.JobForeigner.member.service.ForeignerMemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +22,7 @@ public class ForeignerMemberController {
      * 외국인 사용자 회원가입 API
      */
     @PostMapping("/sign-up/foreigner")
-    public ResponseEntity<ResponseBody<Void>> signUp(@RequestBody @Valid SignUpForForeignerRequest signUpRequest) {
+    public ResponseEntity<ResponseBody<Void>> signUp(@RequestBody @Valid ForeignerSignUpRequest signUpRequest) {
         foreignerMemberService.signUp(signUpRequest);
         return ResponseEntity.ok(ResponseUtil.createSuccessResponse());
     }

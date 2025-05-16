@@ -113,6 +113,7 @@ public class Member extends BaseEntity {
     private List<Comment> comments = new ArrayList<>();
 
     @OneToMany(mappedBy="member", fetch=FetchType.LAZY)
+    private List<Rating> ratings = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
     private List<Resume> resumes = new ArrayList<>();

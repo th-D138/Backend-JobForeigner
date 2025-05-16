@@ -57,6 +57,9 @@ dependencies {
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	testRuntimeOnly 'com.h2database:h2'
 
+	// WebFlux
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
 	// QueryDSL
 	implementation 'io.github.openfeign.querydsl:querydsl-core:6.11'
 	implementation 'io.github.openfeign.querydsl:querydsl-jpa:6.11'
@@ -73,14 +76,18 @@ tasks.named('test') {
 // QueryDSL QClass 생성 위치 설정
 def querydslDir = layout.buildDirectory.dir("generated/querydsl").get().asFile
 
+// QClass 생성 위치를 클래스패스에 추가
+sourceSets {
+	main {
+		java {
+			srcDirs += querydslDir
+		}
+	}
+}
+
 // 컴파일 시 설정한 위치에 QClass가 생성되도록 설정
 tasks.withType(JavaCompile).configureEach {
 	options.generatedSourceOutputDirectory = querydslDir
-}
-
-// QClass 생성 위치를 클래스패스에 추가
-sourceSets {
-	main.java.srcDirs += [ querydslDir ]
 }
 
 // gradlew clean 명령 시 QueryDSL QClass 삭제

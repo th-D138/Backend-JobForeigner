@@ -24,6 +24,7 @@ public enum ExceptionType {
     EMAIL_VERIFICATION_REQUIRED(UNAUTHORIZED, "U006", "이메일 주소 인증이 필요합니다."),
     EMAIL_ALREADY_VERIFIED(CONFLICT, "U007", "이미 인증된 이메일 주소입니다."),
     AUTH_CODE_INVALID(CONFLICT, "U008", "만료되거나 잘못된 인증 코드입니다."),
+    BUSINESS_NUMBER_INVALID(CONFLICT, "U009", "사업자등록번호가 잘못되었습니다."),
 
     // Company
     COMPANY_NOT_FOUND(NOT_FOUND,"COM001", "회사를 찾을 수 없습니다."),

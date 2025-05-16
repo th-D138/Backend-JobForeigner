@@ -7,7 +7,7 @@ import kr.ac.kumoh.d138.JobForeigner.member.domain.Address;
 import kr.ac.kumoh.d138.JobForeigner.member.domain.Gender;
 import kr.ac.kumoh.d138.JobForeigner.member.domain.Member;
 import kr.ac.kumoh.d138.JobForeigner.member.domain.MemberType;
-import kr.ac.kumoh.d138.JobForeigner.member.dto.request.SignUpForForeignerRequest;
+import kr.ac.kumoh.d138.JobForeigner.member.dto.request.ForeignerSignUpRequest;
 import kr.ac.kumoh.d138.JobForeigner.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,13 +22,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class ForeignerMemberService {
     private final MemberRepository memberRepository;
 
-    private final AuthService authService;
     private final AuthEmailService authEmailService;
 
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public void signUp(SignUpForForeignerRequest req) {
+    public void signUp(ForeignerSignUpRequest req) {
         if (memberRepository.existsByUsername(req.username())) {
             throw new BusinessException(ExceptionType.USERNAME_ALREADY_EXISTS);
         }

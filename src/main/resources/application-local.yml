@@ -6,6 +6,7 @@ spring:
       - properties/application-database.yml
       - properties/application-security.yml
       - properties/application-mail.yml
+      - properties/application-open-api.yml
   datasource:
     driver-class-name: org.postgresql.Driver
     url: ${job-foreigner.local.postgres.url}
