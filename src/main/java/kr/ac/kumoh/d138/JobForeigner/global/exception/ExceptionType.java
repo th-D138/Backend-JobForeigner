@@ -41,7 +41,7 @@ public enum ExceptionType {
 
     // Resume
     RESUME_FORBIDDEN(FORBIDDEN,"R001","접근할 수 없는 이력서입니다."),
-    RESUME_NOT_FOUND(NOT_FOUND, "ROO2", "존재하지 않는 이력서입니다.")
+    RESUME_NOT_FOUND(NOT_FOUND, "R002", "존재하지 않는 이력서입니다.")
     ;
 
     private final HttpStatus status;
