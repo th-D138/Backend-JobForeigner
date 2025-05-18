@@ -86,19 +86,57 @@ public class Resume extends BaseEntity {
                              List<Language> languages, List<Portfolio> portfolios, JobPreference jobPreference, List<Expat> expats
     ) {
         this.resumeImageUrl = resumeImageUrl;
-        this.educations = educations;
-        this.employments = employments;
-        this.certificates = certificates;
-        this.awards = awards;
-        this.skills = skills;
-        this.languages = languages;
-        this.portfolios = portfolios;
-        this.jobPreference = jobPreference;
-        this.expat = expats;
+        
+        if(educations != null) {
+            this.educations.clear();
+            this.educations.addAll(educations);
+        }
+        
+        if(employments != null) {
+            this.employments.clear();
+            this.employments.addAll(employments); 
+        }
+
+        if (certificates != null) {
+            this.certificates.clear();
+            this.certificates.addAll(certificates);
+        }
+
+        if (awards != null) {
+            this.awards.clear();
+            this.awards.addAll(awards);
+        }
+
+        if (skills != null) {
+            this.skills.clear();
+            this.skills.addAll(skills);
+        }
+
+        if (languages != null) {
+            this.languages.clear();
+            this.languages.addAll(languages);
+        }
+
+        if (portfolios != null) {
+            this.portfolios.clear();
+            this.portfolios.addAll(portfolios);
+        }
+
+        if (expats != null) {
+            this.expat.clear();
+            this.expat.addAll(expats);
+        }
+
+        if (jobPreference != null) {
+            this.jobPreference = jobPreference;
+        }
+
+        // 연관관계 설정
+        updateAllRelation(this);
     }
 
     // 양방향 연관관계 설정을 위한 편의 메서드
-    public void createResume(Resume resume
+    public void updateAllRelation(Resume resume
     ){
         resume.getEducations().forEach(education -> education.setResume(this));
         resume.getEmployments().forEach(employment -> employment.setResume(this));

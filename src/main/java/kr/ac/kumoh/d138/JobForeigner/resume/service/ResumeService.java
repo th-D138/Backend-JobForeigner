@@ -10,6 +10,7 @@ import kr.ac.kumoh.d138.JobForeigner.resume.dto.request.*;
 import kr.ac.kumoh.d138.JobForeigner.resume.dto.response.ResumeResponse;
 import kr.ac.kumoh.d138.JobForeigner.resume.repository.ResumeRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ResumeService {
@@ -90,7 +92,7 @@ public class ResumeService {
 
 
         // 양방향 연관관계 설정
-        resume.createResume(resume);
+        resume.updateAllRelation(resume);
 
         // 3. 저장
         resumeRepository.save(resume);
@@ -148,35 +150,37 @@ public class ResumeService {
             imageUrl = storeImage(image);
         }
 
+        log.error("입력받은 내용 : {}", request.toString());
+
         resume.updateResume(
                 imageUrl != null ? imageUrl : resume.getResumeImageUrl(),
                 request.educations() != null
                         ? request.educations().stream().map(EducationRequest::toEducation).collect(Collectors.toList())
-                        : resume.getEducations(),
+                        : null,
                 request.employments() != null
                         ? request.employments().stream().map(EmploymentRequest::toEmployment).collect(Collectors.toList())
-                        : resume.getEmployments(),
+                        : null,
                 request.certificates() != null
                         ? request.certificates().stream().map(CertificatesRequest::toCertificate).collect(Collectors.toList())
-                        : resume.getCertificates(),
+                        : null,
                 request.awards() != null
                         ? request.awards().stream().map(AwardsRequest::toAward).collect(Collectors.toList())
-                        : resume.getAwards(),
+                        : null,
                 request.skills() != null
                         ? request.skills().stream().map(SkillsRequest::toSkill).collect(Collectors.toList())
-                        : resume.getSkills(),
+                        : null,
                 request.languages() != null
                         ? request.languages().stream().map(LanguagesRequest::toLanguage).collect(Collectors.toList())
-                        : resume.getLanguages(),
+                        : null,
                 request.portfolios() != null
                         ? request.portfolios().stream().map(PortfoliosRequest::toPortfolio).collect(Collectors.toList())
-                        : resume.getPortfolios(),
+                        : null,
                 request.jobPreference() != null
                         ? request.jobPreference().toJobPreference()
-                        : resume.getJobPreference(),
+                        : null,
                 request.expat() != null
                         ? request.expat().stream().map(ExpatRequest::toExpat).collect(Collectors.toList())
-                        : resume.getExpat()
+                        : null
         );
 
         Resume response = resumeRepository.findById(resumeId)
