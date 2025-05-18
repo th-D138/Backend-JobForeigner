@@ -6,8 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
+import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -24,7 +23,7 @@ public class Education {
     private String major;
 
     @Column(name = "year_of_graduation")
-    private LocalDateTime yearOfGraduation;
+    private LocalDate yearOfGraduation;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "degree")
@@ -42,7 +41,7 @@ public class Education {
     private Resume resume;
 
     @Builder
-    public Education(String educationName, String major, LocalDateTime yearOfGraduation, Degree degree, GraduationStatus graduationStatus, String etc){
+    public Education(String educationName, String major, LocalDate yearOfGraduation, Degree degree, GraduationStatus graduationStatus, String etc){
         this.educationName = educationName;
         this.major = major;
         this.yearOfGraduation = yearOfGraduation;

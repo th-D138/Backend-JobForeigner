@@ -4,12 +4,12 @@ import kr.ac.kumoh.d138.JobForeigner.resume.domain.Degree;
 import kr.ac.kumoh.d138.JobForeigner.resume.domain.Education;
 import kr.ac.kumoh.d138.JobForeigner.resume.domain.GraduationStatus;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public record EducationRequest(
         String educationName,
         String major,
-        LocalDateTime yearOfGraduation,
+        LocalDate yearOfGraduation,
         Degree degree,
         GraduationStatus graduationStatus,
         String etc

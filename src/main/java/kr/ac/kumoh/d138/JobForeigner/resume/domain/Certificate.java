@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -23,14 +23,14 @@ public class Certificate {
     private String organization;
 
     @Column(name = "date")
-    private LocalDateTime date;
+    private LocalDate date;
 
     @ManyToOne
     @JoinColumn(name = "resume_id")
     private Resume resume;
 
     @Builder
-    public Certificate(String certificateName, String organization, LocalDateTime date){
+    public Certificate(String certificateName, String organization, LocalDate date){
         this.certificateName = certificateName;
         this.organization = organization;
         this.date = date;

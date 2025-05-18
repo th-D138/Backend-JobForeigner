@@ -3,13 +3,13 @@ package kr.ac.kumoh.d138.JobForeigner.resume.dto.response;
 import kr.ac.kumoh.d138.JobForeigner.resume.domain.Certificate;
 import kr.ac.kumoh.d138.JobForeigner.resume.domain.Resume;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 public record CertificatesResponse(
         String certificateName,
         String organization,
-        LocalDateTime date
+        LocalDate date
 ) {
     public static CertificatesResponse toCertificatesResponse(Certificate certificate){
         return new CertificatesResponse(
