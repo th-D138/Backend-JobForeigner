@@ -3,13 +3,14 @@ package kr.ac.kumoh.d138.JobForeigner.resume.dto.response;
 import kr.ac.kumoh.d138.JobForeigner.resume.domain.Award;
 import kr.ac.kumoh.d138.JobForeigner.resume.domain.Resume;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
 public record AwardsResponse(
     String awardName,
     String organization,
-    LocalDateTime year,
+    LocalDate awardYear,
     String details
 ) {
 
@@ -17,7 +18,7 @@ public record AwardsResponse(
         return new AwardsResponse(
                 award.getAwardName(),
                 award.getOrganization(),
-                award.getYear(),
+                award.getAwardYear(),
                 award.getDetails()
         );
     }

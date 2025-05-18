@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -22,8 +23,8 @@ public class Award {
     @Column(name = "organization")
     private String organization;
 
-    @Column(name = "year")
-    private LocalDateTime year;
+    @Column(name = "award_year")
+    private LocalDate awardYear;
 
     @Column(name = "details", columnDefinition = "TEXT")
     private String details;
@@ -33,10 +34,10 @@ public class Award {
     private Resume resume;
 
     @Builder
-    public Award(String awardName, String organization, LocalDateTime year, String details){
+    public Award(String awardName, String organization, LocalDate awardYear, String details){
         this.awardName = awardName;
         this.organization = organization;
-        this.year = year;
+        this.awardYear = awardYear;
         this.details = details;
     }
 

@@ -26,9 +26,11 @@ public class Education {
     @Column(name = "year_of_graduation")
     private LocalDateTime yearOfGraduation;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "degree")
     private Degree degree;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "graduation_status")
     private GraduationStatus graduationStatus;
 
