@@ -82,5 +82,11 @@ public class ResumeController {
         return ResponseEntity.ok(createSuccessResponse());
     }
 
+    @DeleteMapping("/{resumeId}")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<ResponseBody<Void>> deleteResume(@PathVariable Long resumeId, @AuthenticationPrincipal Long memberId){
+        resumeService.deleteResume(resumeId, memberId);
+        return ResponseEntity.ok(createSuccessResponse());
+    }
 
 }

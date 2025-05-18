@@ -189,4 +189,8 @@ public class ResumeService {
         return ResumeResponse.toResumeResponse(response);
 
     }
+
+    public void deleteResume(Long memberId, Long resumeId) {
+        resumeRepository.deleteById(resumeId);
+    }
 }
