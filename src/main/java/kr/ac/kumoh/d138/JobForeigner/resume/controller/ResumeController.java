@@ -82,6 +82,7 @@ public class ResumeController {
         return ResponseEntity.ok(createSuccessResponse());
     }
 
+    // 사용자의 이력서 삭제
     @DeleteMapping("/{resumeId}")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<ResponseBody<Void>> deleteResume(@PathVariable Long resumeId, @AuthenticationPrincipal Long memberId){
