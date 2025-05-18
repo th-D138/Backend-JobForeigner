@@ -22,7 +22,7 @@ import java.util.List;
 import static kr.ac.kumoh.d138.JobForeigner.global.response.ResponseUtil.createSuccessResponse;
 
 @RestController
-@RequestMapping("api/v1/resumes")
+@RequestMapping("/api/v1/resumes")
 @RequiredArgsConstructor
 public class ResumeController {
     private final ResumeService resumeService;
