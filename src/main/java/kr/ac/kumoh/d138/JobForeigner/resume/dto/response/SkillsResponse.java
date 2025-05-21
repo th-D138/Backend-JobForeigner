@@ -6,7 +6,7 @@ import kr.ac.kumoh.d138.JobForeigner.resume.domain.Skill;
 import java.util.List;
 
 public record SkillsResponse(
-        String skill_name
+        String skillName
 ){
     public static SkillsResponse toSkillsResponse(Skill skill) {
         return new SkillsResponse(

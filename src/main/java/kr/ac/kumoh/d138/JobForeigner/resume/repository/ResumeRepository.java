@@ -5,6 +5,7 @@ import kr.ac.kumoh.d138.JobForeigner.resume.dto.response.ResumeResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,5 +15,5 @@ public interface ResumeRepository extends JpaRepository<Resume,Long> {
 
     Page<Resume> findAllByMemberId(Long memberId, Pageable pageable);
 
-    List<Resume> findTop3ByMemberIdOrderByUpdatedAtAsc(Long memberId);
+    List<Resume> findTop3ByMemberIdOrderByUpdatedAtDesc(Long memberId);
 }

@@ -19,7 +19,7 @@ public class Expat {
     @Column(name = "country")
     private String country;
 
-    @Column(name = "LocalDateTime")
+    @Column(name = "start_date")
     private LocalDateTime startDate;
 
     @Column(name = "end_date")

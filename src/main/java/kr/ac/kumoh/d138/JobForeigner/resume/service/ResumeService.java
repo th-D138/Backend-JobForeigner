@@ -26,7 +26,6 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ResumeService {
@@ -124,13 +123,6 @@ public class ResumeService {
                 .orElseThrow(()->new BusinessException(ExceptionType.RESUME_FORBIDDEN));
     }
 
-    public List<ResumeResponse> getResumeSummary(Long memberId) {
-        List<Resume> response = resumeRepository.findTop3ByMemberIdOrderByUpdatedAtAsc(memberId);
-        return response.stream()
-                .map(ResumeResponse::toResumeResponse)
-                .toList();
-    }
-
     public Page<ResumeResponse> getAllResume(Long memberId, Pageable pageable) {
         Page<Resume> response = resumeRepository.findAllByMemberId(memberId, pageable);
         return response.map(ResumeResponse::toResumeResponse);
@@ -149,8 +141,6 @@ public class ResumeService {
         if(image != null && !image.isEmpty()) {
             imageUrl = storeImage(image);
         }
-
-        log.error("입력받은 내용 : {}", request.toString());
 
         resume.updateResume(
                 imageUrl != null ? imageUrl : resume.getResumeImageUrl(),
@@ -190,7 +180,11 @@ public class ResumeService {
 
     }
 
-    public void deleteResume(Long memberId, Long resumeId) {
+    public void deleteResume(Long resumeId, Long memberId) {
+        Resume resume = resumeRepository.findById(resumeId)
+                .orElseThrow(() -> new BusinessException(ExceptionType.RESUME_NOT_FOUND));
+        if (!resume.getMember().getId().equals(memberId))
+            throw new BusinessException(ExceptionType.RESUME_FORBIDDEN);
         resumeRepository.deleteById(resumeId);
     }
 }

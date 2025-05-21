@@ -29,11 +29,11 @@ public class ResumeController {
 
     // 이력서 작성
     // 이미지 저장 방식: 사용자에게 이미지를 받고 서버에 저장 후 저장된 주소를 db에 저장
-    @PostMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<ResponseBody<Void>> createResume(
             @RequestPart ResumeRequest resumeRequest,
-            @RequestPart MultipartFile image,
+            @RequestPart(required = false) MultipartFile image,
             @AuthenticationPrincipal Long memberId) {
         resumeService.createResume(resumeRequest, image, memberId);
         return ResponseEntity.ok(createSuccessResponse());
@@ -51,17 +51,8 @@ public class ResumeController {
         return ResponseEntity.ok(createSuccessResponse(ResumeResponse.toResumeResponse(resume)));
     }
 
-    // 사용자의 이력서 3개를 반환
-    @GetMapping("/summary")
-    @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<ResponseBody<List<ResumeResponse>>> getResumeSummary(
-            @AuthenticationPrincipal Long memberId) {
-        List<ResumeResponse> resumeResponses = resumeService.getResumeSummary(memberId);
-        return ResponseEntity.ok(createSuccessResponse(resumeResponses));
-    }
-
     // 사용자의 전체 이력서 반환
-    @GetMapping("/all")
+    @GetMapping()
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<ResponseBody<Page<ResumeResponse>>> getAllResumes
             (@AuthenticationPrincipal Long memberId,
@@ -73,13 +64,13 @@ public class ResumeController {
     // 사용자의 이력서 수정
     @PatchMapping("/{resumeId}")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<ResponseBody<Void>> updateResume(
+    public ResponseEntity<ResponseBody<ResumeResponse>> updateResume(
             @RequestPart ResumeRequest resumeRequest,
             @RequestPart MultipartFile image,
             @AuthenticationPrincipal Long memberId,
             @PathVariable Long resumeId){
-        resumeService.updateResume(resumeRequest, image, memberId, resumeId);
-        return ResponseEntity.ok(createSuccessResponse());
+        ResumeResponse response = resumeService.updateResume(resumeRequest, image, memberId, resumeId);
+        return ResponseEntity.ok(createSuccessResponse(response));
     }
 
     // 사용자의 이력서 삭제
