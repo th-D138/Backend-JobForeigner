@@ -9,7 +9,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,5 +79,73 @@ public class Resume extends BaseEntity {
         this.portfolios = portfolios != null ? portfolios : new ArrayList<>();
         this.jobPreference = jobPreference;
         this.expat = expat != null ? expat : new ArrayList<>();
+    }
+
+    public void updateResume(String resumeImageUrl, List<Education> educations, List<Employment> employments,
+                             List<Certificate> certificates, List<Award> awards, List<Skill> skills,
+                             List<Language> languages, List<Portfolio> portfolios, JobPreference jobPreference, List<Expat> expats
+    ) {
+        this.resumeImageUrl = resumeImageUrl;
+        
+        if(educations != null) {
+            this.educations.clear();
+            this.educations.addAll(educations);
+        }
+        
+        if(employments != null) {
+            this.employments.clear();
+            this.employments.addAll(employments); 
+        }
+
+        if (certificates != null) {
+            this.certificates.clear();
+            this.certificates.addAll(certificates);
+        }
+
+        if (awards != null) {
+            this.awards.clear();
+            this.awards.addAll(awards);
+        }
+
+        if (skills != null) {
+            this.skills.clear();
+            this.skills.addAll(skills);
+        }
+
+        if (languages != null) {
+            this.languages.clear();
+            this.languages.addAll(languages);
+        }
+
+        if (portfolios != null) {
+            this.portfolios.clear();
+            this.portfolios.addAll(portfolios);
+        }
+
+        if (expats != null) {
+            this.expat.clear();
+            this.expat.addAll(expats);
+        }
+
+        if (jobPreference != null) {
+            this.jobPreference = jobPreference;
+        }
+
+        // 연관관계 설정
+        updateAllRelation(this);
+    }
+
+    // 양방향 연관관계 설정을 위한 편의 메서드
+    public void updateAllRelation(Resume resume
+    ){
+        resume.getEducations().forEach(education -> education.setResume(this));
+        resume.getEmployments().forEach(employment -> employment.setResume(this));
+        resume.getCertificates().forEach(certificate -> certificate.setResume(this));
+        resume.getAwards().forEach(award -> award.setResume(this));
+        resume.getSkills().forEach(skill -> skill.setResume(this));
+        resume.getLanguages().forEach(language -> language.setResume(this));
+        resume.getPortfolios().forEach(portfolio -> portfolio.setResume(this));
+        resume.getJobPreference().setResume(this);
+        resume.getExpat().forEach(expat -> expat.setResume(this));
     }
 }
