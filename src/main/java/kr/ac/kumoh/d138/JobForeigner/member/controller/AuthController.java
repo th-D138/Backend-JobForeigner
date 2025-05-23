@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import kr.ac.kumoh.d138.JobForeigner.global.jwt.token.TokenUtils;
 import kr.ac.kumoh.d138.JobForeigner.global.response.ResponseBody;
 import kr.ac.kumoh.d138.JobForeigner.global.response.ResponseUtil;
+import kr.ac.kumoh.d138.JobForeigner.member.api.AuthApi;
 import kr.ac.kumoh.d138.JobForeigner.member.dto.request.SignInRequest;
 import kr.ac.kumoh.d138.JobForeigner.member.service.AuthService;
 import kr.ac.kumoh.d138.JobForeigner.token.dto.JwtPair;
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/members")
 @RequiredArgsConstructor
-public class AuthController {
+public class AuthController implements AuthApi {
     private final AuthService authService;
 
     /**

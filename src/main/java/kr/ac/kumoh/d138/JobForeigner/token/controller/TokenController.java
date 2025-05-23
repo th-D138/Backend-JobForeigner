@@ -2,8 +2,10 @@ package kr.ac.kumoh.d138.JobForeigner.token.controller;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
+import kr.ac.kumoh.d138.JobForeigner.global.jwt.token.TokenUtils;
 import kr.ac.kumoh.d138.JobForeigner.global.response.ResponseBody;
 import kr.ac.kumoh.d138.JobForeigner.global.response.ResponseUtil;
+import kr.ac.kumoh.d138.JobForeigner.token.api.TokenApi;
 import kr.ac.kumoh.d138.JobForeigner.token.dto.JwtPair;
 import kr.ac.kumoh.d138.JobForeigner.token.service.TokenService;
 import lombok.RequiredArgsConstructor;
@@ -18,11 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/tokens")
 @RequiredArgsConstructor
-public class TokenController {
-
-    private static final String BEARER_PREFIX = "Bearer ";
-    private static final String COOKIE_NAME_REFRESH_TOKEN = "refresh_token";
-
+public class TokenController implements TokenApi {
     private final TokenService tokenService;
 
     @PostMapping("/refresh")
@@ -32,16 +30,8 @@ public class TokenController {
         JwtPair tokens = JwtPair.of(authorization.substring(BEARER_PREFIX.length()), 0, refreshToken.getValue(), 0);
         JwtPair newTokens = tokenService.refresh(tokens);
 
-        response.addHeader(HttpHeaders.AUTHORIZATION, BEARER_PREFIX + newTokens.accessToken());
-
-        Cookie cookie = new Cookie(COOKIE_NAME_REFRESH_TOKEN, newTokens.refreshToken());
-        cookie.setHttpOnly(true);
-//        cookie.setSecure(true);
-        cookie.setPath("/tokens/refresh");
-        cookie.setMaxAge(tokens.refreshTokenExpiredIn());
-        response.addCookie(cookie);
+        TokenUtils.setAccessTokenAndRefreshToken(response, newTokens);
 
         return ResponseEntity.ok(ResponseUtil.createSuccessResponse());
     }
-
 }

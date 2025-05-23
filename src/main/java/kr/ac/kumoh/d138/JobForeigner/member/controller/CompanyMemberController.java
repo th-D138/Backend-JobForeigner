@@ -3,6 +3,7 @@ package kr.ac.kumoh.d138.JobForeigner.member.controller;
 import jakarta.validation.Valid;
 import kr.ac.kumoh.d138.JobForeigner.global.response.ResponseBody;
 import kr.ac.kumoh.d138.JobForeigner.global.response.ResponseUtil;
+import kr.ac.kumoh.d138.JobForeigner.member.api.CompanyMemberApi;
 import kr.ac.kumoh.d138.JobForeigner.member.client.BusinessNumberValidationClient;
 import kr.ac.kumoh.d138.JobForeigner.member.dto.request.BusinessNumberValidationRequest;
 import kr.ac.kumoh.d138.JobForeigner.member.dto.request.CompanySignUpRequest;
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/members")
 @RequiredArgsConstructor
-public class CompanyMemberController {
+public class CompanyMemberController implements CompanyMemberApi {
     private final CompanyMemberService companyMemberService;
 
     private final BusinessNumberValidationClient businessNumberValidationClient;
