@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import kr.ac.kumoh.d138.JobForeigner.global.jwt.token.TokenUtils;
 import kr.ac.kumoh.d138.JobForeigner.global.response.ResponseBody;
 import kr.ac.kumoh.d138.JobForeigner.global.response.ResponseUtil;
+import kr.ac.kumoh.d138.JobForeigner.member.api.AuthApi;
 import kr.ac.kumoh.d138.JobForeigner.member.dto.request.SignInRequest;
 import kr.ac.kumoh.d138.JobForeigner.member.service.AuthService;
 import kr.ac.kumoh.d138.JobForeigner.token.dto.JwtPair;
@@ -19,14 +20,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/members")
 @RequiredArgsConstructor
-public class AuthController {
+public class AuthController implements AuthApi {
     private final AuthService authService;
 
     /**
      * 외국인 및 기업 사용자 로그인 API
      */
     @PostMapping("/sign-in")
-    public ResponseEntity<ResponseBody<Void>> signUp(@RequestBody SignInRequest signInRequest,
+    public ResponseEntity<ResponseBody<Void>> signIn(@RequestBody SignInRequest signInRequest,
                                                      HttpServletResponse response) {
         JwtPair tokens = authService.signIn(signInRequest.username(), signInRequest.password());
         TokenUtils.setAccessTokenAndRefreshToken(response, tokens);

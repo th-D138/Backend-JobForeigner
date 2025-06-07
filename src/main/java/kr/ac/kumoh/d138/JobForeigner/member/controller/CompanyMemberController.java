@@ -3,6 +3,7 @@ package kr.ac.kumoh.d138.JobForeigner.member.controller;
 import jakarta.validation.Valid;
 import kr.ac.kumoh.d138.JobForeigner.global.response.ResponseBody;
 import kr.ac.kumoh.d138.JobForeigner.global.response.ResponseUtil;
+import kr.ac.kumoh.d138.JobForeigner.member.api.CompanyMemberApi;
 import kr.ac.kumoh.d138.JobForeigner.member.client.BusinessNumberValidationClient;
 import kr.ac.kumoh.d138.JobForeigner.member.dto.request.BusinessNumberValidationRequest;
 import kr.ac.kumoh.d138.JobForeigner.member.dto.request.CompanySignUpRequest;
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/members")
 @RequiredArgsConstructor
-public class CompanyMemberController {
+public class CompanyMemberController implements CompanyMemberApi {
     private final CompanyMemberService companyMemberService;
 
     private final BusinessNumberValidationClient businessNumberValidationClient;
@@ -37,7 +38,7 @@ public class CompanyMemberController {
      * 기업 사용자는 사업자 인증 후 승인이 완료되면 회원가입을 진행할 수 있습니다.
      */
     @PostMapping("/sign-up/company")
-    public ResponseEntity<ResponseBody<Void>> signUpForComapny(@RequestBody @Valid CompanySignUpRequest signUpRequest) {
+    public ResponseEntity<ResponseBody<Void>> signUpForCompany(@RequestBody @Valid CompanySignUpRequest signUpRequest) {
         companyMemberService.signUp(signUpRequest);
         return ResponseEntity.ok(ResponseUtil.createSuccessResponse());
     }
