@@ -27,7 +27,7 @@ public class AuthController implements AuthApi {
      * 외국인 및 기업 사용자 로그인 API
      */
     @PostMapping("/sign-in")
-    public ResponseEntity<ResponseBody<Void>> signUp(@RequestBody SignInRequest signInRequest,
+    public ResponseEntity<ResponseBody<Void>> signIn(@RequestBody SignInRequest signInRequest,
                                                      HttpServletResponse response) {
         JwtPair tokens = authService.signIn(signInRequest.username(), signInRequest.password());
         TokenUtils.setAccessTokenAndRefreshToken(response, tokens);

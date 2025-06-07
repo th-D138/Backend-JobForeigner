@@ -27,7 +27,7 @@ public interface AuthApi {
                     @SwaggerApiFailedResponse(ExceptionType.EMAIL_VERIFICATION_REQUIRED)
             }
     )
-    ResponseEntity<ResponseBody<Void>> signUp(@RequestBody SignInRequest signInRequest,
+    ResponseEntity<ResponseBody<Void>> signIn(@RequestBody SignInRequest signInRequest,
                                               HttpServletResponse response);
 
     @Operation(

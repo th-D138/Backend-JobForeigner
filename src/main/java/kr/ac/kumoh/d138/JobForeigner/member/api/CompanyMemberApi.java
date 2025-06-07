@@ -44,5 +44,5 @@ public interface CompanyMemberApi {
                     @SwaggerApiFailedResponse(ExceptionType.COMPANY_ALREADY_EXISTS)
             }
     )
-    ResponseEntity<ResponseBody<Void>> signUpForComapny(@RequestBody @Valid CompanySignUpRequest signUpRequest);
+    ResponseEntity<ResponseBody<Void>> signUpForCompany(@RequestBody @Valid CompanySignUpRequest signUpRequest);
 }

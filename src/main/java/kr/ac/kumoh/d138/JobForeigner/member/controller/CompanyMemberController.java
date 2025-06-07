@@ -38,7 +38,7 @@ public class CompanyMemberController implements CompanyMemberApi {
      * 기업 사용자는 사업자 인증 후 승인이 완료되면 회원가입을 진행할 수 있습니다.
      */
     @PostMapping("/sign-up/company")
-    public ResponseEntity<ResponseBody<Void>> signUpForComapny(@RequestBody @Valid CompanySignUpRequest signUpRequest) {
+    public ResponseEntity<ResponseBody<Void>> signUpForCompany(@RequestBody @Valid CompanySignUpRequest signUpRequest) {
         companyMemberService.signUp(signUpRequest);
         return ResponseEntity.ok(ResponseUtil.createSuccessResponse());
     }
