@@ -15,6 +15,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+      default_batch_fetch_size: 100
   data:
     redis:
       host: ${job-foreigner.local.redis.host}
@@ -37,6 +38,14 @@ spring:
           timeout: 15000
           writetimeout: 5000
 
+job-foreigner:
+  open-api:
+    validate-business-number:
+      host: ${job-foreigner.local.open-api.validate-business-number.host}
+      path: ${job-foreigner.local.open-api.validate-business-number.path}
+      encoding-key: ${job-foreigner.local.open-api.validate-business-number.encoding-key}
+      decoding-key: ${job-foreigner.local.open-api.validate-business-number.decoding-key}
+
 logging:
   level:
     org.springframework.web.servlet: debug
@@ -44,9 +53,21 @@ logging:
     org.hibernate.orm.jdbc.bind: trace
     org.hibernate.orm.jdb.extract: trace
     org.hibernate.type.descriptor.sql: trace
-springdoc:
-  swagger-ui:
-    operations-sorter: alpha  # 알파벳 순 정렬
-    tags-sorter: alpha        # 태그 정렬 방식
-    display-request-duration: true  # 요청 처리 시간 표시
 
+swagger:
+  server-url: http://localhost:8080
+  description: "백엔드 로컬 서버"
+
+springdoc:
+  packagesToScan: kr.ac.kumoh.d138.JobForeigner
+  default-consumes-media-type: application/json;charset=UTF-8
+  default-produces-media-type: application/json;charset=UTF-8
+  swagger-ui:
+    path: /docs
+    disable-swagger-default-url: true
+    operations-sorter: alpha
+    display-request-duration: true
+    tags-sorter: alpha
+  api-docs:
+    groups:
+      enabled: false

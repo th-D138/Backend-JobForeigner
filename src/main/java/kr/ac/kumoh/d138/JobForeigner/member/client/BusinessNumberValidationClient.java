@@ -19,13 +19,13 @@ import org.springframework.web.util.UriComponentsBuilder;
 @RequiredArgsConstructor
 @Component
 public class BusinessNumberValidationClient {
-    @Value("${job-foreigner.all.open-api.validate-business-number.host}")
+    @Value("${job-foreigner.open-api.validate-business-number.host}")
     private String apiHost;
 
-    @Value("${job-foreigner.all.open-api.validate-business-number.path}")
+    @Value("${job-foreigner.open-api.validate-business-number.path}")
     private String apiPath;
 
-    @Value("${job-foreigner.all.open-api.validate-business-number.encoding-key}")
+    @Value("${job-foreigner.open-api.validate-business-number.encoding-key}")
     private String apiKey;
 
     private final String SERVICE_KEY = "serviceKey"; // API 키 파라미터 지정
