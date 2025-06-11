@@ -2,3 +2,64 @@ spring:
   config:
     activate:
       on-profile: dev
+    import:
+      - properties/application-database.yml
+      - properties/application-security.yml
+      - properties/application-mail.yml
+      - properties/application-open-api.yml
+      - properties/application-swagger.yml
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: ${job-foreigner.dev.postgres.url}
+    username: ${job-foreigner.dev.postgres.username}
+    password: ${job-foreigner.dev.postgres.password}
+  jpa:
+    hibernate:
+      ddl-auto: create
+      default_batch_fetch_size: 100
+  data:
+    redis:
+      host: ${job-foreigner.dev.redis.host}
+      port: ${job-foreigner.dev.redis.port}
+  mail:
+    host: ${job-foreigner.dev.mail.host}
+    port: ${job-foreigner.dev.mail.port}
+    username: ${job-foreigner.dev.mail.username}
+    password: ${job-foreigner.dev.mail.password}
+    default-encoding: UTF-8
+    properties:
+      mail:
+        debug: true
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          connectiontimeout: 5000
+          timeout: 15000
+          writetimeout: 5000
+
+job-foreigner:
+  swagger:
+    server-url: ${job-foreigner.dev.swagger.server-url}
+    description: ${job-foreigner.dev.swagger.description}
+  open-api:
+    validate-business-number:
+      host: ${job-foreigner.dev.open-api.validate-business-number.host}
+      path: ${job-foreigner.dev.open-api.validate-business-number.path}
+      encoding-key: ${job-foreigner.dev.open-api.validate-business-number.encoding-key}
+      decoding-key: ${job-foreigner.dev.open-api.validate-business-number.decoding-key}
+
+springdoc:
+  packagesToScan: kr.ac.kumoh.d138.JobForeigner
+  default-consumes-media-type: application/json;charset=UTF-8
+  default-produces-media-type: application/json;charset=UTF-8
+  swagger-ui:
+    path: /docs
+    disable-swagger-default-url: true
+    operations-sorter: alpha
+    display-request-duration: true
+    tags-sorter: alpha
+  api-docs:
+    groups:
+      enabled: false

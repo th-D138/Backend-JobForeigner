@@ -52,16 +52,15 @@ jwt:
   refreshTokenExpiredIn: 1209600
 
 job-foreigner:
+  open-api:
+    validate-business-number:
+      host: api.example.kr
+      path: /api/nts-businessman/v1/validate
+      encoding-key: "Wv6%40hZpR8%24D2nQxE%26z1jS%21wM5fCu3%25GkLbA9%5EVtYsXpJqUo*H4eBi0NrTZ7I%23cKymOFdPWgX%24Mv%40sYQh*6B%21aJr%23uLn9N2%5EtTzXk3l0%25pZ5oU4CejiVb7wSf8D"
+      decoding-key: "Wv6@hZpR8$D2nQxE&z1jS!wM5fCu3%GkLbA9^VtYsXpJqUo*H4eBi0NrTZ7I#cKymOFdPWgX$Mv@sYQh*6B!aJr#uLn9N2^tTzXk3l0%pZ5oU4CejiVb7wSf8D"
   local:
     mail:
       auth:
         subject: "[JobForeigner] Please verify your email address."
         base-url: "https://example.com"
         verify-path: "/api/v1/email/auth/verify?code="
-  all:
-    open-api:
-      validate-business-number:
-        host: api.example.kr
-        path: /api/nts-businessman/v1/validate
-        encoding-key: "Wv6%40hZpR8%24D2nQxE%26z1jS%21wM5fCu3%25GkLbA9%5EVtYsXpJqUo*H4eBi0NrTZ7I%23cKymOFdPWgX%24Mv%40sYQh*6B%21aJr%23uLn9N2%5EtTzXk3l0%25pZ5oU4CejiVb7wSf8D"
-        decoding-key: "Wv6@hZpR8$D2nQxE&z1jS!wM5fCu3%GkLbA9^VtYsXpJqUo*H4eBi0NrTZ7I#cKymOFdPWgX$Mv@sYQh*6B!aJr#uLn9N2^tTzXk3l0%pZ5oU4CejiVb7wSf8D"

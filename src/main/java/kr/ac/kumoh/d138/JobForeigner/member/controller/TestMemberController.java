@@ -21,7 +21,7 @@ public class TestMemberController {
     private final TestMemberService testMemberService;
 
     @PostMapping("/sign-up/company")
-    public ResponseEntity<ResponseBody<Void>> signUpForComapny(HttpServletResponse response) {
+    public ResponseEntity<ResponseBody<Void>> signUpForCompany(HttpServletResponse response) {
         JwtPair tokens = testMemberService.signUpForCompany();
         TokenUtils.setAccessTokenAndRefreshToken(response, tokens);
         return ResponseEntity.ok(ResponseUtil.createSuccessResponse());

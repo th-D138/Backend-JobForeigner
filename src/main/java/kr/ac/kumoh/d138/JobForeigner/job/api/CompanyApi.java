@@ -6,7 +6,10 @@ import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import kr.ac.kumoh.d138.JobForeigner.global.config.swagger.SwaggerApiFailedResponse;
+import kr.ac.kumoh.d138.JobForeigner.global.config.swagger.SwaggerApiResponses;
+import kr.ac.kumoh.d138.JobForeigner.global.config.swagger.SwaggerApiSuccessResponse;
+import kr.ac.kumoh.d138.JobForeigner.global.exception.ExceptionType;
 import kr.ac.kumoh.d138.JobForeigner.global.response.GlobalPageResponse;
 import kr.ac.kumoh.d138.JobForeigner.global.response.ResponseBody;
 import kr.ac.kumoh.d138.JobForeigner.job.dto.CompanyDetailResponseDto;
@@ -28,16 +31,16 @@ public interface CompanyApi {
             summary = "기업 정보 전체 조회",
             description = "기업 정보를 필터링 조건에 따라 페이지네이션하여 전체 조회합니다."
     )
-    @ApiResponses({
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "기업 전체 조회 성공",
-                    content = @Content(
-                            mediaType = "application/json",
-                            array = @ArraySchema(schema = @Schema(implementation = CompanyResponseDto.class))
-                    )
-            )
-    })
+    @ApiResponse(content = @Content(array = @ArraySchema(schema = @Schema(implementation = CompanyResponseDto.class))))
+    @SwaggerApiResponses(
+            success = @SwaggerApiSuccessResponse(
+                    responsePage = CompanyResponseDto.class,
+                    description = "기업 상세 조회 성공"
+            ),
+            errors = {
+                    @SwaggerApiFailedResponse(ExceptionType.COMPANY_NOT_FOUND)
+            }
+    )
     @GetMapping("/company")
     public ResponseEntity<ResponseBody<GlobalPageResponse<CompanyResponseDto>>> getAllCompany(
             @Parameter(description = "기업 이름 검색", example = "google")
@@ -60,23 +63,16 @@ public interface CompanyApi {
             summary = "기업 정보 상세조회",
             description = "기업 ID를 기반으로 상세한 기업 정보를 조회합니다."
     )
-    @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "기업 상세 조회 성공",
-                    content = @Content(schema = @Schema(implementation = CompanyDetailResponseDto.class))
+    @ApiResponse(content = @Content(schema = @Schema(implementation = CompanyDetailResponseDto.class)))
+    @SwaggerApiResponses(
+            success = @SwaggerApiSuccessResponse(
+                    response = CompanyDetailResponseDto.class,
+                    description = "기업 상세 조회 성공"
             ),
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "회사를 찾을 수 없습니다.",
-                    content = @Content(schema = @Schema(implementation = ResponseBody.class))
-            ),
-            @ApiResponse(
-                    responseCode = "500",
-                    description = "서버 내부 오류",
-                    content = @Content(schema = @Schema(implementation = ResponseBody.class))
-            )
-    })
+            errors = {
+                    @SwaggerApiFailedResponse(ExceptionType.COMPANY_NOT_FOUND)
+            }
+    )
     @GetMapping("/company/{companyId}")
     public ResponseEntity<ResponseBody<CompanyDetailResponseDto>> getCompanyDetail(
             @Parameter(description = "회사 아이디", example = "1", required = true)
