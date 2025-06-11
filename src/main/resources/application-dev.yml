@@ -39,16 +39,15 @@ spring:
           writetimeout: 5000
 
 job-foreigner:
-    open-api:
-      validate-business-number:
-        host: ${job-foreigner.dev.open-api.validate-business-number.host}
-        path: ${job-foreigner.dev.open-api.validate-business-number.path}
-        encoding-key: ${job-foreigner.dev.open-api.validate-business-number.encoding-key}
-        decoding-key: ${job-foreigner.dev.open-api.validate-business-number.decoding-key}
-
-swagger:
-  server-url: http://localhost:8080
-  description: "백엔드 개발 서버"
+  swagger:
+    server-url: ${job-foreigner.dev.swagger.server-url}
+    description: ${job-foreigner.dev.swagger.description}
+  open-api:
+    validate-business-number:
+      host: ${job-foreigner.dev.open-api.validate-business-number.host}
+      path: ${job-foreigner.dev.open-api.validate-business-number.path}
+      encoding-key: ${job-foreigner.dev.open-api.validate-business-number.encoding-key}
+      decoding-key: ${job-foreigner.dev.open-api.validate-business-number.decoding-key}
 
 springdoc:
   packagesToScan: kr.ac.kumoh.d138.JobForeigner

@@ -39,6 +39,9 @@ spring:
           writetimeout: 5000
 
 job-foreigner:
+  swagger:
+    server-url: ${job-foreigner.local.swagger.server-url}
+    description: ${job-foreigner.local.swagger.description}
   open-api:
     validate-business-number:
       host: ${job-foreigner.local.open-api.validate-business-number.host}

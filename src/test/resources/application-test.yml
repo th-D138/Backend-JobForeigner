@@ -58,13 +58,6 @@ job-foreigner:
         subject: "[JobForeigner] Please verify your email address."
         base-url: "https://example.com"
         verify-path: "/api/v1/email/auth/verify?code="
-  open-api:
-    validate-business-number:
-      host: example.com
-      path: /api/v1/validate
-      encoding-key: "01234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567"
-      decoding-key: "01234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567"
-  all:
     open-api:
       validate-business-number:
         host: api.example.kr
