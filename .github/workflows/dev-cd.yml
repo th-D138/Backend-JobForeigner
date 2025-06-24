@@ -15,6 +15,7 @@ jobs:
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
+          run-id: ${{ github.event.workflow_run.id }}
           name: build-libs
 
       # 도커 이미지 빌드를 위한 Docker Buildx 내려 받기
