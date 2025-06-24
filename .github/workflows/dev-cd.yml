@@ -5,6 +5,9 @@ on:
     workflows: [ "Java CI with Gradle" ]
     types: [ completed ]
 
+permissions:
+  packages: write
+
 jobs:
   build:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
