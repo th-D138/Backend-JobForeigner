@@ -23,7 +23,9 @@ jobs:
       - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v3
         with:
-          driver: docker
+          driver: docker-container
+          driver-opts: |
+            network=host
 
       # 도커 이미지 업로드를 위한 GitHub Container Registry 로그인
       # https://docs.github.com/ko/packages/working-with-a-github-packages-registry/working-with-the-container-registry
@@ -50,9 +52,12 @@ jobs:
         with:
           context: .
           file: Dockerfile
+          push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           platforms: linux/amd64,linux/arm64
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
   deploy:
     needs: build
