@@ -77,13 +77,13 @@ jobs:
 
       # 이미지 내려 받기
       - name: Pull latest image
-        run: docker pull ${{ needs.build-and-push.outputs.image-tag }}
+        run: docker pull ${{ needs.build.outputs.image-tag }}
 
       # 실행 중인 컨테이너 정리 및 기존 이미지 삭제
       - name: Clean up old container and image
         run: |
           docker rm -f ${{ vars.CONTAINER_NAME }} || true
-          docker rmi ${{ needs.build-and-push.outputs.image-tag }} || true
+          docker rmi ${{ needs.build.outputs.image-tag }} || true
 
       # 새로운 이미지로 새로운 컨테이너 생성하여 실행
       - name: Run New Container
@@ -93,4 +93,4 @@ jobs:
             --network ${{ vars.NETWORK_NAME }} \
             -p ${{ secrets.DEV_WEB_PORT }}:8080 \
             -e TZ=Asia/Seoul \
-            ${{ needs.build-and-push.outputs.image-tag }}
+            ${{ needs.build.outputs.image-tag }}
