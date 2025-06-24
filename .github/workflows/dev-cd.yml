@@ -12,7 +12,9 @@ permissions:
 jobs:
   build:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
+    outputs:
+      image-tag: ${{ steps.meta.outputs.tags }}
 
     steps:
       # 도커 이미지 빌드를 위한 빌드 파일 내려 받기
