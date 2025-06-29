@@ -5,17 +5,17 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.transaction.Transactional;
 import kr.ac.kumoh.d138.JobForeigner.global.exception.BusinessException;
 import kr.ac.kumoh.d138.JobForeigner.global.exception.ExceptionType;
-import kr.ac.kumoh.d138.JobForeigner.job.domain.Company;
-import kr.ac.kumoh.d138.JobForeigner.job.domain.JobPost;
-import kr.ac.kumoh.d138.JobForeigner.job.domain.JobPostStatus;
-import kr.ac.kumoh.d138.JobForeigner.job.domain.QCompany;
+import kr.ac.kumoh.d138.JobForeigner.job.domain.*;
 import kr.ac.kumoh.d138.JobForeigner.job.dto.company.request.JobPostRequestDto;
 import kr.ac.kumoh.d138.JobForeigner.job.dto.company.request.JobTempPostRequestDto;
 import kr.ac.kumoh.d138.JobForeigner.job.dto.company.response.JobPostDetailResponseDto;
 import kr.ac.kumoh.d138.JobForeigner.job.dto.company.response.JobPostResponseDto;
 import kr.ac.kumoh.d138.JobForeigner.job.dto.company.response.UpdateJobPostResponseDto;
 import kr.ac.kumoh.d138.JobForeigner.job.repository.CompanyRepository;
+import kr.ac.kumoh.d138.JobForeigner.job.repository.JobApplicationRepository;
 import kr.ac.kumoh.d138.JobForeigner.job.repository.JobPostRepository;
+import kr.ac.kumoh.d138.JobForeigner.member.domain.Member;
+import kr.ac.kumoh.d138.JobForeigner.member.repository.MemberRepository;
 import kr.ac.kumoh.d138.JobForeigner.scrap.repository.ScrapRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -23,6 +23,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static kr.ac.kumoh.d138.JobForeigner.job.domain.QCompany.company;
@@ -36,7 +37,8 @@ public class JobPostService {
     private final CompanyRepository companyRepository;
     private final JPAQueryFactory queryFactory;
     private final ScrapRepository scrapRepository;
-
+    private final MemberRepository memberRepository;
+    private final JobApplicationRepository jobApplicationRepository;
     @Transactional
     public void createJobPost(JobPostRequestDto jobPostRequestDto) {
         Company company = companyRepository.findById(jobPostRequestDto.getCompanyId())
@@ -149,4 +151,32 @@ public class JobPostService {
     public void deleteJobPost(Long jobPostId) {
         jobPostRepository.deleteById(jobPostId);
     }
+
+    @Transactional
+    public void applyToJobPost(Long jobPostId, Long memberId) {
+        // 중복 지원 체크
+        if (jobApplicationRepository.existsByJobPostIdAndMemberId(jobPostId, memberId)) {
+            throw new IllegalStateException("이미 지원한 채용공고입니다.");
+        }
+
+        JobPost jobPost = jobPostRepository.findById(jobPostId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 채용공고입니다."));
+
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+
+        // 마감일 체크
+        if (jobPost.getDeadLine().isBefore(LocalDateTime.now())) {
+            throw new IllegalStateException("지원 마감된 채용공고입니다.");
+        }
+
+        JobApplication jobApplication = JobApplication.builder()
+                .jobPost(jobPost)
+                .member(member)
+                .build();
+
+        jobApplicationRepository.save(jobApplication);
+    }
+
+
 }
