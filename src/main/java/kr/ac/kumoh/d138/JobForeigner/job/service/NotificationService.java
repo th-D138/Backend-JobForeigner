@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,7 +21,7 @@ import java.util.stream.Collectors;
 public class NotificationService {
 
     private final NotificationRepository notificationRepository;
-
+    private static final int NOTIFICATION_DAYS_BEFORE = 3;
     /*
     읽지 않은 알람 개수 조회
      */
@@ -33,8 +34,10 @@ public class NotificationService {
     전체 알람 조회
      */
     public List<NotificationResponseDto> getRecentNotification(Long memberId){
+        LocalDate notificationDate = LocalDate.now().plusDays(NOTIFICATION_DAYS_BEFORE);
+
         // 유저 아이디 기반으로 알림 가져오기
-        List<Notification> notificationDtoList = notificationRepository.findByMemberIdOrderByCreatedAtDesc(memberId);
+        List<Notification> notificationDtoList = notificationRepository.findByMemberIdOrderByCreatedAtDesc(memberId, notificationDate);
 
         return notificationDtoList.stream()
                 .map(NotificationResponseDto::fromEntity)
