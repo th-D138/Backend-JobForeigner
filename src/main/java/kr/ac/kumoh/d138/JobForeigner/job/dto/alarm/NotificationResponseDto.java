@@ -25,6 +25,7 @@ public class NotificationResponseDto {
         return NotificationResponseDto.builder()
                 .id(notification.getId())
                 .title(notification.getTitle())
+                .content(notification.getMessage())
                 .isRead(notification.isRead())
                 .build();
     }
