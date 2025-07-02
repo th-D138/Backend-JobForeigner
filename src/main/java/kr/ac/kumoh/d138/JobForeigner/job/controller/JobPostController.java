@@ -83,11 +83,12 @@ public class JobPostController {
         jobPostService.deleteJobPost(id);
         return ResponseEntity.ok(ResponseUtil.createSuccessResponse("채용공고 삭제 완료"));
     }
-    @PostMapping("/jobPost/{id}/apply")
+    @PostMapping("/jobPost/{resumeId}/{jobPostId}/apply")
     public ResponseEntity<ResponseBody<String>> applyToJobPost(
-            @PathVariable Long id,
-            @AuthenticationPrincipal Long memberId) {
-        jobPostService.applyToJobPost(id, memberId);
+            @PathVariable Long jobPostId,
+            @AuthenticationPrincipal Long memberId,
+            @PathVariable Long resumeId) {
+        jobPostService.applyToJobPost(jobPostId, memberId, resumeId);
         return ResponseEntity.ok(ResponseUtil.createSuccessResponse("채용공고 지원 완료"));
     }
 }

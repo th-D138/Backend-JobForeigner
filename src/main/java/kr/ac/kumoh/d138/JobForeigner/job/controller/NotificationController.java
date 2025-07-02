@@ -27,8 +27,8 @@ public class NotificationController {
      */
     @GetMapping
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<ResponseBody<Integer>> getUnredCount(@AuthenticationPrincipal Long userId){
-        int count = alarmService.getUnreadCount(userId);
+    public ResponseEntity<ResponseBody<Integer>> getUnreadCount(@AuthenticationPrincipal Long memberId){
+        int count = alarmService.getUnreadCount(memberId);
         return ResponseEntity.ok(ResponseUtil.createSuccessResponse(count));
     }
 
@@ -46,8 +46,8 @@ public class NotificationController {
      */
     @GetMapping("/check/{notificationId}")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<ResponseBody<NotificationResponseDto>> checkReadNotification(@PathVariable Long notificationId, @AuthenticationPrincipal Long userId){
-        return ResponseEntity.ok(ResponseUtil.createSuccessResponse(alarmService.checkReadNotification(userId, notificationId)));
+    public ResponseEntity<ResponseBody<NotificationResponseDto>> checkReadNotification(@PathVariable Long notificationId, @AuthenticationPrincipal Long memberId){
+        return ResponseEntity.ok(ResponseUtil.createSuccessResponse(alarmService.checkReadNotification(memberId, notificationId)));
     }
 
     /*
