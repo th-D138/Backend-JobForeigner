@@ -24,7 +24,7 @@ public class MemberPurgeScheduler {
     private final MemberPurgeConfig batchConfig;
 
     @Async
-    @Scheduled(cron = "* 30 3 * * *")
+    @Scheduled(cron = "0 30 3 * * *")
     public void run() {
         Map<String, JobParameter<?>> parameters = new HashMap<>();
         parameters.put("time", new JobParameter<>(System.currentTimeMillis(), Long.class));

@@ -39,7 +39,7 @@ public class RefreshTokenRepositoryImpl implements RefreshTokenRepository {
         valueOperations.set(tokenKey, String.valueOf(refreshToken.memberId()));
         redisTemplate.expire(tokenKey, jwtProperties.getRefreshTokenExpiredIn(), TimeUnit.SECONDS);
 
-        redisTemplate.opsForSet().add(indexKey, tokenKey);
+        setOperations.add(indexKey, tokenKey);
         redisTemplate.expire(indexKey, jwtProperties.getRefreshTokenExpiredIn(), TimeUnit.SECONDS);
     }
 
@@ -58,13 +58,20 @@ public class RefreshTokenRepositoryImpl implements RefreshTokenRepository {
     @Override
     public void deleteById(final String refreshToken) {
         String tokenKey = getTokenKey(refreshToken);
-        String memberId = valueOperations.get(tokenKey);
 
+        String memberId = valueOperations.get(tokenKey);
         if (Objects.isNull(memberId)) {
             return;
         }
+        String indexKey = getIndexKey(Long.valueOf(memberId));
 
+        setOperations.remove(indexKey, tokenKey);
         redisTemplate.delete(tokenKey);
+
+        Long remaining = setOperations.size(indexKey);
+        if (remaining == null || remaining == 0) {
+            redisTemplate.delete(indexKey);
+        }
     }
 
     @Override

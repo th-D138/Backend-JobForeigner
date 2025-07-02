@@ -1,10 +1,10 @@
 package kr.ac.kumoh.d138.JobForeigner.member.repository;
 
-import io.lettuce.core.dynamic.annotation.Param;
 import kr.ac.kumoh.d138.JobForeigner.member.domain.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
