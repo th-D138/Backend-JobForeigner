@@ -41,7 +41,10 @@ public enum ExceptionType {
 
     // Resume
     RESUME_FORBIDDEN(FORBIDDEN,"R001","접근할 수 없는 이력서입니다."),
-    RESUME_NOT_FOUND(NOT_FOUND, "R002", "존재하지 않는 이력서입니다.")
+    RESUME_NOT_FOUND(NOT_FOUND, "R002", "존재하지 않는 이력서입니다."),
+
+    // Image
+    FILE_SYSTEM_SAVE_FAILED(INTERNAL_SERVER_ERROR, "F001", "파일 시스템에 이미지를 저장할 수 없습니다."),
     ;
 
     private final HttpStatus status;
