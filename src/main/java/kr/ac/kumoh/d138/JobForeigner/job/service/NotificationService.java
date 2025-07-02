@@ -27,7 +27,7 @@ public class NotificationService {
      */
     public Integer getUnreadCount(Long userId){
         // 유저 아이디 기반 읽지 않은 이력서 개수 가져오기
-        return notificationRepository.countByMemberIdAndReadFalse(userId);
+        return notificationRepository.countByMemberIdAndIsReadFalse(userId);
     }
 
     /*

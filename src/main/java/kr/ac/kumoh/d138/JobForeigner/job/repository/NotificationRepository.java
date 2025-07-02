@@ -16,7 +16,7 @@ public interface NotificationRepository extends JpaRepository<Notification,Long>
     /*
     읽지 않은 알람 개수 조회
      */
-    int countByMemberIdAndReadFalse(Long memberId);
+    int countByMemberIdAndIsReadFalse(Long memberId);
 
     /*
     모든 알림 가져오기
