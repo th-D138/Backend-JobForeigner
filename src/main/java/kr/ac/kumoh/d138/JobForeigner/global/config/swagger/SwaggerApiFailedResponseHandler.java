@@ -43,13 +43,14 @@ public class SwaggerApiFailedResponseHandler {
 
     private ExampleHolder createExampleHolder(SwaggerApiFailedResponse apiFailedResponse) {
         ExceptionType exceptionType = apiFailedResponse.value();
+        String description = apiFailedResponse.description().isBlank() ? exceptionType.getMessage() : apiFailedResponse.description();
 
         return ExampleHolder.builder()
                 .responseCode(exceptionType.getStatus().value())
                 .exceptionName(exceptionType.name())
                 .exceptionCode(exceptionType.getCode())
-                .description(apiFailedResponse.description().isBlank() ? exceptionType.getMessage() : apiFailedResponse.description())
-                .holder(createSwaggerExample(exceptionType, exceptionType.getMessage()))
+                .description(description)
+                .holder(createSwaggerExample(exceptionType, description))
                 .build();
     }
 
