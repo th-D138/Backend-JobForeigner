@@ -10,14 +10,17 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create-drop
+    open-in-view: false
   data:
     redis:
       host: localhost
       port: 52976
+      repositories:
+        enabled: false
   mail:
-    host: smtp.example.com
+    host: localhost
     port: 587
-    username: test@example.com
+    username: test@localhost
     password: example_password
     default-encoding: UTF-8
     properties:
@@ -40,27 +43,28 @@ logging:
     org.hibernate.orm.jdb.extract: trace
     org.hibernate.type.descriptor.sql: trace
 
-cryptographic-key:
-  publicKeyPath: "./src/main/resources/properties/cryptographic_key/public_key_test.pem"
-  privateKeyPath: "./src/main/resources/properties/cryptographic_key/private_key_test.pem"
-  salt: "01234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567"
-
-jwt:
-  issuer: "JobForeigner"
-  audience: "JobForeigner"
-  accessTokenExpiredIn: 1800
-  refreshTokenExpiredIn: 1209600
-
+# 하단의 값들은 모두 무작위로 생성된 값임을 참고하세요.
 job-foreigner:
+  mail:
+    auth:
+      subject: "[JobForeigner] Please verify your email address."
+      base-url: "http://localhost:8080"
+      verify-path: "/api/v1/email/auth/verify?code="
   open-api:
     validate-business-number:
-      host: api.example.kr
+      host: localhost
       path: /api/nts-businessman/v1/validate
-      encoding-key: "Wv6%40hZpR8%24D2nQxE%26z1jS%21wM5fCu3%25GkLbA9%5EVtYsXpJqUo*H4eBi0NrTZ7I%23cKymOFdPWgX%24Mv%40sYQh*6B%21aJr%23uLn9N2%5EtTzXk3l0%25pZ5oU4CejiVb7wSf8D"
-      decoding-key: "Wv6@hZpR8$D2nQxE&z1jS!wM5fCu3%GkLbA9^VtYsXpJqUo*H4eBi0NrTZ7I#cKymOFdPWgX$Mv@sYQh*6B!aJr#uLn9N2^tTzXk3l0%pZ5oU4CejiVb7wSf8D"
-  local:
-    mail:
-      auth:
-        subject: "[JobForeigner] Please verify your email address."
-        base-url: "https://example.com"
-        verify-path: "/api/v1/email/auth/verify?code="
+      encoding-key: "ViUMf2TqEfYRUQc8QnVHNDrZkJMmn8VfTRYIj2p5w3BcAs%2FQl9P04ynyf6K6lKp2WpCthdW%2BDd7TF5LtoyaTaQ%3D%3D"
+      decoding-key: "ViUMf2TqEfYRUQc8QnVHNDrZkJMmn8VfTRYIj2p5w3BcAs/Ql9P04ynyf6K6lKp2WpCthdW+Dd7TF5LtoyaTaQ=="
+  jwt:
+    domain: localhost:8080
+    path: /api/v1/members
+    secure: true
+    cryptographic-key:
+      public-key: null
+      private-key: null
+      salt: "01234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567"
+    issuer: "JobForeigner"
+    audience: "JobForeigner"
+    accessTokenExpiredIn: 1800
+    refreshTokenExpiredIn: 1209600
