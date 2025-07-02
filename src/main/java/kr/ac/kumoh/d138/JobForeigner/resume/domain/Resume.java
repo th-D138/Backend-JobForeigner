@@ -3,7 +3,6 @@ package kr.ac.kumoh.d138.JobForeigner.resume.domain;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import kr.ac.kumoh.d138.JobForeigner.global.base.BaseEntity;
-import kr.ac.kumoh.d138.JobForeigner.job.domain.JobPost;
 import kr.ac.kumoh.d138.JobForeigner.member.domain.Member;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -23,9 +22,6 @@ public class Resume extends BaseEntity {
 
     @Column(name = "resume_image_url")
     private String resumeImageUrl;
-
-    @OneToMany(mappedBy = "resume", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<JobPost> jobPosts;
 
     @OneToMany(mappedBy = "resume", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Education> educations;

@@ -16,7 +16,6 @@ import kr.ac.kumoh.d138.JobForeigner.job.repository.JobApplicationRepository;
 import kr.ac.kumoh.d138.JobForeigner.job.repository.JobPostRepository;
 import kr.ac.kumoh.d138.JobForeigner.member.domain.Member;
 import kr.ac.kumoh.d138.JobForeigner.member.repository.MemberRepository;
-import kr.ac.kumoh.d138.JobForeigner.resume.domain.Resume;
 import kr.ac.kumoh.d138.JobForeigner.resume.repository.ResumeRepository;
 import kr.ac.kumoh.d138.JobForeigner.scrap.repository.ScrapRepository;
 import lombok.RequiredArgsConstructor;
@@ -168,9 +167,6 @@ public class JobPostService {
 
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new BusinessException(ExceptionType.MEMBER_NOT_FOUND));
-        // Resume 조회 추가
-        Resume resume = resumeRepository.findById(resumeId)
-                .orElseThrow(() -> new BusinessException(ExceptionType.RESUME_NOT_FOUND));
         // 마감일 체크
         if (jobPost.getDeadLine().isBefore(LocalDateTime.now())) {
             throw new BusinessException(ExceptionType.EXPIRED_JOB_POST);
@@ -178,7 +174,6 @@ public class JobPostService {
 
         JobApplication jobApplication = JobApplication.builder()
                 .jobPost(jobPost)
-                .resume(resume)
                 .member(member)
                 .build();
 

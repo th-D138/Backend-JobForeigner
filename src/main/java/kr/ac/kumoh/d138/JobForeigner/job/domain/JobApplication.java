@@ -27,10 +27,6 @@ public class JobApplication extends BaseEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "resume_id")
-    private Resume resume;
-
     @Enumerated(EnumType.STRING)
     @Column(name = "application_status")
     private ApplicationStatus applicationStatus;
