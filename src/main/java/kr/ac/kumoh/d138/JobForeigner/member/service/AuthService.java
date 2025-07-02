@@ -55,6 +55,7 @@ public class AuthService {
         refreshTokenRepository.deleteById(refreshToken);
     }
 
+    @Transactional
     public void delete(Long memberId) {
         if (!memberRepository.existsById(memberId)) {
             throw new BusinessException(ExceptionType.MEMBER_NOT_FOUND);
@@ -74,6 +75,7 @@ public class AuthService {
         return JwtPair.of(accessToken.token(), accessToken.expiredIn(), refreshToken.token(), refreshToken.expiredIn());
     }
 
+    @Transactional
     public void changeEmail(Long memberId, String email) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new BusinessException(ExceptionType.MEMBER_NOT_FOUND));
