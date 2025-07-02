@@ -156,18 +156,18 @@ public class JobPostService {
     public void applyToJobPost(Long jobPostId, Long memberId) {
         // 중복 지원 체크
         if (jobApplicationRepository.existsByJobPostIdAndMemberId(jobPostId, memberId)) {
-            throw new IllegalStateException("이미 지원한 채용공고입니다.");
+            throw new BusinessException(ExceptionType.DUPLICATED_APPLICATION);
         }
 
         JobPost jobPost = jobPostRepository.findById(jobPostId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 채용공고입니다."));
+                .orElseThrow(() -> new BusinessException(ExceptionType.JOBPOST_NOT_FOUND));
 
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+                .orElseThrow(() -> new BusinessException(ExceptionType.MEMBER_NOT_FOUND));
 
         // 마감일 체크
         if (jobPost.getDeadLine().isBefore(LocalDateTime.now())) {
-            throw new IllegalStateException("지원 마감된 채용공고입니다.");
+            throw new BusinessException(ExceptionType.EXPIRED_JOB_POST);
         }
 
         JobApplication jobApplication = JobApplication.builder()
