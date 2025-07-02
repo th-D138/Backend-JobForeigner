@@ -10,9 +10,8 @@ import kr.ac.kumoh.d138.JobForeigner.global.jwt.token.refresh.RefreshTokenData;
 import kr.ac.kumoh.d138.JobForeigner.global.jwt.token.refresh.RefreshTokenProvider;
 import kr.ac.kumoh.d138.JobForeigner.member.domain.Member;
 import kr.ac.kumoh.d138.JobForeigner.member.repository.MemberRepository;
-import kr.ac.kumoh.d138.JobForeigner.token.domain.RefreshToken;
-import kr.ac.kumoh.d138.JobForeigner.token.domain.RefreshTokenRepository;
 import kr.ac.kumoh.d138.JobForeigner.token.dto.JwtPair;
+import kr.ac.kumoh.d138.JobForeigner.token.repository.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -36,7 +35,7 @@ public class AuthService {
 
     public JwtPair signIn(String username, String password) {
         Member member = memberRepository.findByUsername(username)
-                .orElseThrow(() -> new BusinessException(ExceptionType.MEMBER_NOT_FOUND));
+                .orElseThrow(() -> new BusinessException(ExceptionType.MEMBER_INFO_INVALID));
 
         // 비밀번호 검증
         if (!passwordEncoder.matches(password, member.getPassword())) {
@@ -52,8 +51,17 @@ public class AuthService {
         return generateJwtPair(member);
     }
 
-    public void signOut(Long memberId) {
-        refreshTokenRepository.deleteById(memberId);
+    public void signOut(String refreshToken) {
+        refreshTokenRepository.deleteById(refreshToken);
+    }
+
+    public void delete(Long memberId) {
+        if (!memberRepository.existsById(memberId)) {
+            throw new BusinessException(ExceptionType.MEMBER_NOT_FOUND);
+        }
+
+        memberRepository.deleteById(memberId);
+        refreshTokenRepository.deleteByMemberId(memberId);
     }
 
     public JwtPair generateJwtPair(Member member) {
@@ -61,7 +69,7 @@ public class AuthService {
         AccessTokenData accessToken = accessTokenProvider.createToken(claims);
         RefreshTokenData refreshToken = refreshTokenProvider.createToken(claims);
 
-        refreshTokenRepository.save(RefreshToken.from(refreshToken));
+        refreshTokenRepository.save(refreshToken);
 
         return JwtPair.of(accessToken.token(), accessToken.expiredIn(), refreshToken.token(), refreshToken.expiredIn());
     }
