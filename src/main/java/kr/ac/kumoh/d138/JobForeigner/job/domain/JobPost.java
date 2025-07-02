@@ -2,7 +2,7 @@ package kr.ac.kumoh.d138.JobForeigner.job.domain;
 
 import jakarta.persistence.*;
 import kr.ac.kumoh.d138.JobForeigner.global.base.BaseEntity;
-import kr.ac.kumoh.d138.JobForeigner.job.dto.company.request.JobPostRequestDto;
+import kr.ac.kumoh.d138.JobForeigner.job.dto.request.JobPostRequestDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
