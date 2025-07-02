@@ -42,9 +42,10 @@ public class TokenUtils {
     public void setRefreshToken(HttpServletResponse response, JwtPair tokens) {
         Cookie cookie = new Cookie(COOKIE_NAME_REFRESH_TOKEN, tokens.refreshToken());
         cookie.setHttpOnly(true);
-        cookie.setSecure(secure);
         cookie.setDomain(domain);
         cookie.setPath(path);
+        cookie.setSecure(secure);
+        cookie.setAttribute("SameSite", "LAX");
         cookie.setMaxAge(tokens.refreshTokenExpiredIn());
         response.addCookie(cookie);
     }
@@ -55,9 +56,10 @@ public class TokenUtils {
     public void deleteRefreshToken(HttpServletResponse response) {
         Cookie cookie = new Cookie(COOKIE_NAME_REFRESH_TOKEN, null);
         cookie.setHttpOnly(true);
-        cookie.setSecure(secure);
         cookie.setDomain(domain);
         cookie.setPath(path);
+        cookie.setSecure(secure);
+        cookie.setAttribute("SameSite", "LAX");
         cookie.setMaxAge(0);
         response.addCookie(cookie);
     }
