@@ -4,6 +4,7 @@ on:
   workflow_run:
     workflows: [ "Java CI with Gradle" ]
     types: [ completed ]
+    branches: [ "dev" ]
 
 permissions:
   contents: read
