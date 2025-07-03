@@ -168,7 +168,7 @@ public class JobPostService {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new BusinessException(ExceptionType.MEMBER_NOT_FOUND));
         // 마감일 체크
-        if (jobPost.getDeadLine().isBefore(LocalDateTime.now())) {
+        if (jobPost.getExpiryAt().isBefore(LocalDateTime.now())) {
             throw new BusinessException(ExceptionType.EXPIRED_JOB_POST);
         }
 

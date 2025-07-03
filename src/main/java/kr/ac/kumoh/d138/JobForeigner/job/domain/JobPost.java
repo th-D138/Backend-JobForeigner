@@ -73,8 +73,4 @@ public JobPost(String title, String description, String location, String employm
         this.grade = dto.getGrade();
         this.expiryAt = dto.getExpiryAt();
     }
-
-    public LocalDateTime getDeadLine(){
-        return this.expiryAt;
-    }
 }
