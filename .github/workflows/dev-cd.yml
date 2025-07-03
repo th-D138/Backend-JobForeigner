@@ -1,6 +1,8 @@
 name: CD with Docker
 
 on:
+  push:
+    branches: [ "dev" ]
   workflow_run:
     workflows: [ "Java CI with Gradle" ]
     types: [ completed ]
@@ -47,14 +49,14 @@ jobs:
       # 메타 데이터를 추출해 이미지 태그 및 레이블 생성
       - name: Extract metadata
         id: meta
-        uses: docker/metadata-action@v4
+        uses: docker/metadata-action@v5
         with:
           images: ghcr.io/${{ github.repository }}
           tags: |
             type=sha
 
       - name: Build and Push Docker image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: .
           file: Dockerfile
