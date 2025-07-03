@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 public class JobPostController {
 
     private final JobPostService jobPostService;
+
     /*
     채용공고 임시저장
      */
@@ -81,5 +82,13 @@ public class JobPostController {
     public ResponseEntity<ResponseBody<String>> deleteJobPost(@PathVariable Long id){
         jobPostService.deleteJobPost(id);
         return ResponseEntity.ok(ResponseUtil.createSuccessResponse("채용공고 삭제 완료"));
+    }
+    @PostMapping("/jobPost/{resumeId}/{jobPostId}/apply")
+    public ResponseEntity<ResponseBody<String>> applyToJobPost(
+            @PathVariable Long jobPostId,
+            @AuthenticationPrincipal Long memberId,
+            @PathVariable Long resumeId) {
+        jobPostService.applyToJobPost(jobPostId, memberId, resumeId);
+        return ResponseEntity.ok(ResponseUtil.createSuccessResponse("채용공고 지원 완료"));
     }
 }
