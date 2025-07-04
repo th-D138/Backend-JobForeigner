@@ -48,7 +48,7 @@ public class CompanyMemberService {
                 .name(req.name())
                 .username(req.username())
                 .password(passwordEncoder.encode(req.password()))
-                .type(MemberType.valueOf(req.type()))
+                .type(MemberType.COMPANY)
                 .companyId(req.companyId())
                 .phoneNumber(req.phoneNumber())
                 .email(req.email())

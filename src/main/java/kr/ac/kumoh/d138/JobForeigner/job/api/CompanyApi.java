@@ -18,7 +18,6 @@ import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -41,8 +40,7 @@ public interface CompanyApi {
                     @SwaggerApiFailedResponse(ExceptionType.COMPANY_NOT_FOUND)
             }
     )
-    @GetMapping("/company")
-    public ResponseEntity<ResponseBody<GlobalPageResponse<CompanyResponseDto>>> getAllCompany(
+    ResponseEntity<ResponseBody<GlobalPageResponse<CompanyResponseDto>>> getAllCompany(
             @Parameter(description = "기업 이름 검색", example = "google")
             @RequestParam(required = false) String companyName,
 
@@ -73,8 +71,7 @@ public interface CompanyApi {
                     @SwaggerApiFailedResponse(ExceptionType.COMPANY_NOT_FOUND)
             }
     )
-    @GetMapping("/company/{companyId}")
-    public ResponseEntity<ResponseBody<CompanyDetailResponseDto>> getCompanyDetail(
+    ResponseEntity<ResponseBody<CompanyDetailResponseDto>> getCompanyDetail(
             @Parameter(description = "회사 아이디", example = "1", required = true)
             @PathVariable("companyId") Long companyId
     );

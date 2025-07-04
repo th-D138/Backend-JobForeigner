@@ -46,17 +46,17 @@ public class AuthController implements AuthApi {
                                                       HttpServletResponse response) {
         authService.signOut(refreshToken.getValue());
         tokenUtils.deleteRefreshToken(response);
-        return ResponseEntity.ok(ResponseUtil.createSuccessResponse());
+        return ResponseEntity.noContent().build();
     }
 
     /**
      * 외국인 및 기업 사용자 회원탈퇴 API
      */
-    @DeleteMapping
+    @DeleteMapping("/me")
     public ResponseEntity<ResponseBody<Void>> delete(@AuthenticationPrincipal Long memberId,
                                                      HttpServletResponse response) {
         authService.delete(memberId);
         tokenUtils.deleteRefreshToken(response);
-        return ResponseEntity.ok(ResponseUtil.createSuccessResponse());
+        return ResponseEntity.noContent().build();
     }
 }

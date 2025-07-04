@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Profile({"local", "dev"})
+@Profile("local")
 @RestController
 @RequestMapping("/api/test/members")
 @RequiredArgsConstructor
