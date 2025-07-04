@@ -10,22 +10,29 @@ spring:
       - properties/application-swagger.yml
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: ${job-foreigner.local.postgres.url}
-    username: ${job-foreigner.local.postgres.username}
-    password: ${job-foreigner.local.postgres.password}
+    url: ${job-foreigner.postgres.url}
+    username: ${job-foreigner.postgres.username}
+    password: ${job-foreigner.postgres.password}
   jpa:
-    hibernate:
-      ddl-auto: create
-      default_batch_fetch_size: 100
+    properties:
+      hibernate:
+        default_batch_fetch_size: 100
+        hbm2ddl.auto: update
+    open-in-view: false
   data:
     redis:
-      host: ${job-foreigner.local.redis.host}
-      port: ${job-foreigner.local.redis.port}
+      host: ${job-foreigner.redis.host}
+      port: ${job-foreigner.redis.port}
+      repositories:
+        enabled: false
+  batch:
+    jdbc:
+      initialize-schema: always
   mail:
-    host: ${job-foreigner.local.mail.host}
-    port: ${job-foreigner.local.mail.port}
-    username: ${job-foreigner.local.mail.username}
-    password: ${job-foreigner.local.mail.password}
+    host: ${job-foreigner.mail.host}
+    port: ${job-foreigner.mail.port}
+    username: ${job-foreigner.mail.username}
+    password: ${job-foreigner.mail.password}
     default-encoding: UTF-8
     properties:
       mail:
@@ -39,17 +46,6 @@ spring:
           timeout: 15000
           writetimeout: 5000
 
-job-foreigner:
-  swagger:
-    server-url: ${job-foreigner.local.swagger.server-url}
-    description: ${job-foreigner.local.swagger.description}
-  open-api:
-    validate-business-number:
-      host: ${job-foreigner.local.open-api.validate-business-number.host}
-      path: ${job-foreigner.local.open-api.validate-business-number.path}
-      encoding-key: ${job-foreigner.local.open-api.validate-business-number.encoding-key}
-      decoding-key: ${job-foreigner.local.open-api.validate-business-number.decoding-key}
-
 logging:
   level:
     org.springframework.web.servlet: debug
@@ -57,10 +53,6 @@ logging:
     org.hibernate.orm.jdbc.bind: trace
     org.hibernate.orm.jdb.extract: trace
     org.hibernate.type.descriptor.sql: trace
-
-swagger:
-  server-url: http://localhost:8080
-  description: "백엔드 로컬 서버"
 
 springdoc:
   packagesToScan: kr.ac.kumoh.d138.JobForeigner

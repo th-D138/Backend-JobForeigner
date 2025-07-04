@@ -93,7 +93,7 @@ public class CompanyService {
         List<Rating> reviewList=ratingRepository.findAllByCompanyId(company.getId());
 
         List<ReviewDto> reviewDtoList=reviewList.stream()
-                .map((rating)->ReviewDto.fromEntity(rating,"채주혁"))
+                .map((rating)->ReviewDto.fromEntity(rating,rating.getMember().getName()))
                 .toList();
         return CompanyDetailResponseDto.builder()
                 .companyInfoDto(companyInfoDto)
