@@ -1,7 +1,5 @@
 package kr.ac.kumoh.d138.JobForeigner.global.config.swagger;
 
-import io.swagger.v3.oas.annotations.Operation;
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

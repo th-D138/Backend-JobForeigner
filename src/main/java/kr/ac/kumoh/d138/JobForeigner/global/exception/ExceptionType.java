@@ -9,7 +9,6 @@ import static org.springframework.http.HttpStatus.*;
 @Getter
 @AllArgsConstructor
 public enum ExceptionType {
-
     // Common
     UNEXPECTED_SERVER_ERROR(INTERNAL_SERVER_ERROR,"C001","예상치 못한 서버 오류가 발생했습니다."),
     BINDING_ERROR(BAD_REQUEST,"C002","요청 데이터 변환 과정에서 오류가 발생했습니다."),
@@ -46,10 +45,16 @@ public enum ExceptionType {
     RESUME_FORBIDDEN(FORBIDDEN,"R001","접근할 수 없는 이력서입니다."),
     RESUME_NOT_FOUND(NOT_FOUND, "R002", "존재하지 않는 이력서입니다."),
 
+    // Image
+    FILE_SYSTEM_SAVE_FAILED(INTERNAL_SERVER_ERROR, "F001", "파일 시스템에 이미지를 저장할 수 없습니다."),
+
     //Application
     DUPLICATED_APPLICATION(FORBIDDEN,"A001", "중복된 지원입니다."),
+
     // Notification
-    NOTIFICATION_NOT_FOUND(NOT_FOUND,"N001","해당하는 알림을 찾을 수 없습니다.");
+    NOTIFICATION_NOT_FOUND(NOT_FOUND,"N001","해당하는 알림을 찾을 수 없습니다.")
+
+    ;
 
     private final HttpStatus status;
     private final String code;

@@ -1,6 +1,7 @@
 package kr.ac.kumoh.d138.JobForeigner.resume.controller;
 
 import kr.ac.kumoh.d138.JobForeigner.global.response.ResponseBody;
+import kr.ac.kumoh.d138.JobForeigner.resume.api.ResumeApi;
 import kr.ac.kumoh.d138.JobForeigner.resume.domain.Resume;
 import kr.ac.kumoh.d138.JobForeigner.resume.dto.request.ResumeRequest;
 import kr.ac.kumoh.d138.JobForeigner.resume.dto.response.ResumeResponse;
@@ -17,14 +18,13 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
 
 import static kr.ac.kumoh.d138.JobForeigner.global.response.ResponseUtil.createSuccessResponse;
 
 @RestController
 @RequestMapping("/api/v1/resumes")
 @RequiredArgsConstructor
-public class ResumeController {
+public class ResumeController implements ResumeApi {
     private final ResumeService resumeService;
 
     // 이력서 작성
@@ -61,14 +61,14 @@ public class ResumeController {
         return ResponseEntity.ok(createSuccessResponse(resumeResponses));
     }
 
-    // 사용자의 이력서 수정
-    @PatchMapping("/{resumeId}")
+    @PatchMapping(value = "/{resumeId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<ResponseBody<ResumeResponse>> updateResume(
-            @RequestPart ResumeRequest resumeRequest,
-            @RequestPart MultipartFile image,
-            @AuthenticationPrincipal Long memberId,
-            @PathVariable Long resumeId){
+        @RequestPart ResumeRequest resumeRequest,
+        @RequestPart MultipartFile image,
+        @AuthenticationPrincipal Long memberId,
+        @PathVariable Long resumeId
+    ) {
         ResumeResponse response = resumeService.updateResume(resumeRequest, image, memberId, resumeId);
         return ResponseEntity.ok(createSuccessResponse(response));
     }

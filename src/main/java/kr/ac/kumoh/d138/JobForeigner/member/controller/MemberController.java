@@ -3,12 +3,14 @@ package kr.ac.kumoh.d138.JobForeigner.member.controller;
 import jakarta.validation.Valid;
 import kr.ac.kumoh.d138.JobForeigner.global.jwt.authentication.JwtAuthentication;
 import kr.ac.kumoh.d138.JobForeigner.global.response.ResponseBody;
+import kr.ac.kumoh.d138.JobForeigner.member.api.MemberApi;
 import kr.ac.kumoh.d138.JobForeigner.member.dto.request.MemberProfileRequest;
 import kr.ac.kumoh.d138.JobForeigner.member.dto.request.ProfileImageRequest;
 import kr.ac.kumoh.d138.JobForeigner.member.dto.response.MemberProfileResponse;
 import kr.ac.kumoh.d138.JobForeigner.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -20,7 +22,7 @@ import static kr.ac.kumoh.d138.JobForeigner.global.response.ResponseUtil.createS
 @RequestMapping("/api/v1/members")
 @RequiredArgsConstructor
 @Slf4j
-public class MemberController {
+public class MemberController implements MemberApi {
     private final MemberService memberService;
 
     // TODO: 커뮤니티 기능 개발되면 추가
@@ -51,10 +53,10 @@ public class MemberController {
 
     // 프로필 사진 변경
     // TODO: 서버컴 세팅 완료하기
-    @PatchMapping("/profile-image")
+    @PatchMapping(value = "/profile-image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<ResponseBody<Void>> updateProfileImage(
-            @RequestPart ProfileImageRequest request,
+            @ModelAttribute ProfileImageRequest request,
             @AuthenticationPrincipal Long memberId){
         memberService.updateProfileImage(request, memberId);
         return ResponseEntity.ok(createSuccessResponse());
