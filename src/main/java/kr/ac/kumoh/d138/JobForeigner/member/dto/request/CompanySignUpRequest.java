@@ -15,8 +15,6 @@ public record CompanySignUpRequest(
         @NotBlank(message = "비밀번호는 필수 입력 항목입니다.")
         @Pattern(regexp = "^[\\x20-\\x7E]{8,}$", message = "8자 이상의 알파벳 대소문자, 숫자, 특수문자만 사용할 수 있습니다.")
         String password,
-        @NotBlank(message = "사용자 유형은 필수 입력 항목입니다.")
-        String type,
         @NotNull(message = "기업 아이디는 필수 입력 항목입니다.")
         Long companyId,
         @NotBlank(message = "담당자 전화번호는 필수 입력 항목입니다.")

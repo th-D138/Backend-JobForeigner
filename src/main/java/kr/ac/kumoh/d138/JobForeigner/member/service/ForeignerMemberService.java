@@ -39,7 +39,7 @@ public class ForeignerMemberService {
                 .name(req.name())
                 .username(req.username())
                 .password(passwordEncoder.encode(req.password()))
-                .type(MemberType.valueOf(req.type()))
+                .type(MemberType.FOREIGNER)
                 .phoneNumber(req.phoneNumber())
                 .email(req.email())
                 .gender(Gender.valueOf(req.gender()))

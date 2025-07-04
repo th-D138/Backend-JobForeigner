@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/scrap")
+@RequestMapping("/api/v1/scrap")
 public class ScrapController {
 
     private final ScrapService scrapService;

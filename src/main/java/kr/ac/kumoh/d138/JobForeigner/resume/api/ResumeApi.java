@@ -12,9 +12,6 @@ import kr.ac.kumoh.d138.JobForeigner.global.config.swagger.SwaggerApiResponses;
 import kr.ac.kumoh.d138.JobForeigner.global.config.swagger.SwaggerApiSuccessResponse;
 import kr.ac.kumoh.d138.JobForeigner.global.exception.ExceptionType;
 import kr.ac.kumoh.d138.JobForeigner.global.response.ResponseBody;
-import kr.ac.kumoh.d138.JobForeigner.job.dto.CompanyDetailResponseDto;
-import kr.ac.kumoh.d138.JobForeigner.job.dto.CompanyResponseDto;
-import kr.ac.kumoh.d138.JobForeigner.member.dto.response.MemberProfileResponse;
 import kr.ac.kumoh.d138.JobForeigner.resume.dto.request.ResumeRequest;
 import kr.ac.kumoh.d138.JobForeigner.resume.dto.response.ResumeResponse;
 import org.springdoc.core.annotations.ParameterObject;
@@ -28,8 +25,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
-
-import static kr.ac.kumoh.d138.JobForeigner.global.response.ResponseUtil.createSuccessResponse;
 
 public interface ResumeApi {
 
@@ -49,7 +44,7 @@ public interface ResumeApi {
             }
     )
 
-    public ResponseEntity<ResponseBody<Void>> createResume(
+    ResponseEntity<ResponseBody<Void>> createResume(
             @Parameter(
                     description = "이력서 정보",
                     schema = @Schema(implementation = ResumeRequest.class)
