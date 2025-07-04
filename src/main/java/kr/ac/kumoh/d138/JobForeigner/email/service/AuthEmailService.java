@@ -30,13 +30,13 @@ public class AuthEmailService {
 
     private final EmailSendService sendService;
 
-    @Value("${job-foreigner.local.mail.auth.subject}")
+    @Value("${job-foreigner.mail.auth.subject}")
     private String authEmailSubject;
 
-    @Value("${job-foreigner.local.mail.auth.base-url}")
+    @Value("${job-foreigner.mail.auth.base-url}")
     private String baseUrl;
 
-    @Value("${job-foreigner.local.mail.auth.verify-path}")
+    @Value("${job-foreigner.mail.auth.verify-path}")
     private String verifyPath;
 
     @Transactional

@@ -15,12 +15,13 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-
+    private final CorsConfigurationSource corsConfigurationSource;
     private final AccessDeniedHandler customAccessDeniedHandler;
     private final AuthenticationEntryPoint customAuthenticationEntryPoint;
 
@@ -46,7 +47,7 @@ public class SecurityConfig {
                     .accessDeniedHandler(customAccessDeniedHandler)
                     .authenticationEntryPoint(customAuthenticationEntryPoint))
                 .addFilterAfter(new JwtAuthenticationFilter(authenticationManager), UsernamePasswordAuthenticationFilter.class)
-                .cors(cors -> cors.configurationSource(CorsConfig.corsConfigurationSource()));
+                .cors(cors -> cors.configurationSource(corsConfigurationSource));
     }
 
     @Bean

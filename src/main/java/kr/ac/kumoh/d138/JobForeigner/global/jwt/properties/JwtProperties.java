@@ -6,7 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @Getter
 @Setter
-@ConfigurationProperties(prefix = "jwt")
+@ConfigurationProperties(prefix = "job-foreigner.jwt")
 public class JwtProperties {
     private String issuer;
     private String audience;

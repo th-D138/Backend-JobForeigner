@@ -22,15 +22,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class TokenController implements TokenApi {
     private final TokenService tokenService;
+    private final TokenUtils tokenUtils;
 
     @PostMapping("/refresh")
     public ResponseEntity<ResponseBody<Void>> refresh(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorization,
-                                                         @CookieValue(COOKIE_NAME_REFRESH_TOKEN) Cookie refreshToken,
+                                                         @CookieValue(TokenUtils.COOKIE_NAME_REFRESH_TOKEN) Cookie refreshToken,
                                                          HttpServletResponse response) {
-        JwtPair tokens = JwtPair.of(authorization.substring(BEARER_PREFIX.length()), 0, refreshToken.getValue(), 0);
+        JwtPair tokens = JwtPair.of(authorization.substring(TokenUtils.BEARER_PREFIX.length()), 0, refreshToken.getValue(), 0);
         JwtPair newTokens = tokenService.refresh(tokens);
 
-        TokenUtils.setAccessTokenAndRefreshToken(response, newTokens);
+        tokenUtils.setAccessTokenAndRefreshToken(response, newTokens);
 
         return ResponseEntity.ok(ResponseUtil.createSuccessResponse());
     }

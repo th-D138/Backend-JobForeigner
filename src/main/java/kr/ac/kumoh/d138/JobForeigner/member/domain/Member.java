@@ -23,7 +23,7 @@ import java.util.List;
 @Table(name = "member")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@SQLDelete(sql = "UPDATE member SET deleted_at = NOW() where id = ?")
+@SQLDelete(sql = "UPDATE member SET deleted_at = CURRENT_TIMESTAMP WHERE member_id = ?")
 @SQLRestriction(value = "deleted_at is NULL") // TODO: 7일 후 논리적 삭제된 사용자를 물리적으로 삭제하는 cron 작업이 필요
 public class Member extends BaseEntity {
     @Id
