@@ -33,6 +33,7 @@ public enum ExceptionType {
 
     // JobPost
     JOBPOST_NOT_FOUND(NOT_FOUND,"J001","채용 공고를 찾을 수 없습니다."),
+    EXPIRED_JOB_POST(FORBIDDEN,"J001","지원 마감된 공고입니다."),
 
     // Security
     NEED_AUTHORIZED(UNAUTHORIZED, "S001", "인증이 필요합니다."),
@@ -43,8 +44,12 @@ public enum ExceptionType {
 
     // Resume
     RESUME_FORBIDDEN(FORBIDDEN,"R001","접근할 수 없는 이력서입니다."),
-    RESUME_NOT_FOUND(NOT_FOUND, "R002", "존재하지 않는 이력서입니다.")
-    ;
+    RESUME_NOT_FOUND(NOT_FOUND, "R002", "존재하지 않는 이력서입니다."),
+
+    //Application
+    DUPLICATED_APPLICATION(FORBIDDEN,"A001", "중복된 지원입니다."),
+    // Notification
+    NOTIFICATION_NOT_FOUND(NOT_FOUND,"N001","해당하는 알림을 찾을 수 없습니다.");
 
     private final HttpStatus status;
     private final String code;
