@@ -34,7 +34,7 @@ public interface JobPostApi {
             ),
             errors = {
                     @SwaggerApiFailedResponse(ExceptionType.COMPANY_NOT_FOUND),
-                    @SwaggerApiFailedResponse(ExceptionType.VALIDATION_ERROR)
+                    @SwaggerApiFailedResponse(ExceptionType.BINDING_ERROR)
             }
     )
     ResponseEntity<ResponseBody<String>> saveTemporaryJobPost(
@@ -51,7 +51,7 @@ public interface JobPostApi {
             ),
             errors = {
                     @SwaggerApiFailedResponse(ExceptionType.COMPANY_NOT_FOUND),
-                    @SwaggerApiFailedResponse(ExceptionType.VALIDATION_ERROR)
+                    @SwaggerApiFailedResponse(ExceptionType.BINDING_ERROR)
             }
     )
     ResponseEntity<ResponseBody<String>> createJobPost(
@@ -101,7 +101,7 @@ public interface JobPostApi {
             ),
             errors = {
                     @SwaggerApiFailedResponse(ExceptionType.JOBPOST_NOT_FOUND),
-                    @SwaggerApiFailedResponse(ExceptionType.VALIDATION_ERROR)
+                    @SwaggerApiFailedResponse(ExceptionType.BINDING_ERROR)
             }
     )
     ResponseEntity<ResponseBody<UpdateJobPostResponseDto>> updateJobPost(
