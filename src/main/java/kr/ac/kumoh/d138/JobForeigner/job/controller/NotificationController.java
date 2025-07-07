@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/notifications")
+@RequestMapping("/api/v1/notifications")
 @RequiredArgsConstructor
 @Slf4j
 public class NotificationController {
@@ -44,7 +44,7 @@ public class NotificationController {
     /*
     읽은 알림 표시
      */
-    @GetMapping("/check/{notificationId}")
+    @PostMapping("/{notificationId}")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<ResponseBody<NotificationResponseDto>> checkReadNotification(@PathVariable Long notificationId, @AuthenticationPrincipal Long memberId){
         return ResponseEntity.ok(ResponseUtil.createSuccessResponse(alarmService.checkReadNotification(memberId, notificationId)));
@@ -53,7 +53,7 @@ public class NotificationController {
     /*
     알림 삭제하기
      */
-    @DeleteMapping("/delete/{notificationId}")
+    @DeleteMapping("/{notificationId}")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<ResponseBody<Void>> deleteNotification(@PathVariable Long notificationId, @AuthenticationPrincipal Long memberId){
         alarmService.deleteNotification(notificationId, memberId);

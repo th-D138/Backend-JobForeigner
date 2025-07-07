@@ -6,7 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @Getter
 @Setter
-@ConfigurationProperties(prefix = "cryptographic-key")
+@ConfigurationProperties(prefix = "job-foreigner.jwt.cryptographic-key")
 public class KeyProperties {
     private String salt;
 }

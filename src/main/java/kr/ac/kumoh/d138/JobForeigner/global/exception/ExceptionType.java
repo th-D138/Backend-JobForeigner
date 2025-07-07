@@ -9,11 +9,12 @@ import static org.springframework.http.HttpStatus.*;
 @Getter
 @AllArgsConstructor
 public enum ExceptionType {
-
     // Common
-    UNEXPECTED_SERVER_ERROR(INTERNAL_SERVER_ERROR,"C001","예상치 못한 에러 발생"),
-    BINDING_ERROR(BAD_REQUEST,"C002","바인딩시 에러 발생"),
-    ESSENTIAL_FIELD_MISSING_ERROR(NO_CONTENT , "C003","필수적인 필드 부재"),
+    UNEXPECTED_SERVER_ERROR(INTERNAL_SERVER_ERROR,"C001","예상치 못한 서버 오류가 발생했습니다."),
+    BINDING_ERROR(BAD_REQUEST,"C002","요청 데이터 변환 과정에서 오류가 발생했습니다."),
+    ESSENTIAL_FIELD_MISSING_ERROR(NO_CONTENT , "C003","필수 필드를 누락했습니다."),
+    INVALID_ENDPOINT(NOT_FOUND, "C004", "잘못된 API URI로 요청했습니다."),
+    INVALID_HTTP_METHOD(METHOD_NOT_ALLOWED, "C005","잘못된 HTTP 메서드로 요청했습니다."),
 
     // Member
     MEMBER_NOT_FOUND(NOT_FOUND, "U001", "사용자를 찾을 수 없습니다."),
@@ -44,10 +45,16 @@ public enum ExceptionType {
     RESUME_FORBIDDEN(FORBIDDEN,"R001","접근할 수 없는 이력서입니다."),
     RESUME_NOT_FOUND(NOT_FOUND, "R002", "존재하지 않는 이력서입니다."),
 
+    // Image
+    FILE_SYSTEM_SAVE_FAILED(INTERNAL_SERVER_ERROR, "F001", "파일 시스템에 이미지를 저장할 수 없습니다."),
+
     //Application
     DUPLICATED_APPLICATION(FORBIDDEN,"A001", "중복된 지원입니다."),
+
     // Notification
-    NOTIFICATION_NOT_FOUND(NOT_FOUND,"N001","해당하는 알림을 찾을 수 없습니다.");
+    NOTIFICATION_NOT_FOUND(NOT_FOUND,"N001","해당하는 알림을 찾을 수 없습니다.")
+
+    ;
 
     private final HttpStatus status;
     private final String code;
