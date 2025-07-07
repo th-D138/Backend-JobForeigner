@@ -106,7 +106,7 @@ public interface JobPostApi {
     )
     ResponseEntity<ResponseBody<UpdateJobPostResponseDto>> updateJobPost(
             @Parameter(description = "채용공고 ID") @PathVariable Long id,
-            @RequestBody JobPostRequestDto jobPostRequestDto
+            @Valid @RequestBody JobPostRequestDto jobPostRequestDto
     );
 
     @Operation(

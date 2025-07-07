@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,6 +31,7 @@ public class JobPostController {
     채용공고 임시저장
      */
     @PostMapping("/temp")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<ResponseBody<String>>  saveTemporaryJobPost(@Valid @RequestBody JobTempPostRequestDto jobTempPostRequestDto){
         jobPostService.saveTemporaryJobPost(jobTempPostRequestDto);
         return ResponseEntity.ok(ResponseUtil.createSuccessResponse("임시 저장 완료"));
@@ -39,6 +41,7 @@ public class JobPostController {
     채용공고 작성
      */
     @PostMapping
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<ResponseBody<String>>  createJobPost(@Valid @RequestBody JobPostRequestDto jobPostRequestDto){
         jobPostService.createJobPost(jobPostRequestDto);
         return ResponseEntity.ok(ResponseUtil.createSuccessResponse("채용공고 작성 완료"));
@@ -48,6 +51,7 @@ public class JobPostController {
     채용공고 조회
      */
     @GetMapping
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<ResponseBody<GlobalPageResponse<JobPostResponseDto>>> showJobPost(
             @RequestParam(required = false) String companyName,
             @RequestParam(required = false) String region,
@@ -62,6 +66,7 @@ public class JobPostController {
     채용공고 상세 페이지
      */
     @GetMapping("/{id}")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<ResponseBody<JobPostDetailResponseDto>> showJobPostDetail(@PathVariable Long id, @AuthenticationPrincipal Long memberId){
         JobPostDetailResponseDto jobPostDetail = jobPostService.getJobPostDetail(id, memberId);
         return ResponseEntity.ok(ResponseUtil.createSuccessResponse(jobPostDetail));
@@ -71,7 +76,8 @@ public class JobPostController {
     채용공고 수정
      */
     @PatchMapping("/{id}")
-    public ResponseEntity<ResponseBody<UpdateJobPostResponseDto>> updateJobPost(@PathVariable Long id,@RequestBody JobPostRequestDto jobPostRequestDto){
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<ResponseBody<UpdateJobPostResponseDto>> updateJobPost(@PathVariable Long id, @Valid @RequestBody JobPostRequestDto jobPostRequestDto){
         UpdateJobPostResponseDto jobPostResponseDto = jobPostService.updateJobPost(id, jobPostRequestDto);
         return ResponseEntity.ok(ResponseUtil.createSuccessResponse(jobPostResponseDto));
     }
@@ -80,11 +86,14 @@ public class JobPostController {
     채용공고 삭제
      */
     @DeleteMapping("/{id}")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<ResponseBody<String>> deleteJobPost(@PathVariable Long id){
         jobPostService.deleteJobPost(id);
         return ResponseEntity.ok(ResponseUtil.createSuccessResponse("채용공고 삭제 완료"));
     }
+
     @PostMapping("/jobPost/{resumeId}/{jobPostId}/apply")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<ResponseBody<String>> applyToJobPost(
             @PathVariable Long jobPostId,
             @AuthenticationPrincipal Long memberId,
