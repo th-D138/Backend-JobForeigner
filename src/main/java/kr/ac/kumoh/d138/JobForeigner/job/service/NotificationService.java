@@ -4,7 +4,7 @@ package kr.ac.kumoh.d138.JobForeigner.job.service;
 import kr.ac.kumoh.d138.JobForeigner.global.exception.BusinessException;
 import kr.ac.kumoh.d138.JobForeigner.global.exception.ExceptionType;
 import kr.ac.kumoh.d138.JobForeigner.job.domain.Notification;
-import kr.ac.kumoh.d138.JobForeigner.job.dto.alarm.NotificationResponseDto;
+import kr.ac.kumoh.d138.JobForeigner.job.dto.response.NotificationResponseDto;
 import kr.ac.kumoh.d138.JobForeigner.job.repository.NotificationRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

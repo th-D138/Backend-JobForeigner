@@ -3,7 +3,7 @@ package kr.ac.kumoh.d138.JobForeigner.job.controller;
 
 import kr.ac.kumoh.d138.JobForeigner.global.response.ResponseBody;
 import kr.ac.kumoh.d138.JobForeigner.global.response.ResponseUtil;
-import kr.ac.kumoh.d138.JobForeigner.job.dto.alarm.NotificationResponseDto;
+import kr.ac.kumoh.d138.JobForeigner.job.dto.response.NotificationResponseDto;
 import kr.ac.kumoh.d138.JobForeigner.job.service.NotificationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

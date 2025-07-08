@@ -2,7 +2,7 @@ package kr.ac.kumoh.d138.JobForeigner.job.domain;
 
 import jakarta.persistence.*;
 import kr.ac.kumoh.d138.JobForeigner.global.base.BaseEntity;
-import kr.ac.kumoh.d138.JobForeigner.job.dto.company.request.JobPostRequestDto;
+import kr.ac.kumoh.d138.JobForeigner.job.dto.request.JobPostRequestDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -72,9 +72,5 @@ public JobPost(String title, String description, String location, String employm
         this.career = dto.getCareer();
         this.grade = dto.getGrade();
         this.expiryAt = dto.getExpiryAt();
-    }
-
-    public LocalDateTime getDeadLine(){
-        return this.expiryAt;
     }
 }

@@ -6,11 +6,11 @@ import jakarta.transaction.Transactional;
 import kr.ac.kumoh.d138.JobForeigner.global.exception.BusinessException;
 import kr.ac.kumoh.d138.JobForeigner.global.exception.ExceptionType;
 import kr.ac.kumoh.d138.JobForeigner.job.domain.*;
-import kr.ac.kumoh.d138.JobForeigner.job.dto.company.request.JobPostRequestDto;
-import kr.ac.kumoh.d138.JobForeigner.job.dto.company.request.JobTempPostRequestDto;
-import kr.ac.kumoh.d138.JobForeigner.job.dto.company.response.JobPostDetailResponseDto;
-import kr.ac.kumoh.d138.JobForeigner.job.dto.company.response.JobPostResponseDto;
-import kr.ac.kumoh.d138.JobForeigner.job.dto.company.response.UpdateJobPostResponseDto;
+import kr.ac.kumoh.d138.JobForeigner.job.dto.request.JobPostRequestDto;
+import kr.ac.kumoh.d138.JobForeigner.job.dto.request.JobTempPostRequestDto;
+import kr.ac.kumoh.d138.JobForeigner.job.dto.response.JobPostDetailResponseDto;
+import kr.ac.kumoh.d138.JobForeigner.job.dto.response.JobPostResponseDto;
+import kr.ac.kumoh.d138.JobForeigner.job.dto.response.UpdateJobPostResponseDto;
 import kr.ac.kumoh.d138.JobForeigner.job.repository.CompanyRepository;
 import kr.ac.kumoh.d138.JobForeigner.job.repository.JobApplicationRepository;
 import kr.ac.kumoh.d138.JobForeigner.job.repository.JobPostRepository;
@@ -168,7 +168,7 @@ public class JobPostService {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new BusinessException(ExceptionType.MEMBER_NOT_FOUND));
         // 마감일 체크
-        if (jobPost.getDeadLine().isBefore(LocalDateTime.now())) {
+        if (jobPost.getExpiryAt().isBefore(LocalDateTime.now())) {
             throw new BusinessException(ExceptionType.EXPIRED_JOB_POST);
         }
 

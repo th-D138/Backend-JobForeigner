@@ -1,4 +1,4 @@
-package kr.ac.kumoh.d138.JobForeigner.job.dto;
+package kr.ac.kumoh.d138.JobForeigner.job.dto.response;
 
 import kr.ac.kumoh.d138.JobForeigner.rating.Rating;
 import lombok.Builder;
