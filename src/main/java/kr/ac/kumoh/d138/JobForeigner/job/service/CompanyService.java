@@ -80,6 +80,7 @@ public class CompanyService {
         return new PageImpl<>(dtos, pageable, total != null ? total : 0);
     }
 
+    @Transactional
     public CompanyDetailResponseDto getCompanyDetail(Long id) {
         Company company = companyRepository.findById(id)
                 .orElseThrow(()->new BusinessException(ExceptionType.COMPANY_NOT_FOUND));
