@@ -37,7 +37,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ResponseBody<Void>> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
-        log.error("HttpMessageNotReadableException : {}", e.getMessage());
+        log.error("HttpMessageNotReadableException : {}", e);
         return ResponseEntity
                 .status(ExceptionType.BINDING_ERROR.getStatus())
                 .body(ResponseUtil.createFailureResponse(ExceptionType.BINDING_ERROR));
@@ -59,7 +59,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<ResponseBody<Void>> handleAccessDeniedException(AccessDeniedException e) {
-        log.error("AccessDeniedException : {}", e.getMessage());
+        log.error("AccessDeniedException : {}", e);
         return ResponseEntity
                 .status(ExceptionType.ACCESS_DENIED.getStatus())
                 .body(ResponseUtil.createFailureResponse(ExceptionType.ACCESS_DENIED));
@@ -67,7 +67,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ResponseBody<Void>> handleException(Exception e){
-        log.error("Exception : {}", e.getMessage());
+        log.error("unhandle error : {}", e);
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(ResponseUtil.createFailureResponse(ExceptionType.UNEXPECTED_SERVER_ERROR));
