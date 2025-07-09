@@ -3,6 +3,7 @@ package kr.ac.kumoh.d138.JobForeigner.job.controller;
 
 import kr.ac.kumoh.d138.JobForeigner.global.response.ResponseBody;
 import kr.ac.kumoh.d138.JobForeigner.global.response.ResponseUtil;
+import kr.ac.kumoh.d138.JobForeigner.job.api.NotificationApi;
 import kr.ac.kumoh.d138.JobForeigner.job.dto.response.NotificationResponseDto;
 import kr.ac.kumoh.d138.JobForeigner.job.service.NotificationService;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,7 @@ import java.util.List;
 @RequestMapping("/api/v1/notifications")
 @RequiredArgsConstructor
 @Slf4j
-public class NotificationController {
+public class NotificationController implements NotificationApi {
 
     private final NotificationService alarmService;
 

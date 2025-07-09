@@ -2,6 +2,7 @@ package kr.ac.kumoh.d138.JobForeigner.scrap.controller;
 
 import kr.ac.kumoh.d138.JobForeigner.global.response.ResponseBody;
 import kr.ac.kumoh.d138.JobForeigner.global.response.ResponseUtil;
+import kr.ac.kumoh.d138.JobForeigner.scrap.api.ScrapApi;
 import kr.ac.kumoh.d138.JobForeigner.scrap.dto.ScrapResponse;
 import kr.ac.kumoh.d138.JobForeigner.scrap.service.ScrapService;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/scrap")
-public class ScrapController {
+public class ScrapController implements ScrapApi {
 
     private final ScrapService scrapService;
 
