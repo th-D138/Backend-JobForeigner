@@ -10,7 +10,6 @@ import kr.ac.kumoh.d138.JobForeigner.global.exception.ExceptionType;
 import kr.ac.kumoh.d138.JobForeigner.global.response.ResponseBody;
 import kr.ac.kumoh.d138.JobForeigner.job.dto.response.NotificationResponseDto;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,13 +24,13 @@ public interface NotificationApi {
     )
     @SwaggerApiResponses(
             success = @SwaggerApiSuccessResponse(
-                    description = "읽지 않은 알림 개수 조회 성공"
+                    description = "읽지 않은 알림 개수 조회 성공",
+                    response = Integer.class
             ),
             errors = {
                     @SwaggerApiFailedResponse(ExceptionType.MEMBER_NOT_FOUND)
             }
     )
-    @PreAuthorize("isAuthenticated()")
     ResponseEntity<ResponseBody<Integer>> getUnreadCount(
             @AuthenticationPrincipal Long memberId
     );
@@ -42,13 +41,13 @@ public interface NotificationApi {
     )
     @SwaggerApiResponses(
             success = @SwaggerApiSuccessResponse(
-                    description = "알림 조회 성공"
+                    description = "알림 조회 성공",
+                    response = NotificationResponseDto[].class
             ),
             errors = {
                     @SwaggerApiFailedResponse(ExceptionType.MEMBER_NOT_FOUND)
             }
     )
-    @PreAuthorize("isAuthenticated()")
     ResponseEntity<ResponseBody<List<NotificationResponseDto>>> getRecentNotification(
             @AuthenticationPrincipal Long memberId
     );
@@ -59,7 +58,8 @@ public interface NotificationApi {
     )
     @SwaggerApiResponses(
             success = @SwaggerApiSuccessResponse(
-                    description = "알림 읽음 처리 성공"
+                    description = "알림 읽음 처리 성공",
+                    response = NotificationResponseDto.class
             ),
             errors = {
                     @SwaggerApiFailedResponse(ExceptionType.MEMBER_NOT_FOUND),
@@ -67,9 +67,9 @@ public interface NotificationApi {
                     @SwaggerApiFailedResponse(ExceptionType.ACCESS_DENIED)
             }
     )
-    @PreAuthorize("isAuthenticated()")
     ResponseEntity<ResponseBody<NotificationResponseDto>> checkReadNotification(
-            @Parameter(description = "알림 ID") @PathVariable Long notificationId,
+            @Parameter(description = "알림 ID", required = true)
+            @PathVariable Long notificationId,
             @AuthenticationPrincipal Long memberId
     );
 
@@ -87,9 +87,9 @@ public interface NotificationApi {
                     @SwaggerApiFailedResponse(ExceptionType.ACCESS_DENIED)
             }
     )
-    @PreAuthorize("isAuthenticated()")
     ResponseEntity<ResponseBody<Void>> deleteNotification(
-            @Parameter(description = "알림 ID") @PathVariable Long notificationId,
+            @Parameter(description = "알림 ID", required = true)
+            @PathVariable Long notificationId,
             @AuthenticationPrincipal Long memberId
     );
 }
