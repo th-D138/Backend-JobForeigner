@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import kr.ac.kumoh.d138.JobForeigner.global.response.GlobalPageResponse;
 import kr.ac.kumoh.d138.JobForeigner.global.response.ResponseBody;
 import kr.ac.kumoh.d138.JobForeigner.global.response.ResponseUtil;
+import kr.ac.kumoh.d138.JobForeigner.job.api.JobPostApi;
 import kr.ac.kumoh.d138.JobForeigner.job.dto.request.JobPostRequestDto;
 import kr.ac.kumoh.d138.JobForeigner.job.dto.request.JobTempPostRequestDto;
 import kr.ac.kumoh.d138.JobForeigner.job.dto.response.JobPostDetailResponseDto;
@@ -23,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/job-posts")
-public class JobPostController {
+public class JobPostController implements JobPostApi {
 
     private final JobPostService jobPostService;
 
