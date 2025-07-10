@@ -54,6 +54,14 @@ public class Company {
     @Column(name = "monthly_take_home") // 월 실수령액 (단위: 원)
     private Integer monthlyTakeHome;
 
+    @Enumerated(EnumType.STRING)
+    private CompanyCategory companyCategory;
+
+    private String Welfare;
+
+    //TODO: 프론트 개발 임시용 필드, 추후 이미지 구현시 수정해야함
+    private String imageUrl;
+
     @OneToOne(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
     private CompanyRating companyRating;
 
