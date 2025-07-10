@@ -9,7 +9,7 @@ import java.util.List;
 @Builder
 public class CompanyDetailResponseDto {
     private CompanyInfoDto companyInfoDto;
-    private JobPostDto jobPostDto;
+    private List<JobPostDto> jobPostDto;
     private SalaryInfoDto salaryInfoDto;
     private CompanyRatingDto companyRatingDto;
     private List<ReviewDto> reviewDto;
