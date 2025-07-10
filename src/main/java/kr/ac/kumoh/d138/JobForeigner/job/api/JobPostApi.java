@@ -64,13 +64,18 @@ public interface JobPostApi {
     )
     @SwaggerApiResponses(
             success = @SwaggerApiSuccessResponse(
-                    description = "채용공고 조회 성공"
+                    description = "채용공고 조회 성공",
+                    responsePage = JobPostResponseDto.class
             )
     )
     ResponseEntity<ResponseBody<GlobalPageResponse<JobPostResponseDto>>> showJobPost(
-            @Parameter(description = "기업명 검색") @RequestParam(required = false) String companyName,
-            @Parameter(description = "지역 검색") @RequestParam(required = false) String region,
-            @Parameter(description = "직종 검색") @RequestParam(required = false) String jobType,
+            @Parameter(description = "기업명 검색 키워드")
+            @RequestParam(required = false) String companyName,
+            @Parameter(description = "지역 검색 키워드")
+            @RequestParam(required = false) String region,
+            @Parameter(description = "직종 검색 키워드")
+            @RequestParam(required = false) String jobType,
+            @Parameter(description = "페이징 정보 (기본 크기: 12, 정렬: companyName)")
             @PageableDefault(size = 12, sort = "companyName") Pageable pageable
     );
 
@@ -80,14 +85,16 @@ public interface JobPostApi {
     )
     @SwaggerApiResponses(
             success = @SwaggerApiSuccessResponse(
-                    description = "채용공고 상세 조회 성공"
+                    description = "채용공고 상세 조회 성공",
+                    response = JobPostDetailResponseDto.class
             ),
             errors = {
                     @SwaggerApiFailedResponse(ExceptionType.JOBPOST_NOT_FOUND)
             }
     )
     ResponseEntity<ResponseBody<JobPostDetailResponseDto>> showJobPostDetail(
-            @Parameter(description = "채용공고 ID") @PathVariable Long id,
+            @Parameter(description = "채용공고 ID", required = true)
+            @PathVariable Long id,
             @CurrentMemberId Long memberId
     );
 
@@ -97,7 +104,8 @@ public interface JobPostApi {
     )
     @SwaggerApiResponses(
             success = @SwaggerApiSuccessResponse(
-                    description = "채용공고 수정 성공"
+                    description = "채용공고 수정 성공",
+                    response = UpdateJobPostResponseDto.class
             ),
             errors = {
                     @SwaggerApiFailedResponse(ExceptionType.JOBPOST_NOT_FOUND),
@@ -105,7 +113,8 @@ public interface JobPostApi {
             }
     )
     ResponseEntity<ResponseBody<UpdateJobPostResponseDto>> updateJobPost(
-            @Parameter(description = "채용공고 ID") @PathVariable Long id,
+            @Parameter(description = "채용공고 ID", required = true)
+            @PathVariable Long id,
             @Valid @RequestBody JobPostRequestDto jobPostRequestDto
     );
 
@@ -122,7 +131,8 @@ public interface JobPostApi {
             }
     )
     ResponseEntity<ResponseBody<String>> deleteJobPost(
-            @Parameter(description = "채용공고 ID") @PathVariable Long id
+            @Parameter(description = "채용공고 ID", required = true)
+            @PathVariable Long id
     );
 
     @Operation(
@@ -142,8 +152,10 @@ public interface JobPostApi {
             }
     )
     ResponseEntity<ResponseBody<String>> applyToJobPost(
-            @Parameter(description = "채용공고 ID") @PathVariable Long jobPostId,
+            @Parameter(description = "채용공고 ID", required = true)
+            @PathVariable Long jobPostId,
             @CurrentMemberId Long memberId,
-            @Parameter(description = "이력서 ID") @PathVariable Long resumeId
+            @Parameter(description = "이력서 ID", required = true)
+            @PathVariable Long resumeId
     );
 }

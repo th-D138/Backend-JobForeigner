@@ -11,7 +11,6 @@ import kr.ac.kumoh.d138.JobForeigner.global.jwt.annotation.CurrentMemberId;
 import kr.ac.kumoh.d138.JobForeigner.global.response.ResponseBody;
 import kr.ac.kumoh.d138.JobForeigner.scrap.dto.ScrapResponse;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 
 @Tag(name = "스크랩 API", description = "채용공고 스크랩 관련 API")
@@ -25,7 +24,8 @@ public interface ScrapApi {
     )
     @SwaggerApiResponses(
             success = @SwaggerApiSuccessResponse(
-                    description = "스크랩 토글 성공"
+                    description = "스크랩 토글 성공",
+                    response = ScrapResponse.class
             ),
             errors = {
                     @SwaggerApiFailedResponse(ExceptionType.MEMBER_NOT_FOUND),
@@ -33,7 +33,6 @@ public interface ScrapApi {
                     @SwaggerApiFailedResponse(ExceptionType.ACCESS_DENIED)
             }
     )
-    @PreAuthorize("isAuthenticated()")
     ResponseEntity<ResponseBody<ScrapResponse>> toggleScrap(
             @CurrentMemberId Long memberId,
             @Parameter(description = "채용공고 ID", required = true)
