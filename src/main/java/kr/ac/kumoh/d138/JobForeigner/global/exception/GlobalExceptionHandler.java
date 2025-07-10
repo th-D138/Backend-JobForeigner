@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -63,6 +64,13 @@ public class GlobalExceptionHandler {
         return ResponseEntity
                 .status(ExceptionType.ACCESS_DENIED.getStatus())
                 .body(ResponseUtil.createFailureResponse(ExceptionType.ACCESS_DENIED));
+    }
+
+    @ExceptionHandler(AuthenticationCredentialsNotFoundException.class)
+    public ResponseEntity<ResponseBody<Void>> handleAuthenticationCredentialsNotFoundException(AuthenticationCredentialsNotFoundException e) {
+        return ResponseEntity
+                .status(ExceptionType.NEED_AUTHORIZED.getStatus())
+                .body(ResponseUtil.createFailureResponse(ExceptionType.NEED_AUTHORIZED));
     }
 
     @ExceptionHandler(Exception.class)
