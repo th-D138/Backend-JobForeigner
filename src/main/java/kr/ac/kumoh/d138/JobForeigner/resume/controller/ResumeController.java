@@ -1,5 +1,6 @@
 package kr.ac.kumoh.d138.JobForeigner.resume.controller;
 
+import kr.ac.kumoh.d138.JobForeigner.global.jwt.annotation.CurrentMemberId;
 import kr.ac.kumoh.d138.JobForeigner.global.response.ResponseBody;
 import kr.ac.kumoh.d138.JobForeigner.resume.api.ResumeApi;
 import kr.ac.kumoh.d138.JobForeigner.resume.domain.Resume;
@@ -14,12 +15,10 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-
-import static kr.ac.kumoh.d138.JobForeigner.global.response.ResponseUtil.createSuccessResponse;
+import static kr.ac.kumoh.d138.JobForeigner.global.response.ResponseUtil.*;
 
 @RestController
 @RequestMapping("/api/v1/resumes")
@@ -34,7 +33,7 @@ public class ResumeController implements ResumeApi {
     public ResponseEntity<ResponseBody<Void>> createResume(
             @RequestPart ResumeRequest resumeRequest,
             @RequestPart(required = false) MultipartFile image,
-            @AuthenticationPrincipal Long memberId) {
+            @CurrentMemberId Long memberId) {
         resumeService.createResume(resumeRequest, image, memberId);
         return ResponseEntity.ok(createSuccessResponse());
     }
@@ -45,7 +44,7 @@ public class ResumeController implements ResumeApi {
     @GetMapping("/{resumeId}")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<ResponseBody<ResumeResponse>> getResume(
-            @AuthenticationPrincipal Long memberId,
+            @CurrentMemberId Long memberId,
             @PathVariable Long resumeId) {
         Resume resume = resumeService.getResume(memberId, resumeId);
         return ResponseEntity.ok(createSuccessResponse(ResumeResponse.toResumeResponse(resume)));
@@ -55,7 +54,7 @@ public class ResumeController implements ResumeApi {
     @GetMapping()
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<ResponseBody<Page<ResumeResponse>>> getAllResumes
-            (@AuthenticationPrincipal Long memberId,
+            (@CurrentMemberId Long memberId,
              @PageableDefault(size = 10, sort = "updatedAt", direction = Sort.Direction.DESC) Pageable pageable) {
         Page<ResumeResponse> resumeResponses = resumeService.getAllResume(memberId, pageable);
         return ResponseEntity.ok(createSuccessResponse(resumeResponses));
@@ -66,7 +65,7 @@ public class ResumeController implements ResumeApi {
     public ResponseEntity<ResponseBody<ResumeResponse>> updateResume(
         @RequestPart ResumeRequest resumeRequest,
         @RequestPart MultipartFile image,
-        @AuthenticationPrincipal Long memberId,
+        @CurrentMemberId Long memberId,
         @PathVariable Long resumeId
     ) {
         ResumeResponse response = resumeService.updateResume(resumeRequest, image, memberId, resumeId);
@@ -76,7 +75,7 @@ public class ResumeController implements ResumeApi {
     // 사용자의 이력서 삭제
     @DeleteMapping("/{resumeId}")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<ResponseBody<Void>> deleteResume(@PathVariable Long resumeId, @AuthenticationPrincipal Long memberId){
+    public ResponseEntity<ResponseBody<Void>> deleteResume(@PathVariable Long resumeId, @CurrentMemberId Long memberId){
         resumeService.deleteResume(resumeId, memberId);
         return ResponseEntity.ok(createSuccessResponse());
     }

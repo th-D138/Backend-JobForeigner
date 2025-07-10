@@ -7,10 +7,10 @@ import kr.ac.kumoh.d138.JobForeigner.global.config.swagger.SwaggerApiFailedRespo
 import kr.ac.kumoh.d138.JobForeigner.global.config.swagger.SwaggerApiResponses;
 import kr.ac.kumoh.d138.JobForeigner.global.config.swagger.SwaggerApiSuccessResponse;
 import kr.ac.kumoh.d138.JobForeigner.global.exception.ExceptionType;
+import kr.ac.kumoh.d138.JobForeigner.global.jwt.annotation.CurrentMemberId;
 import kr.ac.kumoh.d138.JobForeigner.global.response.ResponseBody;
 import kr.ac.kumoh.d138.JobForeigner.scrap.dto.ScrapResponse;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
 
 @Tag(name = "스크랩 API", description = "채용공고 스크랩 관련 API")
@@ -34,7 +34,7 @@ public interface ScrapApi {
             }
     )
     ResponseEntity<ResponseBody<ScrapResponse>> toggleScrap(
-            @AuthenticationPrincipal Long memberId,
+            @CurrentMemberId Long memberId,
             @Parameter(description = "채용공고 ID", required = true)
             @PathVariable Long jobPostId
     );
