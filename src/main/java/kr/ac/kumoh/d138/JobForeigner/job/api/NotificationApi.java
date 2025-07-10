@@ -7,11 +7,10 @@ import kr.ac.kumoh.d138.JobForeigner.global.config.swagger.SwaggerApiFailedRespo
 import kr.ac.kumoh.d138.JobForeigner.global.config.swagger.SwaggerApiResponses;
 import kr.ac.kumoh.d138.JobForeigner.global.config.swagger.SwaggerApiSuccessResponse;
 import kr.ac.kumoh.d138.JobForeigner.global.exception.ExceptionType;
+import kr.ac.kumoh.d138.JobForeigner.global.jwt.annotation.CurrentMemberId;
 import kr.ac.kumoh.d138.JobForeigner.global.response.ResponseBody;
 import kr.ac.kumoh.d138.JobForeigner.job.dto.response.NotificationResponseDto;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,9 +30,8 @@ public interface NotificationApi {
                     @SwaggerApiFailedResponse(ExceptionType.MEMBER_NOT_FOUND)
             }
     )
-    @PreAuthorize("isAuthenticated()")
     ResponseEntity<ResponseBody<Integer>> getUnreadCount(
-            @AuthenticationPrincipal Long memberId
+            @CurrentMemberId Long memberId
     );
 
     @Operation(
@@ -48,9 +46,8 @@ public interface NotificationApi {
                     @SwaggerApiFailedResponse(ExceptionType.MEMBER_NOT_FOUND)
             }
     )
-    @PreAuthorize("isAuthenticated()")
     ResponseEntity<ResponseBody<List<NotificationResponseDto>>> getRecentNotification(
-            @AuthenticationPrincipal Long memberId
+            @CurrentMemberId Long memberId
     );
 
     @Operation(
@@ -67,10 +64,9 @@ public interface NotificationApi {
                     @SwaggerApiFailedResponse(ExceptionType.ACCESS_DENIED)
             }
     )
-    @PreAuthorize("isAuthenticated()")
     ResponseEntity<ResponseBody<NotificationResponseDto>> checkReadNotification(
             @Parameter(description = "알림 ID") @PathVariable Long notificationId,
-            @AuthenticationPrincipal Long memberId
+            @CurrentMemberId Long memberId
     );
 
     @Operation(
@@ -87,9 +83,8 @@ public interface NotificationApi {
                     @SwaggerApiFailedResponse(ExceptionType.ACCESS_DENIED)
             }
     )
-    @PreAuthorize("isAuthenticated()")
     ResponseEntity<ResponseBody<Void>> deleteNotification(
             @Parameter(description = "알림 ID") @PathVariable Long notificationId,
-            @AuthenticationPrincipal Long memberId
+            @CurrentMemberId Long memberId
     );
 }

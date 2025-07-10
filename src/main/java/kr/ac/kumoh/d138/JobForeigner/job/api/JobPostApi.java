@@ -8,6 +8,7 @@ import kr.ac.kumoh.d138.JobForeigner.global.config.swagger.SwaggerApiFailedRespo
 import kr.ac.kumoh.d138.JobForeigner.global.config.swagger.SwaggerApiResponses;
 import kr.ac.kumoh.d138.JobForeigner.global.config.swagger.SwaggerApiSuccessResponse;
 import kr.ac.kumoh.d138.JobForeigner.global.exception.ExceptionType;
+import kr.ac.kumoh.d138.JobForeigner.global.jwt.annotation.CurrentMemberId;
 import kr.ac.kumoh.d138.JobForeigner.global.response.GlobalPageResponse;
 import kr.ac.kumoh.d138.JobForeigner.global.response.ResponseBody;
 import kr.ac.kumoh.d138.JobForeigner.job.dto.request.JobPostRequestDto;
@@ -18,7 +19,6 @@ import kr.ac.kumoh.d138.JobForeigner.job.dto.response.UpdateJobPostResponseDto;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "채용공고 API", description = "채용공고 관련 API")
@@ -88,7 +88,7 @@ public interface JobPostApi {
     )
     ResponseEntity<ResponseBody<JobPostDetailResponseDto>> showJobPostDetail(
             @Parameter(description = "채용공고 ID") @PathVariable Long id,
-            @AuthenticationPrincipal Long memberId
+            @CurrentMemberId Long memberId
     );
 
     @Operation(
@@ -143,7 +143,7 @@ public interface JobPostApi {
     )
     ResponseEntity<ResponseBody<String>> applyToJobPost(
             @Parameter(description = "채용공고 ID") @PathVariable Long jobPostId,
-            @AuthenticationPrincipal Long memberId,
+            @CurrentMemberId Long memberId,
             @Parameter(description = "이력서 ID") @PathVariable Long resumeId
     );
 }
