@@ -1,6 +1,5 @@
 package kr.ac.kumoh.d138.JobForeigner.member.service;
 
-import kr.ac.kumoh.d138.JobForeigner.email.service.AuthEmailService;
 import kr.ac.kumoh.d138.JobForeigner.global.exception.BusinessException;
 import kr.ac.kumoh.d138.JobForeigner.global.exception.ExceptionType;
 import kr.ac.kumoh.d138.JobForeigner.global.jwt.JwtClaims;
@@ -9,6 +8,7 @@ import kr.ac.kumoh.d138.JobForeigner.global.jwt.token.access.AccessTokenProvider
 import kr.ac.kumoh.d138.JobForeigner.global.jwt.token.refresh.RefreshTokenData;
 import kr.ac.kumoh.d138.JobForeigner.global.jwt.token.refresh.RefreshTokenProvider;
 import kr.ac.kumoh.d138.JobForeigner.member.domain.Member;
+import kr.ac.kumoh.d138.JobForeigner.member.dto.request.ChangeEmailRequest;
 import kr.ac.kumoh.d138.JobForeigner.member.repository.MemberRepository;
 import kr.ac.kumoh.d138.JobForeigner.token.dto.JwtPair;
 import kr.ac.kumoh.d138.JobForeigner.token.repository.RefreshTokenRepository;
@@ -25,8 +25,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class AuthService {
     private final MemberRepository memberRepository;
     private final RefreshTokenRepository refreshTokenRepository;
-
-    private final AuthEmailService authEmailService;
 
     private final AccessTokenProvider accessTokenProvider;
     private final RefreshTokenProvider refreshTokenProvider;
@@ -71,17 +69,16 @@ public class AuthService {
     }
 
     @Transactional
-    public void changeEmail(Long memberId, String email) {
+    public void changeEmail(Long memberId, ChangeEmailRequest changeEmailRequest) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new BusinessException(ExceptionType.MEMBER_NOT_FOUND));
 
         // 이미 등록된 이메일인지 확인
-        if (memberRepository.existsByEmail(email)) {
+        if (memberRepository.existsByEmail(changeEmailRequest.email())) {
             throw new BusinessException(ExceptionType.EMAIL_ALREADY_EXISTS);
         }
 
-        // 이메일 변경 및 이메일 주소 인증 메일 발송
-        member.changeEmail(email);
-        authEmailService.sendMail(email);
+        // 이메일 주소 변경
+        member.changeEmail(changeEmailRequest.email());
     }
 }

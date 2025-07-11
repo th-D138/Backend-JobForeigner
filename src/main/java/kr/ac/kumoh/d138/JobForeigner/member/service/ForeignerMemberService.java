@@ -34,7 +34,6 @@ public class ForeignerMemberService {
 
         Member member = Member.builder()
                 .name(req.name())
-                .username(req.username())
                 .password(passwordEncoder.encode(req.password()))
                 .type(MemberType.FOREIGNER)
                 .phoneNumber(req.phoneNumber())

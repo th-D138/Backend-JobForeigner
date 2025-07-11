@@ -48,7 +48,6 @@ public class TestMemberService {
     private final int COMPANY_MONTHLY_TAKE_HOME = 1980000;
 
     private final String MEMBER_NAME = "홍길순";
-    private final String MEMBER_USERNAME = "test";
     private final String MEMBER_PASSWORD = "test!234";
     private final String MEMBER_TYPE_COMPANY = "COMPANY";
     private final String MEMBER_TYPE_FOREIGNER = "FOREIGNER";
@@ -71,7 +70,6 @@ public class TestMemberService {
 
         Member member = Member.builder()
                 .name(MEMBER_NAME)
-                .username(MEMBER_USERNAME)
                 .password(passwordEncoder.encode(MEMBER_PASSWORD))
                 .type(MemberType.valueOf(MEMBER_TYPE_FOREIGNER))
                 .phoneNumber(MEMBER_PHONE_NUMBER)
@@ -111,7 +109,6 @@ public class TestMemberService {
 
         Member member = Member.builder()
                 .name(MEMBER_NAME)
-                .username(MEMBER_USERNAME)
                 .password(passwordEncoder.encode(MEMBER_PASSWORD))
                 .type(MemberType.valueOf(MEMBER_TYPE_COMPANY))
                 .companyId(company.getId())
