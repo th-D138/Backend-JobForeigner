@@ -65,9 +65,6 @@ public class TestMemberService {
 
     @Transactional
     public JwtPair signUpForForeigner() {
-        if (memberRepository.existsByUsername(MEMBER_USERNAME)) {
-            throw new BusinessException(ExceptionType.USERNAME_ALREADY_EXISTS);
-        }
         if (memberRepository.existsByEmail(MEMBER_EMAIL)) {
             throw new BusinessException(ExceptionType.EMAIL_ALREADY_EXISTS);
         }
@@ -93,9 +90,6 @@ public class TestMemberService {
 
     @Transactional
     public JwtPair signUpForCompany() {
-        if (memberRepository.existsByUsername(MEMBER_USERNAME)) {
-            throw new BusinessException(ExceptionType.USERNAME_ALREADY_EXISTS);
-        }
         if (memberRepository.existsByEmail(MEMBER_EMAIL)) {
             throw new BusinessException(ExceptionType.EMAIL_ALREADY_EXISTS);
         }
