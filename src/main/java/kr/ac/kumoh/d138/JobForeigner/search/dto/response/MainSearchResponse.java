@@ -1,6 +1,5 @@
 package kr.ac.kumoh.d138.JobForeigner.search.dto.response;
 
-import kr.ac.kumoh.d138.JobForeigner.job.domain.JobPostStatus;
 import kr.ac.kumoh.d138.JobForeigner.job.dto.response.JobPostResponseDto;
 
 import java.util.List;
