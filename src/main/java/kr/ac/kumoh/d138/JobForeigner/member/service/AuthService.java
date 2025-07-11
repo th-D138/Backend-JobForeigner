@@ -33,18 +33,13 @@ public class AuthService {
 
     private final PasswordEncoder passwordEncoder;
 
-    public JwtPair signIn(String username, String password) {
-        Member member = memberRepository.findByUsername(username)
+    public JwtPair signIn(String email, String password) {
+        Member member = memberRepository.findByEmail(email)
                 .orElseThrow(() -> new BusinessException(ExceptionType.MEMBER_INFO_INVALID));
 
         // 비밀번호 검증
         if (!passwordEncoder.matches(password, member.getPassword())) {
             throw new BusinessException(ExceptionType.MEMBER_INFO_INVALID);
-        }
-
-        // 이메일 인증 검증
-        if (!member.isVerified()) {
-            throw new BusinessException(ExceptionType.EMAIL_VERIFICATION_REQUIRED);
         }
 
         // 토큰 발급

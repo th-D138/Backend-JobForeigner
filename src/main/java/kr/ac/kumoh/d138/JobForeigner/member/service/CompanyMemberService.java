@@ -34,9 +34,6 @@ public class CompanyMemberService {
             throw new BusinessException(ExceptionType.COMPANY_NOT_FOUND);
         }
 
-        if (memberRepository.existsByUsername(req.username())) {
-            throw new BusinessException(ExceptionType.USERNAME_ALREADY_EXISTS);
-        }
         if (memberRepository.existsByEmail(req.email())) {
             throw new BusinessException(ExceptionType.EMAIL_ALREADY_EXISTS);
         }
