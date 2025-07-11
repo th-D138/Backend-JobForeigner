@@ -66,6 +66,7 @@ public class SearchRepositoryImpl implements SearchRepository{
                                         j.getSalary(),
                                         j.getCareer(),
                                         j.getPublished(),
+                                        j.getExpiryAt(),
                                         j.getGrade()
                                 )
                         ).toList()
