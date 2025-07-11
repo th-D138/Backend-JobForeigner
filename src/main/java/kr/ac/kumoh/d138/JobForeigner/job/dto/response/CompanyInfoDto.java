@@ -17,6 +17,7 @@ public class CompanyInfoDto {
     private String url;
     private String ceoName;
     private String description;
+    private String welfare;
 
     public static CompanyInfoDto fromEntity(Company company) {
         return CompanyInfoDto.builder()
@@ -28,6 +29,7 @@ public class CompanyInfoDto {
                 .url(company.getUrl())
                 .ceoName(company.getCeoName())
                 .description(company.getDescription())
+                .welfare(company.getWelfare())
                 .build();
     }
 }

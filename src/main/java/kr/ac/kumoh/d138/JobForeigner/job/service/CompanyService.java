@@ -8,13 +8,7 @@ import kr.ac.kumoh.d138.JobForeigner.job.domain.Company;
 import kr.ac.kumoh.d138.JobForeigner.job.domain.CompanyRating;
 import kr.ac.kumoh.d138.JobForeigner.job.domain.JobPost;
 import kr.ac.kumoh.d138.JobForeigner.job.domain.QCompany;
-import kr.ac.kumoh.d138.JobForeigner.job.dto.response.CompanyDetailResponseDto;
-import kr.ac.kumoh.d138.JobForeigner.job.dto.response.CompanyInfoDto;
-import kr.ac.kumoh.d138.JobForeigner.job.dto.response.CompanyRatingDto;
-import kr.ac.kumoh.d138.JobForeigner.job.dto.response.CompanyResponseDto;
-import kr.ac.kumoh.d138.JobForeigner.job.dto.response.JobPostDto;
-import kr.ac.kumoh.d138.JobForeigner.job.dto.response.ReviewDto;
-import kr.ac.kumoh.d138.JobForeigner.job.dto.response.SalaryInfoDto;
+import kr.ac.kumoh.d138.JobForeigner.job.dto.response.*;
 import kr.ac.kumoh.d138.JobForeigner.job.repository.CompanyRepository;
 import kr.ac.kumoh.d138.JobForeigner.job.repository.JobPostRepository;
 import kr.ac.kumoh.d138.JobForeigner.rating.Rating;
@@ -29,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+
 
 @Service
 @RequiredArgsConstructor
@@ -84,14 +79,15 @@ public class CompanyService {
     public CompanyDetailResponseDto getCompanyDetail(Long id) {
         Company company = companyRepository.findById(id)
                 .orElseThrow(()->new BusinessException(ExceptionType.COMPANY_NOT_FOUND));
-        JobPost jobpost=jobPostRepository.findByCompanyId(company.getId()).orElse(null);
+        List<JobPost> jobPostsList=jobPostRepository.findAllByCompanyId(company.getId());
         // 기업 정보 매핑
         CompanyInfoDto companyInfoDto=CompanyInfoDto.fromEntity(company);
         // 채용정보 매핑
-        JobPostDto jobPostDto = null;
-        if (jobpost != null) {
-            jobPostDto = JobPostDto.fromEntity(jobpost);
-        }
+
+        List<JobPostDto> jobPostDtoList = jobPostsList.stream()
+                    .map(JobPostDto::fromEntity)
+                    .toList();
+
         // 연봉 매핑
         SalaryInfoDto salaryInfoDto=SalaryInfoDto.fromEntity(company);
         // 기업 평점 매핑
@@ -105,7 +101,7 @@ public class CompanyService {
         return CompanyDetailResponseDto.builder()
                 .companyInfoDto(companyInfoDto)
                 .salaryInfoDto(salaryInfoDto)
-                .jobPostDto(jobPostDto)
+                .jobPostDto(jobPostDtoList)
                 .companyRatingDto(companyRatingDto)
                 .reviewDto(reviewDtoList)
                 .build();
