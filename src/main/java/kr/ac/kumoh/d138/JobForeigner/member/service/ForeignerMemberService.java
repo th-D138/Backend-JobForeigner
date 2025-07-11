@@ -28,9 +28,6 @@ public class ForeignerMemberService {
 
     @Transactional
     public void signUp(ForeignerSignUpRequest req) {
-        if (memberRepository.existsByUsername(req.username())) {
-            throw new BusinessException(ExceptionType.USERNAME_ALREADY_EXISTS);
-        }
         if (memberRepository.existsByEmail(req.email())) {
             throw new BusinessException(ExceptionType.EMAIL_ALREADY_EXISTS);
         }
