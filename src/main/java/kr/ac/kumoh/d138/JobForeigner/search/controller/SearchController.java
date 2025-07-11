@@ -1,5 +1,6 @@
 package kr.ac.kumoh.d138.JobForeigner.search.controller;
 
+import kr.ac.kumoh.d138.JobForeigner.global.response.ResponseBody;
 import kr.ac.kumoh.d138.JobForeigner.global.response.ResponseUtil;
 import kr.ac.kumoh.d138.JobForeigner.search.dto.response.MainSearchResponse;
 import kr.ac.kumoh.d138.JobForeigner.search.service.SearchService;
@@ -19,11 +20,11 @@ public class SearchController {
     private final SearchService searchService;
 
     @GetMapping("/search")
-    public void mainSearch(
+    public ResponseEntity<ResponseBody<Page<MainSearchResponse>>> mainSearch(
             @RequestParam(required = true) String keyword,
             @PageableDefault(size=12, sort= "companyName") Pageable pageable
     ) {
         Page<MainSearchResponse> response = searchService.searchAll(keyword, pageable);
-        ResponseEntity.ok(ResponseUtil.createSuccessResponse(response));
+        return ResponseEntity.ok(ResponseUtil.createSuccessResponse(response));
     }
 }
