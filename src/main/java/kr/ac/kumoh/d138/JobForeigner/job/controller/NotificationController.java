@@ -1,6 +1,6 @@
 package kr.ac.kumoh.d138.JobForeigner.job.controller;
 
-
+import kr.ac.kumoh.d138.JobForeigner.global.jwt.annotation.CurrentMemberId;
 import kr.ac.kumoh.d138.JobForeigner.global.response.ResponseBody;
 import kr.ac.kumoh.d138.JobForeigner.global.response.ResponseUtil;
 import kr.ac.kumoh.d138.JobForeigner.job.api.NotificationApi;
@@ -10,8 +10,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -28,7 +32,7 @@ public class NotificationController implements NotificationApi {
      */
     @GetMapping
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<ResponseBody<Integer>> getUnreadCount(@AuthenticationPrincipal Long memberId){
+    public ResponseEntity<ResponseBody<Integer>> getUnreadCount(@CurrentMemberId Long memberId){
         int count = alarmService.getUnreadCount(memberId);
         return ResponseEntity.ok(ResponseUtil.createSuccessResponse(count));
     }
@@ -38,7 +42,7 @@ public class NotificationController implements NotificationApi {
      */
     @GetMapping("/recent")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<ResponseBody<List<NotificationResponseDto>>> getRecentNotification(@AuthenticationPrincipal Long memberId){
+    public ResponseEntity<ResponseBody<List<NotificationResponseDto>>> getRecentNotification(@CurrentMemberId Long memberId){
         return ResponseEntity.ok(ResponseUtil.createSuccessResponse(alarmService.getRecentNotification(memberId)));
     }
 
@@ -47,7 +51,7 @@ public class NotificationController implements NotificationApi {
      */
     @PostMapping("/{notificationId}")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<ResponseBody<NotificationResponseDto>> checkReadNotification(@PathVariable Long notificationId, @AuthenticationPrincipal Long memberId){
+    public ResponseEntity<ResponseBody<NotificationResponseDto>> checkReadNotification(@PathVariable Long notificationId, @CurrentMemberId Long memberId){
         return ResponseEntity.ok(ResponseUtil.createSuccessResponse(alarmService.checkReadNotification(memberId, notificationId)));
     }
 
@@ -56,7 +60,7 @@ public class NotificationController implements NotificationApi {
      */
     @DeleteMapping("/{notificationId}")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<ResponseBody<Void>> deleteNotification(@PathVariable Long notificationId, @AuthenticationPrincipal Long memberId){
+    public ResponseEntity<ResponseBody<Void>> deleteNotification(@PathVariable Long notificationId, @CurrentMemberId Long memberId){
         alarmService.deleteNotification(notificationId, memberId);
         return ResponseEntity.ok(ResponseUtil.createSuccessResponse());
     }

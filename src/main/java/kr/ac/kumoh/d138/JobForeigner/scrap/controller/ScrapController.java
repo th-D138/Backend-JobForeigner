@@ -1,5 +1,6 @@
 package kr.ac.kumoh.d138.JobForeigner.scrap.controller;
 
+import kr.ac.kumoh.d138.JobForeigner.global.jwt.annotation.CurrentMemberId;
 import kr.ac.kumoh.d138.JobForeigner.global.response.ResponseBody;
 import kr.ac.kumoh.d138.JobForeigner.global.response.ResponseUtil;
 import kr.ac.kumoh.d138.JobForeigner.scrap.api.ScrapApi;
@@ -8,7 +9,6 @@ import kr.ac.kumoh.d138.JobForeigner.scrap.service.ScrapService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +24,7 @@ public class ScrapController implements ScrapApi {
     @PostMapping("/{jobPostId}")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<ResponseBody<ScrapResponse>> toggleScrap(
-            @AuthenticationPrincipal Long memberId,
+            @CurrentMemberId Long memberId,
             @PathVariable Long jobPostId
     ) {
         ScrapResponse dto = scrapService.toggleScrap(memberId, jobPostId);

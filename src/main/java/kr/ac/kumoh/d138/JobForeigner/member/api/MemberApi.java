@@ -2,7 +2,6 @@ package kr.ac.kumoh.d138.JobForeigner.member.api;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -12,16 +11,14 @@ import kr.ac.kumoh.d138.JobForeigner.global.config.swagger.SwaggerApiFailedRespo
 import kr.ac.kumoh.d138.JobForeigner.global.config.swagger.SwaggerApiResponses;
 import kr.ac.kumoh.d138.JobForeigner.global.config.swagger.SwaggerApiSuccessResponse;
 import kr.ac.kumoh.d138.JobForeigner.global.exception.ExceptionType;
+import kr.ac.kumoh.d138.JobForeigner.global.jwt.annotation.CurrentMemberId;
 import kr.ac.kumoh.d138.JobForeigner.global.response.ResponseBody;
 import kr.ac.kumoh.d138.JobForeigner.member.dto.request.MemberProfileRequest;
 import kr.ac.kumoh.d138.JobForeigner.member.dto.request.ProfileImageRequest;
 import kr.ac.kumoh.d138.JobForeigner.member.dto.response.MemberProfileResponse;
-import kr.ac.kumoh.d138.JobForeigner.resume.dto.response.ResumeResponse;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 public interface MemberApi {
@@ -41,8 +38,8 @@ public interface MemberApi {
                     @SwaggerApiFailedResponse(ExceptionType.MEMBER_NOT_FOUND)
             }
     )
-    public ResponseEntity<ResponseBody<MemberProfileResponse>> getMyProfile(
-            @AuthenticationPrincipal Long memberId);
+    ResponseEntity<ResponseBody<MemberProfileResponse>> getMyProfile(
+            @CurrentMemberId Long memberId);
 
 
     @Operation(
@@ -59,9 +56,9 @@ public interface MemberApi {
                     @SwaggerApiFailedResponse(ExceptionType.MEMBER_NOT_FOUND)
             }
     )
-    public ResponseEntity<ResponseBody<Void>> updateMyProfile(
+    ResponseEntity<ResponseBody<Void>> updateMyProfile(
             @RequestBody @Valid MemberProfileRequest request,
-            @AuthenticationPrincipal Long memberId);
+            @CurrentMemberId Long memberId);
 
 
     @Operation(
@@ -79,11 +76,11 @@ public interface MemberApi {
                     @SwaggerApiFailedResponse(ExceptionType.FILE_SYSTEM_SAVE_FAILED)
             }
     )
-    public ResponseEntity<ResponseBody<Void>> updateProfileImage(
+    ResponseEntity<ResponseBody<Void>> updateProfileImage(
             @Parameter(
                     description = "프로필 이미지 파일",
                     content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE)
             )
             @ModelAttribute ProfileImageRequest request,
-            @AuthenticationPrincipal Long memberId);
+            @CurrentMemberId Long memberId);
 }
