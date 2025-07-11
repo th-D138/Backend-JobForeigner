@@ -57,7 +57,7 @@ public class Company {
     @Enumerated(EnumType.STRING)
     private CompanyCategory companyCategory;
 
-    private String Welfare;
+    private String welfare;
 
     //TODO: 프론트 개발 임시용 필드, 추후 이미지 구현시 수정해야함
     private String imageUrl;
