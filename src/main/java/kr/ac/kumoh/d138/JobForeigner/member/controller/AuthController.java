@@ -33,7 +33,7 @@ public class AuthController implements AuthApi {
     @PostMapping("/sign-in")
     public ResponseEntity<ResponseBody<Void>> signIn(@RequestBody SignInRequest signInRequest,
                                                      HttpServletResponse response) {
-        JwtPair tokens = authService.signIn(signInRequest.username(), signInRequest.password());
+        JwtPair tokens = authService.signIn(signInRequest.email(), signInRequest.password());
         tokenUtils.setAccessTokenAndRefreshToken(response, tokens);
         return ResponseEntity.ok(ResponseUtil.createSuccessResponse());
     }
