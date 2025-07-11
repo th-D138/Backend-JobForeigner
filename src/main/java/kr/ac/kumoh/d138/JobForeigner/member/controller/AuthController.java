@@ -2,6 +2,7 @@ package kr.ac.kumoh.d138.JobForeigner.member.controller;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
+import kr.ac.kumoh.d138.JobForeigner.global.jwt.annotation.CurrentMemberId;
 import kr.ac.kumoh.d138.JobForeigner.global.jwt.token.TokenUtils;
 import kr.ac.kumoh.d138.JobForeigner.global.response.ResponseBody;
 import kr.ac.kumoh.d138.JobForeigner.global.response.ResponseUtil;
@@ -11,7 +12,7 @@ import kr.ac.kumoh.d138.JobForeigner.member.service.AuthService;
 import kr.ac.kumoh.d138.JobForeigner.token.dto.JwtPair;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -41,7 +42,8 @@ public class AuthController implements AuthApi {
      * 외국인 및 기업 사용자 로그아웃 API
      */
     @DeleteMapping("/sign-out")
-    public ResponseEntity<ResponseBody<Void>> signOut(@AuthenticationPrincipal Long memberId,
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<ResponseBody<Void>> signOut(@CurrentMemberId Long memberId,
                                                       @CookieValue(TokenUtils.COOKIE_NAME_REFRESH_TOKEN) Cookie refreshToken,
                                                       HttpServletResponse response) {
         authService.signOut(refreshToken.getValue());
@@ -53,7 +55,8 @@ public class AuthController implements AuthApi {
      * 외국인 및 기업 사용자 회원탈퇴 API
      */
     @DeleteMapping("/me")
-    public ResponseEntity<ResponseBody<Void>> delete(@AuthenticationPrincipal Long memberId,
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<ResponseBody<Void>> delete(@CurrentMemberId Long memberId,
                                                      HttpServletResponse response) {
         authService.delete(memberId);
         tokenUtils.deleteRefreshToken(response);

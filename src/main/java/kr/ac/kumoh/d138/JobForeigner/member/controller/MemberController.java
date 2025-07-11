@@ -1,7 +1,7 @@
 package kr.ac.kumoh.d138.JobForeigner.member.controller;
 
 import jakarta.validation.Valid;
-import kr.ac.kumoh.d138.JobForeigner.global.jwt.authentication.JwtAuthentication;
+import kr.ac.kumoh.d138.JobForeigner.global.jwt.annotation.CurrentMemberId;
 import kr.ac.kumoh.d138.JobForeigner.global.response.ResponseBody;
 import kr.ac.kumoh.d138.JobForeigner.member.api.MemberApi;
 import kr.ac.kumoh.d138.JobForeigner.member.dto.request.MemberProfileRequest;
@@ -13,7 +13,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import static kr.ac.kumoh.d138.JobForeigner.global.response.ResponseUtil.createSuccessResponse;
@@ -29,15 +28,14 @@ public class MemberController implements MemberApi {
 //    // 사용자의 프로필 정보 반환
 //    @GetMapping("/{memberId}")
 //    @PreAuthorize("isAuthenticated()")
-//    public ResponseEntity<ResponseBody<MemberProfileResponse>> getUserProfile(@PathVariable Long memberId) {
+//    public ResponseEntity<ResponseBody<MemberProfileResponse>> getUserProfile(@CurrentMemberId Long memberId) {
 //        return ResponseEntity.ok(createSuccessResponse(memberService.getMemberProfile(memberId)));
 //    }
 
     // 자신의 프로필 정보 반환
     @GetMapping("/me")
-    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<ResponseBody<MemberProfileResponse>> getMyProfile(
-            @AuthenticationPrincipal Long memberId) {
+            @CurrentMemberId Long memberId) {
         return ResponseEntity.ok(createSuccessResponse(memberService.getMemberProfile(memberId)));
     }
 
@@ -46,7 +44,7 @@ public class MemberController implements MemberApi {
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<ResponseBody<Void>> updateMyProfile(
             @RequestBody @Valid MemberProfileRequest request,
-            @AuthenticationPrincipal Long memberId){
+            @CurrentMemberId Long memberId){
         memberService.updateMemberProfile(memberId, request);
         return ResponseEntity.ok(createSuccessResponse());
     }
@@ -57,7 +55,7 @@ public class MemberController implements MemberApi {
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<ResponseBody<Void>> updateProfileImage(
             @ModelAttribute ProfileImageRequest request,
-            @AuthenticationPrincipal Long memberId){
+            @CurrentMemberId Long memberId){
         memberService.updateProfileImage(request, memberId);
         return ResponseEntity.ok(createSuccessResponse());
     }

@@ -1,6 +1,7 @@
 package kr.ac.kumoh.d138.JobForeigner.job.controller;
 
 import jakarta.validation.Valid;
+import kr.ac.kumoh.d138.JobForeigner.global.jwt.annotation.CurrentMemberId;
 import kr.ac.kumoh.d138.JobForeigner.global.response.GlobalPageResponse;
 import kr.ac.kumoh.d138.JobForeigner.global.response.ResponseBody;
 import kr.ac.kumoh.d138.JobForeigner.global.response.ResponseUtil;
@@ -17,9 +18,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
@@ -68,7 +75,7 @@ public class JobPostController implements JobPostApi {
      */
     @GetMapping("/{id}")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<ResponseBody<JobPostDetailResponseDto>> showJobPostDetail(@PathVariable Long id, @AuthenticationPrincipal Long memberId){
+    public ResponseEntity<ResponseBody<JobPostDetailResponseDto>> showJobPostDetail(@PathVariable Long id, @CurrentMemberId Long memberId){
         JobPostDetailResponseDto jobPostDetail = jobPostService.getJobPostDetail(id, memberId);
         return ResponseEntity.ok(ResponseUtil.createSuccessResponse(jobPostDetail));
     }
@@ -97,7 +104,7 @@ public class JobPostController implements JobPostApi {
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<ResponseBody<String>> applyToJobPost(
             @PathVariable Long jobPostId,
-            @AuthenticationPrincipal Long memberId,
+            @CurrentMemberId Long memberId,
             @PathVariable Long resumeId) {
         jobPostService.applyToJobPost(jobPostId, memberId, resumeId);
         return ResponseEntity.ok(ResponseUtil.createSuccessResponse("채용공고 지원 완료"));

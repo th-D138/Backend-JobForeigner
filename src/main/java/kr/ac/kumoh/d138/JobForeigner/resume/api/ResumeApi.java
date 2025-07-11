@@ -11,6 +11,7 @@ import kr.ac.kumoh.d138.JobForeigner.global.config.swagger.SwaggerApiFailedRespo
 import kr.ac.kumoh.d138.JobForeigner.global.config.swagger.SwaggerApiResponses;
 import kr.ac.kumoh.d138.JobForeigner.global.config.swagger.SwaggerApiSuccessResponse;
 import kr.ac.kumoh.d138.JobForeigner.global.exception.ExceptionType;
+import kr.ac.kumoh.d138.JobForeigner.global.jwt.annotation.CurrentMemberId;
 import kr.ac.kumoh.d138.JobForeigner.global.response.ResponseBody;
 import kr.ac.kumoh.d138.JobForeigner.resume.dto.request.ResumeRequest;
 import kr.ac.kumoh.d138.JobForeigner.resume.dto.response.ResumeResponse;
@@ -21,7 +22,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
@@ -43,7 +43,6 @@ public interface ResumeApi {
                     @SwaggerApiFailedResponse(ExceptionType.FILE_SYSTEM_SAVE_FAILED)
             }
     )
-
     ResponseEntity<ResponseBody<Void>> createResume(
             @Parameter(
                     description = "이력서 정보",
@@ -58,7 +57,7 @@ public interface ResumeApi {
             @RequestPart(required = false) MultipartFile image,
 
             @Parameter(hidden = true)
-            @AuthenticationPrincipal Long memberId
+            @CurrentMemberId Long memberId
     );
 
 
@@ -80,7 +79,7 @@ public interface ResumeApi {
     )
     ResponseEntity<ResponseBody<ResumeResponse>> getResume(
             @Parameter(hidden = true)
-            @AuthenticationPrincipal Long memberId,
+            @CurrentMemberId Long memberId,
 
             @Parameter(description = "조회할 이력서 ID", example = "1")
             @PathVariable Long resumeId
@@ -104,7 +103,7 @@ public interface ResumeApi {
     )
     ResponseEntity<ResponseBody<Page<ResumeResponse>>> getAllResumes(
             @Parameter(hidden = true)
-            @AuthenticationPrincipal Long memberId,
+            @CurrentMemberId Long memberId,
 
             @ParameterObject
             @PageableDefault(size = 10, sort = "updatedAt", direction = Sort.Direction.DESC)
@@ -144,7 +143,7 @@ public interface ResumeApi {
             @RequestPart MultipartFile image,
 
             @Parameter(hidden = true)
-            @AuthenticationPrincipal Long memberId,
+            @CurrentMemberId Long memberId,
 
             @Parameter(description = "수정할 이력서 ID", example = "1")
             @PathVariable Long resumeId
@@ -171,7 +170,7 @@ public interface ResumeApi {
             @PathVariable Long resumeId,
 
             @Parameter(hidden = true)
-            @AuthenticationPrincipal Long memberId
+            @CurrentMemberId Long memberId
     );
 
 }

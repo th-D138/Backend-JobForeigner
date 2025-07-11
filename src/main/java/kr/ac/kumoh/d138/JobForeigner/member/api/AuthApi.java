@@ -8,11 +8,11 @@ import kr.ac.kumoh.d138.JobForeigner.global.config.swagger.SwaggerApiFailedRespo
 import kr.ac.kumoh.d138.JobForeigner.global.config.swagger.SwaggerApiResponses;
 import kr.ac.kumoh.d138.JobForeigner.global.config.swagger.SwaggerApiSuccessResponse;
 import kr.ac.kumoh.d138.JobForeigner.global.exception.ExceptionType;
+import kr.ac.kumoh.d138.JobForeigner.global.jwt.annotation.CurrentMemberId;
 import kr.ac.kumoh.d138.JobForeigner.global.jwt.token.TokenUtils;
 import kr.ac.kumoh.d138.JobForeigner.global.response.ResponseBody;
 import kr.ac.kumoh.d138.JobForeigner.member.dto.request.SignInRequest;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -51,7 +51,7 @@ public interface AuthApi {
                     description = "로그아웃이 성공적으로 완료되어 리프레시 토큰이 삭제되었습니다."
             )
     )
-    ResponseEntity<ResponseBody<Void>> signOut(@AuthenticationPrincipal Long memberId,
+    ResponseEntity<ResponseBody<Void>> signOut(@CurrentMemberId Long memberId,
                                                @Parameter(description = "리프레시 토큰")
                                                @CookieValue(TokenUtils.COOKIE_NAME_REFRESH_TOKEN) Cookie refreshToken,
                                                HttpServletResponse response);
@@ -71,6 +71,6 @@ public interface AuthApi {
                     @SwaggerApiFailedResponse(ExceptionType.MEMBER_NOT_FOUND)
             }
     )
-    ResponseEntity<ResponseBody<Void>> delete(@AuthenticationPrincipal Long memberId,
+    ResponseEntity<ResponseBody<Void>> delete(@CurrentMemberId Long memberId,
                                               HttpServletResponse response);
 }
