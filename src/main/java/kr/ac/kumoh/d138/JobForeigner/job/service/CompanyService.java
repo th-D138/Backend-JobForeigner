@@ -22,8 +22,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
-import static java.util.stream.Collectors.toList;
 
 @Service
 @RequiredArgsConstructor
@@ -69,7 +69,7 @@ public class CompanyService {
         // 엔티티 -> DTO 변환
         List<CompanyResponseDto> dtos = content.stream()
                 .map(CompanyResponseDto::fromEntity)
-                .collect(toList());
+                .collect(Collectors.toList());
 
         // total이 null일 가능성을 고려하여 0 처리
         return new PageImpl<>(dtos, pageable, total != null ? total : 0);
@@ -79,8 +79,7 @@ public class CompanyService {
     public CompanyDetailResponseDto getCompanyDetail(Long id) {
         Company company = companyRepository.findById(id)
                 .orElseThrow(()->new BusinessException(ExceptionType.COMPANY_NOT_FOUND));
-        List<JobPost> jobPostsList=jobPostRepository.findAllByCompanyId(company.getId())
-                .orElse(null);
+        List<JobPost> jobPostsList=jobPostRepository.findAllByCompanyId(company.getId());
         // 기업 정보 매핑
         CompanyInfoDto companyInfoDto=CompanyInfoDto.fromEntity(company);
         // 채용정보 매핑
