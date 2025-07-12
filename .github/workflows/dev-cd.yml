@@ -86,7 +86,10 @@ jobs:
       - name: Clean up old container and image
         run: |
           docker rm -f ${{ vars.CONTAINER_NAME }} || true
-          docker rmi ${{ needs.build.outputs.image-tag }} || true
+          docker images "ghcr.io/${{ github.repository }}" \
+          --format "{{.Repository}}:{{.Tag}}" \
+          | grep -v "${{ needs.build.outputs.image-tag }}" \
+          | xargs -r docker rmi -f || true
 
       # 새로운 이미지로 새로운 컨테이너 생성하여 실행
       - name: Run New Container
