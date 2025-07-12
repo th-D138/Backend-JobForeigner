@@ -2,7 +2,6 @@ package kr.ac.kumoh.d138.JobForeigner.member.api;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
@@ -24,7 +23,7 @@ public interface AuthApi {
     @Tag(name = "인증 API", description = "인증 관련 API")
     @Operation(
             summary = "로그인",
-            description = "사용자 로그인을 진행해 액세스 토큰과 리프레시 토큰을 획득할 수 있습니다."
+            description = "외국인 및 기업 사용자 로그인을 진행해 액세스 토큰과 리프레시 토큰을 획득할 수 있습니다."
     )
     @SwaggerApiResponses(
             success = @SwaggerApiSuccessResponse(
@@ -44,7 +43,7 @@ public interface AuthApi {
     @Operation(
             summary = "로그아웃",
             description = """
-                    로그아웃을 진행해 리프레시 토큰을 삭제할 수 있습니다.<br>
+                    외국인 및 기업 사용자 로그아웃을 진행해 리프레시 토큰을 삭제할 수 있습니다.<br>
                     액세스 토큰이 만료되지 않으면 로그인이 유효할 수 있습니다.
                     """
     )
@@ -62,7 +61,7 @@ public interface AuthApi {
     @Operation(
             summary = "이메일 주소 변경",
             description = """
-                    이메일 주소를 변경합니다. 이메일 인증 진행 후 이메일 주소를 변경해야 합니다.
+                    외국인 및 기업 사용자 이메일 주소를 변경합니다. 이메일 인증 진행 후 이메일 주소를 변경해야 합니다.
                     """
     )
     @SwaggerApiResponses(
@@ -77,7 +76,7 @@ public interface AuthApi {
     @Operation(
             summary = "회원탈퇴",
             description = """
-                    회원탈퇴를 진행해 회원 정보와 리프레시 토큰을 삭제할 수 있습니다.<br>
+                    외국인 및 기업 사용자 회원탈퇴를 진행해 회원 정보와 리프레시 토큰을 삭제할 수 있습니다.<br>
                     액세스 토큰이 만료되지 않으면 인증 오류가 발생할 수 있습니다.
                     """
     )
