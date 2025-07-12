@@ -48,7 +48,7 @@ public class CompanyMemberService {
                 .companyId(req.companyId())
                 .phoneNumber(req.phoneNumber())
                 .email(req.email())
-                .gender(Gender.valueOf(req.gender()))
+                .gender(Gender.valueOf(req.gender().toUpperCase()))
                 .birthDate(req.birthDate())
                 .profileImageUrl(req.profileImageUrl())
                 .address(new Address(req.address(), req.detailAddress(), req.zipcode()))

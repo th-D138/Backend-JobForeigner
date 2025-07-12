@@ -32,7 +32,7 @@ public record CompanySignUpRequest(
 
         @Schema(description = "성별")
         @NotBlank(message = "담당자 성별은 필수 입력 항목입니다.")
-        @Pattern(regexp = "MALE|FEMALE", message = "성별은 MALE 또는 FEMALE이어야 합니다.")
+        @Pattern(regexp = "(?i)MALE|FEMALE", message = "성별은 MALE 또는 FEMALE이어야 합니다.")
         String gender,
 
         @Schema(description = "담당자 생년월일", example = "1978-06-01")
