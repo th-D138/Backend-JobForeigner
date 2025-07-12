@@ -2,6 +2,7 @@ package kr.ac.kumoh.d138.JobForeigner.member.api;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -39,7 +40,7 @@ public interface MemberApi {
             }
     )
     ResponseEntity<ResponseBody<MemberProfileResponse>> getMyProfile(
-            @CurrentMemberId Long memberId);
+            @Parameter(hidden = true) @CurrentMemberId Long memberId);
 
 
     @Operation(
@@ -58,7 +59,7 @@ public interface MemberApi {
     )
     ResponseEntity<ResponseBody<Void>> updateMyProfile(
             @RequestBody @Valid MemberProfileRequest request,
-            @CurrentMemberId Long memberId);
+            @Parameter(hidden = true) @CurrentMemberId Long memberId);
 
 
     @Operation(
@@ -82,5 +83,5 @@ public interface MemberApi {
                     content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE)
             )
             @ModelAttribute ProfileImageRequest request,
-            @CurrentMemberId Long memberId);
+            @Parameter(hidden = true) @CurrentMemberId Long memberId);
 }
