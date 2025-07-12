@@ -5,7 +5,11 @@ import kr.ac.kumoh.d138.JobForeigner.job.domain.JobPostStatus;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
+import java.time.LocalDateTime;
+
+@Slf4j
 @Getter
 @Setter
 public class JobPostResponseDto {
@@ -18,11 +22,12 @@ public class JobPostResponseDto {
     private String career;
     private JobPostStatus published;
     private String grade;
+    private LocalDateTime expiryAt;
 
     @Builder
     public JobPostResponseDto(Long id, String title, String description, String location,
                               String employment_type, String salary, String career,
-                              JobPostStatus published, String grade) {
+                              JobPostStatus published,LocalDateTime expiryAt, String grade) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -31,6 +36,7 @@ public class JobPostResponseDto {
         this.salary = salary;
         this.career = career;
         this.published = published;
+        this.expiryAt = expiryAt;
         this.grade = grade;
     }
 
@@ -44,6 +50,7 @@ public class JobPostResponseDto {
                 .salary(jobPost.getSalary())
                 .career(jobPost.getCareer())
                 .published(jobPost.getPublished())
+                .expiryAt(jobPost.getExpiryAt())
                 .grade(jobPost.getGrade())
                 .build();
     }
