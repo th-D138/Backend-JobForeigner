@@ -21,7 +21,7 @@ public record ForeignerSignUpRequest(
         @Email(message = "올바른 이메일 형식이 아닙니다.")
         String email,
         @NotBlank(message = "성별은 필수 입력 항목입니다.")
-        @Pattern(regexp = "MALE|FEMALE", message = "성별은 MALE 또는 FEMALE이어야 합니다.")
+        @Pattern(regexp = "(?i)MALE|FEMALE", message = "성별은 MALE 또는 FEMALE이어야 합니다.")
         String gender,
         @NotNull(message = "생년월일은 필수 입력 항목입니다.")
         LocalDate birthDate,
