@@ -60,7 +60,7 @@ public class AuthEmailService {
 
             return builder.toString();
         } catch (NoSuchAlgorithmException e) {
-            log.debug("이메일 주소 인증 메일의 인증 코드 생성에 실패했습니다: {}", e.getMessage());
+            log.error("이메일 주소 인증 메일의 인증 코드 생성에 실패했습니다: {}", e.getMessage());
             throw new BusinessException(ExceptionType.UNEXPECTED_SERVER_ERROR);
         }
     }
@@ -76,7 +76,7 @@ public class AuthEmailService {
             Template template = Mustache.compiler().compile(reader);
             return template.execute(model);
         } catch (Exception e) {
-            log.error("템플릿 읽기에 실패하여 인증 코드 {}의 인증 메일이 발송되지 않습니다: {}", code, e.getMessage());
+            log.error("템플릿 읽기에 실패하여 인증 메일이 발송되지 않습니다: {}", e.getMessage());
             throw new BusinessException(ExceptionType.UNEXPECTED_SERVER_ERROR);
         }
     }

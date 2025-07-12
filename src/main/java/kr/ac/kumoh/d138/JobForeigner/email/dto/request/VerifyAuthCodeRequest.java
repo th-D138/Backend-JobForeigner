@@ -13,7 +13,7 @@ public record VerifyAuthCodeRequest(
 
     @Schema(description = "인증 코드", example = "123456")
     @NotBlank(message = "인증 코드는 필수 입력 항목입니다.")
-    @Pattern(regexp = "^\\d{6}$")
+    @Pattern(regexp = "^\\d{6}$", message = "만료되거나 잘못된 인증 코드입니다.")
     String code
 ) {
 }
