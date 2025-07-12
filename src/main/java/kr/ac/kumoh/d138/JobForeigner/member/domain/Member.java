@@ -24,7 +24,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @SQLDelete(sql = "UPDATE member SET deleted_at = CURRENT_TIMESTAMP WHERE member_id = ?")
-@SQLRestriction(value = "deleted_at is NULL") // TODO: 7일 후 논리적 삭제된 사용자를 물리적으로 삭제하는 cron 작업이 필요
+@SQLRestriction(value = "deleted_at is NULL")
 public class Member extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,9 +33,6 @@ public class Member extends BaseEntity {
 
     @Column(name = "name", nullable = false)
     private String name;
-
-    @Column(name = "username", nullable = false, unique = true)
-    private String username;
 
     @Column(name = "password", nullable = false)
     private String password;
@@ -67,7 +64,7 @@ public class Member extends BaseEntity {
     private String profileImageUrl;
 
     @Column(name = "verified", nullable = false)
-    private Boolean isVerified = false;
+    private Boolean isVerified = true;
 
     @Embedded
     @AttributeOverrides({
@@ -80,7 +77,6 @@ public class Member extends BaseEntity {
     @Builder
     public Member(
             @NonNull String name,
-            @NonNull String username,
             @NonNull String password,
             @NonNull MemberType type,
             Long companyId,
@@ -93,7 +89,6 @@ public class Member extends BaseEntity {
             @NonNull Address address
     ) {
         this.name = name;
-        this.username = username;
         this.password = password;
         this.type = type;
         this.companyId = companyId;
@@ -120,11 +115,14 @@ public class Member extends BaseEntity {
   
     public void changeEmail(String email) {
         this.email = email;
-        this.isVerified = false;
     }
 
     public void setVerified() {
         this.isVerified = true;
+    }
+
+    public void unsetVerified() {
+        this.isVerified = false;
     }
 
     public boolean isVerified() {

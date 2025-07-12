@@ -3,11 +3,10 @@ package kr.ac.kumoh.d138.JobForeigner.email.service;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 import kr.ac.kumoh.d138.JobForeigner.email.domain.AuthCode;
+import kr.ac.kumoh.d138.JobForeigner.email.dto.request.VerifyAuthCodeRequest;
 import kr.ac.kumoh.d138.JobForeigner.email.repository.AuthCodeRepository;
 import kr.ac.kumoh.d138.JobForeigner.global.exception.BusinessException;
 import kr.ac.kumoh.d138.JobForeigner.global.exception.ExceptionType;
-import kr.ac.kumoh.d138.JobForeigner.member.domain.Member;
-import kr.ac.kumoh.d138.JobForeigner.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,16 +15,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Reader;
-import java.time.LocalDateTime;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.Map;
-import java.util.UUID;
+import java.util.Random;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class AuthEmailService {
-    private final MemberRepository memberRepository;
+    private static final String SUBJECT_AUTH_CODE = "AUTH_CODE";
+    private static final int LENGTH = 6;
+
     private final AuthCodeRepository authCodeRepository;
 
     private final EmailSendService sendService;
@@ -36,37 +38,37 @@ public class AuthEmailService {
     @Value("${job-foreigner.mail.auth.base-url}")
     private String baseUrl;
 
-    @Value("${job-foreigner.mail.auth.verify-path}")
-    private String verifyPath;
-
     @Transactional
     public void sendMail(String email) {
-        Member member = memberRepository.findByEmail(email)
-                .orElseThrow(() -> new BusinessException(ExceptionType.MEMBER_NOT_FOUND));
+        String code = createCode();
+        String subject = authEmailSubject.replace(SUBJECT_AUTH_CODE, code);
+        String htmlContent = createContent(code);
 
-        // 이미 이메일 인증을 받았다면 새로운 인증 코드를 받을 수 없도록 함
-        if (member.isVerified()) {
-            throw new BusinessException(ExceptionType.EMAIL_ALREADY_VERIFIED);
-        }
-
-        String code = UUID.randomUUID().toString();
-
-        // 인증 코드가 데이터베이스에 이미 생성돼 있다면 갱신하고, 없다면 새롭게 만듦
-        authCodeRepository.findByEmail(member.getEmail())
-                .ifPresentOrElse(entity -> entity.reissue(code), () -> {
-                    AuthCode entity = new AuthCode(member.getEmail(), code);
-                    authCodeRepository.save(entity);
-                });
-
-        String htmlContent = createContent(member.getName(), code);
-        sendService.sendMail(member.getEmail(), authEmailSubject, htmlContent);
+        AuthCode authCode = new AuthCode(code, email);
+        authCodeRepository.save(authCode);
+        sendService.sendMail(email, subject, htmlContent);
     }
 
-    private String createContent(String name, String code) {
+    private String createCode() {
+        try {
+            Random random = SecureRandom.getInstanceStrong();
+            StringBuilder builder = new StringBuilder();
+
+            for (int i = 0; i < LENGTH; ++i) {
+                builder.append(random.nextInt(10));
+            }
+
+            return builder.toString();
+        } catch (NoSuchAlgorithmException e) {
+            log.error("이메일 주소 인증 메일의 인증 코드 생성에 실패했습니다: {}", e.getMessage());
+            throw new BusinessException(ExceptionType.UNEXPECTED_SERVER_ERROR);
+        }
+    }
+
+    private String createContent(String code) {
         Map<String, Object> model = Map.of(
-                "name", name,
                 "baseUrl", baseUrl,
-                "verifyUrl", baseUrl + verifyPath + code
+                "code", code
         );
 
         try (Reader reader = new MustacheResourceTemplateLoader("templates/", ".html")
@@ -74,25 +76,20 @@ public class AuthEmailService {
             Template template = Mustache.compiler().compile(reader);
             return template.execute(model);
         } catch (Exception e) {
-            log.error("템플릿 읽기에 실패하여 {}님께 인증 메일이 발송되지 않습니다: {}", name, e.getMessage());
+            log.error("템플릿 읽기에 실패하여 인증 메일이 발송되지 않습니다: {}", e.getMessage());
             throw new BusinessException(ExceptionType.UNEXPECTED_SERVER_ERROR);
         }
     }
 
     @Transactional
-    public void verifyEmail(String code) {
-        AuthCode authCode = authCodeRepository.findByCode(code)
+    public void verifyEmail(VerifyAuthCodeRequest request) {
+        AuthCode authCode = authCodeRepository.findById(request.code())
                 .orElseThrow(() -> new BusinessException(ExceptionType.AUTH_CODE_INVALID));
 
-        // 인증 링크를 누른 일자가 만료 일자 이후라면 인증을 수행할 수 없도록 함
-        if (LocalDateTime.now().isAfter(authCode.getExpiredAt())) {
+        if (!request.email().equals(authCode.getEmail())) {
             throw new BusinessException(ExceptionType.AUTH_CODE_INVALID);
         }
 
-        Member member = memberRepository.findByEmail(authCode.getEmail())
-                .orElseThrow(() -> new BusinessException(ExceptionType.MEMBER_NOT_FOUND));
-        member.setVerified();
-
-        authCodeRepository.deleteById(authCode.getId());
+        authCodeRepository.deleteById(authCode.getCode());
     }
 }

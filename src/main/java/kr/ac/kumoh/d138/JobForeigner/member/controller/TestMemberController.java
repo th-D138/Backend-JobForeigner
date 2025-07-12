@@ -1,5 +1,7 @@
 package kr.ac.kumoh.d138.JobForeigner.member.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 import kr.ac.kumoh.d138.JobForeigner.global.jwt.token.TokenUtils;
 import kr.ac.kumoh.d138.JobForeigner.global.response.ResponseBody;
@@ -17,10 +19,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/test/members")
 @RequiredArgsConstructor
+@Tag(name = "테스트 API", description = "테스트 관련 API")
 public class TestMemberController {
     private final TestMemberService testMemberService;
     private final TokenUtils tokenUtils;
 
+    @Operation(summary = "기업 사용자 로그인")
     @PostMapping("/sign-up/company")
     public ResponseEntity<ResponseBody<Void>> signUpForCompany(HttpServletResponse response) {
         JwtPair tokens = testMemberService.signUpForCompany();
@@ -28,6 +32,7 @@ public class TestMemberController {
         return ResponseEntity.ok(ResponseUtil.createSuccessResponse());
     }
 
+    @Operation(summary = "외국인 사용자 로그인")
     @PostMapping("/sign-up/foreigner")
     public ResponseEntity<ResponseBody<Void>> signUpForForeigner(HttpServletResponse response) {
         JwtPair tokens = testMemberService.signUpForForeigner();

@@ -47,7 +47,8 @@ logging:
 job-foreigner:
   mail:
     auth:
-      subject: "[JobForeigner] Please verify your email address."
+      expired-in: 600
+      subject: "( AUTH_CODE ) [JobForeigner] Please verify your email address."
       base-url: "http://localhost:8080"
       verify-path: "/api/v1/email/auth/verify?code="
   open-api:

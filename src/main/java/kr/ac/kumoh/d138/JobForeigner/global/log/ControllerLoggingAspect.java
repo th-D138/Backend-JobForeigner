@@ -19,7 +19,11 @@ import java.lang.reflect.Method;
 @Component
 @Slf4j
 public class ControllerLoggingAspect {
-    @Around("within(@org.springframework.web.bind.annotation.RestController *)")
+    @Around(
+            "within(kr.ac.kumoh.d138.JobForeigner..controller..*Controller) " +
+                    "&& !within(io.swagger.v3.oas.annotations..*) " +
+                    "&& !within(org.springdoc..*)"
+    )
     public Object logControllerMethods(ProceedingJoinPoint joinPoint) throws Throwable {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         String requestUri = request.getRequestURI();

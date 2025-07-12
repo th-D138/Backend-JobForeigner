@@ -1,6 +1,7 @@
 package kr.ac.kumoh.d138.JobForeigner.member.api;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import kr.ac.kumoh.d138.JobForeigner.global.config.swagger.SwaggerApiFailedResponse;
 import kr.ac.kumoh.d138.JobForeigner.global.config.swagger.SwaggerApiResponses;
@@ -12,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 
+@Tag(name = "계정 API", description = "계정 관련 API")
 public interface ForeignerMemberApi {
     @Operation(
             summary = "외국인 사용자 회원가입",

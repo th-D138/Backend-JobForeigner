@@ -2,6 +2,7 @@ package kr.ac.kumoh.d138.JobForeigner.token.api;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import kr.ac.kumoh.d138.JobForeigner.global.config.swagger.SwaggerApiFailedResponse;
@@ -15,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestHeader;
 
+@Tag(name = "인증 API", description = "인증 관련 API")
 public interface TokenApi {
     @Operation(
             summary = "액세스 토큰 및 리프레시 토큰 재발급",

@@ -2,11 +2,13 @@ package kr.ac.kumoh.d138.JobForeigner.member.controller;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import kr.ac.kumoh.d138.JobForeigner.global.jwt.annotation.CurrentMemberId;
 import kr.ac.kumoh.d138.JobForeigner.global.jwt.token.TokenUtils;
 import kr.ac.kumoh.d138.JobForeigner.global.response.ResponseBody;
 import kr.ac.kumoh.d138.JobForeigner.global.response.ResponseUtil;
 import kr.ac.kumoh.d138.JobForeigner.member.api.AuthApi;
+import kr.ac.kumoh.d138.JobForeigner.member.dto.request.ChangeEmailRequest;
 import kr.ac.kumoh.d138.JobForeigner.member.dto.request.SignInRequest;
 import kr.ac.kumoh.d138.JobForeigner.member.service.AuthService;
 import kr.ac.kumoh.d138.JobForeigner.token.dto.JwtPair;
@@ -15,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,6 +51,17 @@ public class AuthController implements AuthApi {
                                                       HttpServletResponse response) {
         authService.signOut(refreshToken.getValue());
         tokenUtils.deleteRefreshToken(response);
+        return ResponseEntity.noContent().build();
+    }
+
+    /**
+     * 외국인 및 기업 사용자 이메일 주소 변경 API
+     */
+    @PatchMapping("/me/email")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<ResponseBody<Void>> changeEmail(@CurrentMemberId Long memberId,
+                                                          @Valid ChangeEmailRequest changeEmailRequest) {
+        authService.changeEmail(memberId, changeEmailRequest);
         return ResponseEntity.noContent().build();
     }
 

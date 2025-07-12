@@ -27,7 +27,7 @@ public class EmailSendService {
         } catch (MessagingException e) {
             log.warn("이메일 전송 중 SMTP 서버 오류 발생: {}", e.getMessage());
         } catch (Exception e) {
-            log.error("이메일 전송 중 예상치 못한 오류 발생: {}", e.getMessage(), e);
+            log.error("이메일 전송 중 예상치 못한 오류 발생: {}", e.getMessage());
         }
     }
 

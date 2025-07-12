@@ -43,7 +43,6 @@ public class CompanyMemberService {
 
         Member member = Member.builder()
                 .name(req.name())
-                .username(req.username())
                 .password(passwordEncoder.encode(req.password()))
                 .type(MemberType.COMPANY)
                 .companyId(req.companyId())

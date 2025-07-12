@@ -10,7 +10,7 @@
       <tbody>
         <tr>
           <td>
-            <table style="margin:0 auto;width:60%;padding:0;border-spacing:0">
+            <table style="margin:0 auto;padding:0;border-spacing:0;min-width:50%;max-width:100%;width:calc(230400px — 48000%);max-width:100%;">
               <tbody>
                 <!-- Logo -->
                 <tr>
@@ -29,58 +29,26 @@
                     </h1>
                   </td>
                 </tr>
-                <!-- English -->
+                <!-- Content -->
                 <tr>
-                  <td style="padding-bottom:1rem">
-                    <p style="margin:0;font-size:1rem">Hey {{name}} 👋</p>
+                  <td style="padding-bottom:3rem">
+                    <p style="margin:0;font-size:1rem">Please verify your email address using the code below to complete account setup.</p>
                   </td>
                 </tr>
+                <!-- Authentication Code -->
+                <tr>
+                  <td style="padding-bottom:3rem">
+                    <p style="margin:0;font-size:2rem;font-weight:bold;">
+                      {{code}}
+                    </p>
+                  </td>
+                </tr>
+                <!-- Content -->
                 <tr>
                   <td style="padding-bottom:2rem">
-                    <p style="margin:0;font-size:1rem">Simply click the link below to verify your email address and get started. The link expires in 24 hours.</p>
-                    <p style="margin:0;font-size:1rem">If you haven't registered your email address with JobForeigner, please ignore this email.</p>
-                  </td>
-                </tr>
-                <!-- Button -->
-                <tr>
-                  <td style="padding-bottom:0.5rem">
-                    <a href="{{verifyUrl}}" style="background-color:#9333ea;color:#ffffff;text-decoration:none;padding:0.75rem 1.5rem;font-size:1rem;border-radius:0.375rem;display:inline-block">
-                      Verify my email address
-                    </a>
-                  </td>
-                </tr>
-                <!-- Link -->
-                <tr>
-                  <td style="padding-bottom:2rem">
-                    <p style="margin:0;font-size:0.8rem">Button not working? Paste the following link into your browser: <a href="{{verifyUrl}}">{{verifyUrl}}</a></p>
-                  </td>
-                </tr>
-                <!-- Korean -->
-                <tr>
-                  <td style="padding-bottom:2rem">
-                    <p style="margin:0;font-size:1rem">이메일 주소 인증을 위해 상단의 링크를 클릭해 주세요. 링크는 24시간 이후 만료됩니다.</p>
-                    <p style="margin:0;font-size:1rem">JobForeigner에 이메일 주소를 등록하지 않으셨다면 이 이메일은 무시해주세요.</p>
-                  </td>
-                </tr>
-                <!-- Vietnamese -->
-                <tr>
-                  <td style="padding-bottom:2rem">
-                    <p style="margin:0;font-size:1rem">Chỉ cần nhấp vào liên kết ở trên để xác minh địa chỉ email của bạn và bắt đầu. Liên kết sẽ hết hạn sau 24 giờ.</p>
-                    <p style="margin:0;font-size:1rem">Nếu bạn chưa đăng ký địa chỉ email với JobForeigner, vui lòng bỏ qua email này.</p>
-                  </td>
-                </tr>
-                <!-- Indian -->
-                <tr>
-                  <td style="padding-bottom:2rem">
-                    <p style="margin:0;font-size:1rem">बस ऊपर दिए गए लिंक पर क्लिक करके अपना ईमेल पता सत्यापित करें और आरंभ करें। लिंक 24 घंटे में समाप्त हो जाएगा।</p>
-                    <p style="margin:0;font-size:1rem">यदि आपने अपना ईमेल पता JobForeigner पर पंजीकृत नहीं किया है, तो कृपया इस ईमेल को अनदेखा करें।</p>
-                  </td>
-                </tr>
-                <!-- Japanese -->
-                <tr>
-                  <td style="padding-bottom:2rem">
-                    <p style="margin:0;font-size:1rem">上記のリンクをクリックしてメールアドレスを確認し、開始してください。リンクは24時間後に有効期限が切れます。</p>
-                    <p style="margin:0;font-size:1rem">JobForeignerにメールアドレスを登録していない場合は、このメールを無視してください。</p>
+                    <p style="margin:0;margin-bottom:1rem;font-size:1rem;font-weight:bold;">Don't know why you received this?</p>
+                    <p style="margin:0;margin-bottom:0.5rem;font-size:1rem">Someone who couldn't remember their account details probably gave your email address by mistake. You can safely ignore this email.</p>
+                    <p style="margin:0;font-size:1rem">To protect your account, don't forward this email or give this code to anyone.</p>
                   </td>
                 </tr>
                 <!-- Footer -->
